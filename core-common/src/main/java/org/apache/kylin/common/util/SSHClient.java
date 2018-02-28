@@ -6,22 +6,17 @@
  * to you under the Apache License, Version 2.0 (the
  * "License"); you may not use this file except in compliance
  * with the License.  You may obtain a copy of the License at
- * 
+ *
  *     http://www.apache.org/licenses/LICENSE-2.0
- * 
+ *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
  * See the License for the specific language governing permissions and
  * limitations under the License.
-*/
+ */
 
 package org.apache.kylin.common.util;
-
-/** 
- * @author George Song (ysong1)
- * 
- */
 
 import java.io.File;
 import java.io.FileInputStream;
@@ -39,6 +34,11 @@ import com.jcraft.jsch.JSch;
 import com.jcraft.jsch.JSchException;
 import com.jcraft.jsch.Session;
 
+/**
+ * ssh客户端
+ *
+ * @author George Song (ysong1)
+ */
 public class SSHClient {
     protected static final org.slf4j.Logger logger = LoggerFactory.getLogger(SSHClient.class);
 
@@ -197,7 +197,7 @@ public class SSHClient {
                 }
 
                 String file = null;
-                for (int i = 0;; i++) {
+                for (int i = 0; ; i++) {
                     in.read(buf, i, 1);
                     if (buf[i] == (byte) 0x0a) {
                         file = new String(buf, 0, i);
@@ -222,7 +222,7 @@ public class SSHClient {
                         foo = (int) filesize;
                     foo = in.read(buf, 0, foo);
                     if (foo < 0) {
-                        // error 
+                        // error
                         break;
                     }
                     fos.write(buf, 0, foo);

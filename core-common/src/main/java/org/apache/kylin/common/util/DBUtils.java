@@ -25,10 +25,13 @@ import java.sql.Statement;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+/**
+ * 数据库工具类
+ */
 public class DBUtils {
 
     private static final Logger logger = LoggerFactory.getLogger(DBUtils.class);
-    
+
     /**
      * Closes an <code>ResultSet</code> unconditionally.
      * <p>
@@ -36,7 +39,7 @@ public class DBUtils {
      * This is typically used in finally blocks.
      * <p>
      *
-     * @param output the ResultSet to close, may be null or already closed
+     * @param rs the ResultSet to close, may be null or already closed
      */
     public static void closeQuietly(final ResultSet rs) {
         closeQuietly((AutoCloseable) rs);
@@ -49,7 +52,7 @@ public class DBUtils {
      * This is typically used in finally blocks.
      * <p>
      *
-     * @param output the ResultSet to close, may be null or already closed
+     * @param stmt the ResultSet to close, may be null or already closed
      */
     public static void closeQuietly(final Statement stmt) {
         closeQuietly((AutoCloseable) stmt);
@@ -62,7 +65,7 @@ public class DBUtils {
      * This is typically used in finally blocks.
      * <p>
      *
-     * @param output the ResultSet to close, may be null or already closed
+     * @param conn the ResultSet to close, may be null or already closed
      */
     public static void closeQuietly(final Connection conn) {
         closeQuietly((AutoCloseable) conn);

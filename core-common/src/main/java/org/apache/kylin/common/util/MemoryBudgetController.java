@@ -26,6 +26,9 @@ import org.slf4j.LoggerFactory;
 
 import com.google.common.base.Preconditions;
 
+/**
+ * 内存预估Controller
+ */
 public class MemoryBudgetController {
 
     private static final boolean debug = true;

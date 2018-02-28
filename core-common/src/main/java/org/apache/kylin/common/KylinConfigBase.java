@@ -6,15 +6,15 @@
  * to you under the Apache License, Version 2.0 (the
  * "License"); you may not use this file except in compliance
  * with the License.  You may obtain a copy of the License at
- * 
+ *
  *     http://www.apache.org/licenses/LICENSE-2.0
- * 
+ *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
  * See the License for the specific language governing permissions and
  * limitations under the License.
-*/
+ */
 
 package org.apache.kylin.common;
 
@@ -37,21 +37,22 @@ import com.google.common.collect.Maps;
 import com.google.common.collect.Sets;
 
 /**
+ * kylin基本配置抽象类，通过继承的子类来扩展配置
+ * <p>
  * An abstract class to encapsulate access to a set of 'properties'.
  * Subclass can override methods in this class to extend the content of the 'properties',
  * with some override values for example.
+ * <p>
+ * DON'T DEFINE CONSTANTS FOR PROPERTY KEYS!
+ * <p>
+ * For 1), no external need to access property keys, all accesses are by public methods.
+ * For 2), it's cumbersome to maintain constants at top and code at bottom.
+ * For 3), key literals usually appear only once.
  */
 abstract public class KylinConfigBase implements Serializable {
+
     private static final long serialVersionUID = 1L;
     private static final Logger logger = LoggerFactory.getLogger(KylinConfigBase.class);
-
-    /*
-     * DON'T DEFINE CONSTANTS FOR PROPERTY KEYS!
-     * 
-     * For 1), no external need to access property keys, all accesses are by public methods.
-     * For 2), it's cumbersome to maintain constants at top and code at bottom.
-     * For 3), key literals usually appear only once.
-     */
 
     public static String getKylinHome() {
         String kylinHome = System.getenv("KYLIN_HOME");
@@ -174,19 +175,25 @@ abstract public class KylinConfigBase implements Serializable {
         setProperty("kylin.storage.url", storageUrl);
     }
 
-    /** was for route to hive, not used any more */
+    /**
+     * was for route to hive, not used any more
+     */
     @Deprecated
     public String getHiveUrl() {
         return getOptional("hive.url", "");
     }
 
-    /** was for route to hive, not used any more */
+    /**
+     * was for route to hive, not used any more
+     */
     @Deprecated
     public String getHiveUser() {
         return getOptional("hive.user", "");
     }
 
-    /** was for route to hive, not used any more */
+    /**
+     * was for route to hive, not used any more
+     */
     @Deprecated
     public String getHivePassword() {
         return getOptional("hive.password", "");
@@ -202,7 +209,7 @@ abstract public class KylinConfigBase implements Serializable {
 
     public String[] getRealizationProviders() {
         return getOptionalStringArray("kylin.realization.providers", //
-                new String[] { "org.apache.kylin.cube.CubeManager", "org.apache.kylin.storage.hybrid.HybridManager" });
+                new String[]{"org.apache.kylin.cube.CubeManager", "org.apache.kylin.storage.hybrid.HybridManager"});
     }
 
     public CliCommandExecutor getCliCommandExecutor() throws IOException {
@@ -579,7 +586,7 @@ abstract public class KylinConfigBase implements Serializable {
     }
 
     public int[] getQueryMetricsPercentilesIntervals() {
-        String[] dft = { "60", "300", "3600" };
+        String[] dft = {"60", "300", "3600"};
         return getOptionalIntArray("kylin.query.metrics.percentiles.intervals", dft);
     }
 
@@ -597,6 +604,7 @@ abstract public class KylinConfigBase implements Serializable {
 
     /**
      * HBase region cut size, in GB
+     *
      * @return
      */
     public float getKylinHBaseRegionCut() {

@@ -6,15 +6,15 @@
  * to you under the Apache License, Version 2.0 (the
  * "License"); you may not use this file except in compliance
  * with the License.  You may obtain a copy of the License at
- * 
+ *
  *     http://www.apache.org/licenses/LICENSE-2.0
- * 
+ *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
  * See the License for the specific language governing permissions and
  * limitations under the License.
-*/
+ */
 
 package org.apache.kylin.common.persistence;
 
@@ -37,6 +37,9 @@ import org.slf4j.LoggerFactory;
 
 import com.google.common.collect.Lists;
 
+/**
+ * 资源管理抽象类
+ */
 abstract public class ResourceStore {
 
     private static final Logger logger = LoggerFactory.getLogger(ResourceStore.class);
@@ -161,14 +164,14 @@ abstract public class ResourceStore {
     }
 
     /**
-     * Read all resources under a folder. Return empty list if folder not exist. 
+     * Read all resources under a folder. Return empty list if folder not exist.
      */
     final public <T extends RootPersistentEntity> List<T> getAllResources(String folderPath, Class<T> clazz, Serializer<T> serializer) throws IOException {
         return getAllResources(folderPath, Long.MIN_VALUE, Long.MAX_VALUE, clazz, serializer);
     }
 
     /**
-     * Read all resources under a folder having last modified time between given range. Return empty list if folder not exist. 
+     * Read all resources under a folder having last modified time between given range. Return empty list if folder not exist.
      */
     final public <T extends RootPersistentEntity> List<T> getAllResources(String folderPath, long timeStart, long timeEndExclusive, Class<T> clazz, Serializer<T> serializer) throws IOException {
         final List<RawResource> allResources = getAllResourcesImpl(folderPath, timeStart, timeEndExclusive);
@@ -193,10 +196,14 @@ abstract public class ResourceStore {
 
     abstract protected List<RawResource> getAllResourcesImpl(String folderPath, long timeStart, long timeEndExclusive) throws IOException;
 
-    /** returns null if not exists */
+    /**
+     * returns null if not exists
+     */
     abstract protected RawResource getResourceImpl(String resPath) throws IOException;
 
-    /** returns 0 if not exists */
+    /**
+     * returns 0 if not exists
+     */
     abstract protected long getResourceTimestampImpl(String resPath) throws IOException;
 
     /**
@@ -235,13 +242,12 @@ abstract public class ResourceStore {
             buf.close();
 
             newTS = checkAndPutResourceImpl(resPath, buf.toByteArray(), oldTS, newTS);
-            obj.setLastModified(newTS); // update again the confirmed TS
+            // update again the confirmed TS
+            obj.setLastModified(newTS);
             return newTS;
-        } catch (IOException e) {
-            obj.setLastModified(oldTS); // roll back TS when write fail
-            throw e;
-        } catch (RuntimeException e) {
-            obj.setLastModified(oldTS); // roll back TS when write fail
+        } catch (IOException | RuntimeException e) {
+            // roll back TS when write fail
+            obj.setLastModified(oldTS);
             throw e;
         }
     }
@@ -283,10 +289,6 @@ abstract public class ResourceStore {
 
     // ============================================================================
 
-    public static interface Visitor {
-        void visit(String path) throws IOException;
-    }
-
     public void scanRecursively(String path, Visitor visitor) throws IOException {
         NavigableSet<String> children = listResources(path);
         if (children != null) {
@@ -311,4 +313,10 @@ abstract public class ResourceStore {
         return collector;
     }
 
+    /**
+     * 根据路径访问资源的接口
+     */
+    public static interface Visitor {
+        void visit(String path) throws IOException;
+    }
 }

@@ -6,9 +6,9 @@
  * to you under the Apache License, Version 2.0 (the
  * "License"); you may not use this file except in compliance
  * with the License.  You may obtain a copy of the License at
- * 
+ *
  *     http://www.apache.org/licenses/LICENSE-2.0
- * 
+ *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
@@ -21,15 +21,20 @@ import java.util.Collection;
 import java.util.IdentityHashMap;
 
 /**
+ * 判断严格相等的工具类
+ * IdentityHashMap只有在key完全相等（同一个引用）时，才会覆盖
  */
 public class IdentityUtils {
+
     public static <K> boolean collectionReferenceEquals(Collection<K> collectionA, Collection<K> collectionB) {
+
         if (collectionA == null || collectionB == null) {
             throw new RuntimeException("input must be not null");
         }
 
         IdentityHashMap<K, Void> mapA = new IdentityHashMap<>();
         IdentityHashMap<K, Void> mapB = new IdentityHashMap<>();
+
         for (K key : collectionA) {
             mapA.put(key, null);
         }

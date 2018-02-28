@@ -14,7 +14,7 @@
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
  * See the License for the specific language governing permissions and
  * limitations under the License.
-*/
+ */
 
 package org.apache.kylin.common;
 
@@ -33,6 +33,9 @@ import com.google.common.base.Preconditions;
 import com.google.common.base.Predicate;
 import com.google.common.collect.Iterables;
 
+/**
+ * kylin版本检测工具类
+ */
 public class KylinVersion {
     private static final String COMMIT_SHA1_v15 = "commit_SHA1";
     private static final String COMMIT_SHA1_v13 = "commit.sha1";
@@ -114,11 +117,11 @@ public class KylinVersion {
                         return v.major == input.major && v.minor == input.minor;
                     }
                 }), new Predicate<KylinVersion>() {
-                    @Override
-                    public boolean apply(@Nullable KylinVersion input) {
-                        return input.revision > v.revision;
-                    }
-                });
+            @Override
+            public boolean apply(@Nullable KylinVersion input) {
+                return input.revision > v.revision;
+            }
+        });
 
         return !signatureIncompatible;
     }
@@ -160,4 +163,5 @@ public class KylinVersion {
             return StringUtils.EMPTY;
         }
     }
+
 }

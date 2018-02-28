@@ -14,17 +14,20 @@
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
  * See the License for the specific language governing permissions and
  * limitations under the License.
-*/
+ */
 
 package org.apache.kylin.common.util;
 
 /**
+ * 将所有日志记录在string中的日志工具
  * A Logger that remembers all the logged message.
- *
+ * <p>
  * <b>This class is not thread-safe.</b>
  */
 public class BufferedLogger implements Logger {
+
     private final org.slf4j.Logger wrappedLogger;
+
     private final StringBuilder buffer = new StringBuilder();
 
     public BufferedLogger(org.slf4j.Logger wrappedLogger) {

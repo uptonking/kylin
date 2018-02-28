@@ -6,15 +6,15 @@
  * to you under the Apache License, Version 2.0 (the
  * "License"); you may not use this file except in compliance
  * with the License.  You may obtain a copy of the License at
- * 
+ *
  *     http://www.apache.org/licenses/LICENSE-2.0
- * 
+ *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
  * See the License for the specific language governing permissions and
  * limitations under the License.
-*/
+ */
 
 package org.apache.kylin.common.util;
 
@@ -28,25 +28,27 @@ import java.io.UnsupportedEncodingException;
 import org.apache.kylin.common.KylinConfig;
 
 /**
+ * 双向字典工具类
+ * <p>
  * A bi-way dictionary that maps from dimension/column values to IDs and vice
  * versa. By storing IDs instead of real values, the size of cube is
  * significantly reduced.
- * 
+ * <p>
  * - IDs are smallest integers possible for the cardinality of a column, for the
  * purpose of minimal storage space - IDs preserve ordering of values, such that
  * range query can be applied to IDs directly
- * 
+ * <p>
  * A dictionary once built, is immutable. This allows optimal memory footprint
  * by e.g. flatten the Trie structure into a byte array, replacing node pointers
  * with array offsets.
- * 
+ *
  * @author yangli9
  */
 abstract public class Dictionary<T> implements Serializable {
     private static final long serialVersionUID = 1L;
 
     // ID with all bit-1 (0xff e.g.) reserved for NULL value
-    public static final int[] NULL_ID = new int[] { 0, 0xff, 0xffff, 0xffffff, 0xffffffff };
+    public static final int[] NULL_ID = new int[]{0, 0xff, 0xffff, 0xffffff, 0xffffffff};
 
     abstract public int getMinId();
 
@@ -86,10 +88,9 @@ abstract public class Dictionary<T> implements Serializable {
      * - if roundingFlag>0, the closest bigger ID integer if exist. <br>
      * <p>
      * The implementation often has cache, thus faster than the byte[] version getIdFromValueBytes()
-     * 
-     * @throws IllegalArgumentException
-     *             if value is not found in dictionary and rounding is off;
-     *             or if rounding cannot find a smaller or bigger ID
+     *
+     * @throws IllegalArgumentException if value is not found in dictionary and rounding is off;
+     *                                  or if rounding cannot find a smaller or bigger ID
      */
     final public int getIdFromValue(T value, int roundingFlag) throws IllegalArgumentException {
         if (isNullObjectForm(value))
@@ -120,8 +121,7 @@ abstract public class Dictionary<T> implements Serializable {
 
     /**
      * @return the value corresponds to the given ID
-     * @throws IllegalArgumentException
-     *             if ID is not found in dictionary
+     * @throws IllegalArgumentException if ID is not found in dictionary
      */
     final public T getValueFromId(int id) throws IllegalArgumentException {
         if (isNullId(id))
@@ -141,17 +141,16 @@ abstract public class Dictionary<T> implements Serializable {
     }
 
     /**
-     * A lower level API, return ID integer from raw value bytes. In case of not found 
+     * A lower level API, return ID integer from raw value bytes. In case of not found
      * <p>
      * - if roundingFlag=0, throw IllegalArgumentException; <br>
      * - if roundingFlag<0, the closest smaller ID integer if exist; <br>
      * - if roundingFlag>0, the closest bigger ID integer if exist. <br>
      * <p>
      * Bypassing the cache layer, this could be significantly slower than getIdFromValue(T value).
-     * 
-     * @throws IllegalArgumentException
-     *             if value is not found in dictionary and rounding is off;
-     *             or if rounding cannot find a smaller or bigger ID
+     *
+     * @throws IllegalArgumentException if value is not found in dictionary and rounding is off;
+     *                                  or if rounding cannot find a smaller or bigger ID
      */
     final public int getIdFromValueBytes(byte[] value, int offset, int len, int roundingFlag) throws IllegalArgumentException {
         if (isNullByteForm(value, offset, len))
@@ -185,9 +184,7 @@ abstract public class Dictionary<T> implements Serializable {
      * than getIdFromValue(T value).
      *
      * @return size of value bytes, 0 if empty string, -1 if null
-     *
-     * @throws IllegalArgumentException
-     *             if ID is not found in dictionary
+     * @throws IllegalArgumentException if ID is not found in dictionary
      */
     final public int getValueBytesFromId(int id, byte[] returnValue, int offset) throws IllegalArgumentException {
         if (isNullId(id))
@@ -214,7 +211,9 @@ abstract public class Dictionary<T> implements Serializable {
         return this;
     }
 
-    /** utility that converts a dictionary ID to string, preserving order */
+    /**
+     * utility that converts a dictionary ID to string, preserving order
+     */
     public static String dictIdToString(byte[] idBytes, int offset, int length) {
         try {
             return new String(idBytes, offset, length, "ISO-8859-1");
@@ -224,7 +223,9 @@ abstract public class Dictionary<T> implements Serializable {
         }
     }
 
-    /** the reverse of dictIdToString(), returns integer ID */
+    /**
+     * the reverse of dictIdToString(), returns integer ID
+     */
     public static int stringToDictId(String str) {
         try {
             byte[] bytes = str.getBytes("ISO-8859-1");
@@ -235,20 +236,20 @@ abstract public class Dictionary<T> implements Serializable {
         }
     }
 
-    /** 
+    /**
      * Serialize the fields of this object to <code>out</code>.
-     * 
+     *
      * @param out <code>DataOuput</code> to serialize this object into.
      * @throws IOException
      */
     public abstract void write(DataOutput out) throws IOException;
 
-    /** 
-     * Deserialize the fields of this object from <code>in</code>.  
-     * 
-     * <p>For efficiency, implementations should attempt to re-use storage in the 
+    /**
+     * Deserialize the fields of this object from <code>in</code>.
+     * <p>
+     * <p>For efficiency, implementations should attempt to re-use storage in the
      * existing object where possible.</p>
-     * 
+     *
      * @param in <code>DataInput</code> to deseriablize this object from.
      * @throws IOException
      */

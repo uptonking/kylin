@@ -14,18 +14,19 @@
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
  * See the License for the specific language governing permissions and
  * limitations under the License.
-*/
+ */
 
 package org.apache.kylin.common.util;
 
 import java.io.Serializable;
 
 /**
+ * 普通二元组
+ * <p>
  * A generic class for pairs. Copied from org.apache.hadoop.hbase.util.Pair
- * @param <T1>
- * @param <T2>
  */
 public class Pair<T1, T2> implements Serializable {
+
     private static final long serialVersionUID = -3986244606585552569L;
 
     protected T1 first = null;
@@ -39,6 +40,7 @@ public class Pair<T1, T2> implements Serializable {
 
     /**
      * Constructor
+     *
      * @param a operand
      * @param b operand
      */
@@ -49,10 +51,11 @@ public class Pair<T1, T2> implements Serializable {
 
     /**
      * Constructs a new pair, inferring the type via the passed arguments
+     *
      * @param <T1> type for first
      * @param <T2> type for second
-     * @param a first element
-     * @param b second element
+     * @param a    first element
+     * @param b    second element
      * @return a new pair containing the passed arguments
      */
     public static <T1, T2> Pair<T1, T2> newPair(T1 a, T2 b) {
@@ -65,6 +68,7 @@ public class Pair<T1, T2> implements Serializable {
 
     /**
      * Return the first element stored in the pair.
+     *
      * @return T1
      */
     public T1 getFirst() {
@@ -73,6 +77,7 @@ public class Pair<T1, T2> implements Serializable {
 
     /**
      * Replace the first element of the pair.
+     *
      * @param a operand
      */
     public void setFirst(T1 a) {
@@ -89,6 +94,7 @@ public class Pair<T1, T2> implements Serializable {
 
     /**
      * Return the second element stored in the pair.
+     *
      * @return T2
      */
     public T2 getSecond() {
@@ -97,6 +103,7 @@ public class Pair<T1, T2> implements Serializable {
 
     /**
      * Replace the second element of the pair.
+     *
      * @param b operand
      */
     public void setSecond(T2 b) {

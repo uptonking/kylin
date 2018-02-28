@@ -6,15 +6,15 @@
  * to you under the Apache License, Version 2.0 (the
  * "License"); you may not use this file except in compliance
  * with the License.  You may obtain a copy of the License at
- * 
+ *
  *     http://www.apache.org/licenses/LICENSE-2.0
- * 
+ *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
  * See the License for the specific language governing permissions and
  * limitations under the License.
-*/
+ */
 
 package org.apache.kylin.common.persistence;
 
@@ -29,6 +29,9 @@ import org.apache.commons.io.IOUtils;
 import org.apache.kylin.common.KylinConfig;
 import org.apache.kylin.common.util.StringUtil;
 
+/**
+ * 资源操作工具类
+ */
 public class ResourceTool {
 
     private static String[] includes = null;
@@ -58,29 +61,29 @@ public class ResourceTool {
 
         String cmd = args[0];
         switch (cmd) {
-        case "reset":
-            reset(args.length == 1 ? KylinConfig.getInstanceFromEnv() : KylinConfig.createInstanceFromUri(args[1]));
-            break;
-        case "list":
-            list(KylinConfig.getInstanceFromEnv(), args[1]);
-            break;
-        case "download":
-            copy(KylinConfig.getInstanceFromEnv(), KylinConfig.createInstanceFromUri(args[1]));
-            break;
-        case "fetch":
-            copy(KylinConfig.getInstanceFromEnv(), KylinConfig.createInstanceFromUri(args[1]), args[2]);
-            break;
-        case "upload":
-            copy(KylinConfig.createInstanceFromUri(args[1]), KylinConfig.getInstanceFromEnv());
-            break;
-        case "remove":
-            remove(KylinConfig.getInstanceFromEnv(), args[1]);
-            break;
-        case "cat":
-            cat(KylinConfig.getInstanceFromEnv(), args[1]);
-            break;
-        default:
-            System.out.println("Unknown cmd: " + cmd);
+            case "reset":
+                reset(args.length == 1 ? KylinConfig.getInstanceFromEnv() : KylinConfig.createInstanceFromUri(args[1]));
+                break;
+            case "list":
+                list(KylinConfig.getInstanceFromEnv(), args[1]);
+                break;
+            case "download":
+                copy(KylinConfig.getInstanceFromEnv(), KylinConfig.createInstanceFromUri(args[1]));
+                break;
+            case "fetch":
+                copy(KylinConfig.getInstanceFromEnv(), KylinConfig.createInstanceFromUri(args[1]), args[2]);
+                break;
+            case "upload":
+                copy(KylinConfig.createInstanceFromUri(args[1]), KylinConfig.getInstanceFromEnv());
+                break;
+            case "remove":
+                remove(KylinConfig.getInstanceFromEnv(), args[1]);
+                break;
+            case "cat":
+                cat(KylinConfig.getInstanceFromEnv(), args[1]);
+                break;
+            default:
+                System.out.println("Unknown cmd: " + cmd);
         }
     }
 

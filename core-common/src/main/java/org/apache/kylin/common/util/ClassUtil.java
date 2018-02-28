@@ -6,15 +6,15 @@
  * to you under the Apache License, Version 2.0 (the
  * "License"); you may not use this file except in compliance
  * with the License.  You may obtain a copy of the License at
- * 
+ *
  *     http://www.apache.org/licenses/LICENSE-2.0
- * 
+ *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
  * See the License for the specific language governing permissions and
  * limitations under the License.
-*/
+ */
 
 package org.apache.kylin.common.util;
 
@@ -27,6 +27,7 @@ import java.util.Map;
 import java.util.WeakHashMap;
 
 /**
+ * class对象工具类
  */
 public class ClassUtil {
 
@@ -38,9 +39,9 @@ public class ClassUtil {
             if (file.exists()) {
                 URLClassLoader urlClassLoader = (URLClassLoader) ClassLoader.getSystemClassLoader();
                 Class<URLClassLoader> urlClass = URLClassLoader.class;
-                Method method = urlClass.getDeclaredMethod("addURL", new Class[] { URL.class });
+                Method method = urlClass.getDeclaredMethod("addURL", new Class[]{URL.class});
                 method.setAccessible(true);
-                method.invoke(urlClassLoader, new Object[] { file.toURI().toURL() });
+                method.invoke(urlClassLoader, new Object[]{file.toURI().toURL()});
             }
         } catch (Exception e) {
             throw new RuntimeException(e);
@@ -49,6 +50,7 @@ public class ClassUtil {
 
     private static final WeakHashMap<String, Class<?>> forNameCache = new WeakHashMap<>();
     private static final Map<String, String> classRenameMap;
+
     static {
         classRenameMap = new HashMap<>();
         classRenameMap.put("org.apache.kylin.job.common.HadoopShellExecutable", "org.apache.kylin.engine.mr.common.HadoopShellExecutable");

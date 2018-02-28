@@ -6,15 +6,15 @@
  * to you under the Apache License, Version 2.0 (the
  * "License"); you may not use this file except in compliance
  * with the License.  You may obtain a copy of the License at
- * 
+ *
  *     http://www.apache.org/licenses/LICENSE-2.0
- * 
+ *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
  * See the License for the specific language governing permissions and
  * limitations under the License.
-*/
+ */
 
 package org.apache.kylin.common.util;
 
@@ -22,6 +22,8 @@ import java.io.Serializable;
 import java.nio.ByteBuffer;
 
 /**
+ * 字节数组工具类
+ *
  * @author yangli9
  */
 public class ByteArray implements Comparable<ByteArray>, Serializable {
@@ -29,6 +31,10 @@ public class ByteArray implements Comparable<ByteArray>, Serializable {
     private static final long serialVersionUID = 1L;
 
     public static final ByteArray EMPTY = new ImmutableByteArray();
+
+    private byte[] data;
+    private int offset;
+    private int length;
 
     public static ByteArray allocate(int length) {
         return new ByteArray(new byte[length]);
@@ -42,9 +48,6 @@ public class ByteArray implements Comparable<ByteArray>, Serializable {
 
     // ============================================================================
 
-    private byte[] data;
-    private int offset;
-    private int length;
 
     public ByteArray() {
         this(null, 0, 0);

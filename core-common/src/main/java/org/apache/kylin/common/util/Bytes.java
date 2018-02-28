@@ -14,7 +14,7 @@
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
  * See the License for the specific language governing permissions and
  * limitations under the License.
-*/
+ */
 
 package org.apache.kylin.common.util;
 
@@ -44,10 +44,13 @@ import org.apache.commons.logging.LogFactory;
 import sun.misc.Unsafe;
 
 /**
+ * 自定义字节
+ * 主要用于数据类型转换
+ * <p>
  * Utility class that handles byte arrays, conversions to/from other types,
  * comparisons, hash code generation, manufacturing keys for HashMaps or
  * HashSets, etc.
- *
+ * <p>
  * Copied from org.apache.hadoop.hbase.util.Bytes
  */
 public class Bytes {
@@ -360,7 +363,7 @@ public class Bytes {
      * @return <code>b</code> encoded in a byte array.
      */
     public static byte[] toBytes(final boolean b) {
-        return new byte[] { b ? (byte) -1 : (byte) 0 };
+        return new byte[]{b ? (byte) -1 : (byte) 0};
     }
 
     /**
@@ -1276,7 +1279,9 @@ public class Bytes {
         return hashBytes(b, 0, length);
     }
 
-    /** Compute hash for binary data. */
+    /**
+     * Compute hash for binary data.
+     */
     public static int hashBytes(byte[] bytes, int offset, int length) {
         int hash = 1;
         for (int i = offset; i < offset + length; i++)
@@ -1448,7 +1453,7 @@ public class Bytes {
         if (num <= 0) {
             throw new IllegalArgumentException("num cannot be <= 0");
         }
-        byte[] prependHeader = { 1, 0 };
+        byte[] prependHeader = {1, 0};
         final BigInteger startBI = new BigInteger(add(prependHeader, aPadded));
         final BigInteger stopBI = new BigInteger(add(prependHeader, bPadded));
         BigInteger diffBI = stopBI.subtract(startBI);
@@ -1565,7 +1570,7 @@ public class Bytes {
             // Hopefully this doesn't happen too often.
             byte[] newvalue;
             if (val[0] < 0) {
-                newvalue = new byte[] { -1, -1, -1, -1, -1, -1, -1, -1 };
+                newvalue = new byte[]{-1, -1, -1, -1, -1, -1, -1, -1};
             } else {
                 newvalue = new byte[SIZEOF_LONG];
             }
@@ -1808,7 +1813,8 @@ public class Bytes {
             return 0;
         }
 
-        outer: for (int i = 0; i < array.length - target.length + 1; i++) {
+        outer:
+        for (int i = 0; i < array.length - target.length + 1; i++) {
             for (int j = 0; j < target.length; j++) {
                 if (array[i + j] != target[j]) {
                     continue outer;

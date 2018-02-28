@@ -21,11 +21,10 @@ package org.apache.kylin.common.util;
 import java.io.Closeable;
 
 /**
- *
+ * 设置线程名
  * An utility that makes it easy to change current thread name in a try-with-resource block.
- *
+ * <p>
  * <p> Example:
- *
  * <pre>
  *     // old thread name
  *     try (SetThreadName ignored = new SetThreadName(format, arg1, arg2)) {

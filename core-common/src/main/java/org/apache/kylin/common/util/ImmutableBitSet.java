@@ -6,9 +6,9 @@
  * to you under the Apache License, Version 2.0 (the
  * "License"); you may not use this file except in compliance
  * with the License.  You may obtain a copy of the License at
- * 
+ *
  *     http://www.apache.org/licenses/LICENSE-2.0
- * 
+ *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
@@ -20,6 +20,9 @@ package org.apache.kylin.common.util;
 import java.nio.ByteBuffer;
 import java.util.BitSet;
 
+/**
+ * 不可变的位集
+ */
 public class ImmutableBitSet {
 
     public static final ImmutableBitSet EMPTY = new ImmutableBitSet(new BitSet());
@@ -66,17 +69,23 @@ public class ImmutableBitSet {
         return set;
     }
 
-    /** return number of true bits */
+    /**
+     * return number of true bits
+     */
     public int trueBitCount() {
         return arr.length;
     }
 
-    /** return the i-th true bit */
+    /**
+     * return the i-th true bit
+     */
     public int trueBitAt(int i) {
         return arr[i];
     }
 
-    /** return the bit's index among true bits */
+    /**
+     * return the bit's index among true bits
+     */
     public int trueBitIndexOf(int bitIndex) {
         for (int i = 0; i < arr.length; i++) {
             if (arr[i] == bitIndex)

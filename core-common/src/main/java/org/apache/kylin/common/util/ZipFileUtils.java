@@ -31,6 +31,9 @@ import org.apache.commons.lang.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+/**
+ * zip压缩文件操作的工具类
+ */
 public class ZipFileUtils {
 
     private static final Logger logger = LoggerFactory.getLogger(ZipFileUtils.class);

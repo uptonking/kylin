@@ -6,15 +6,15 @@
  * to you under the Apache License, Version 2.0 (the
  * "License"); you may not use this file except in compliance
  * with the License.  You may obtain a copy of the License at
- * 
+ *
  *     http://www.apache.org/licenses/LICENSE-2.0
- * 
+ *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
  * See the License for the specific language governing permissions and
  * limitations under the License.
-*/
+ */
 
 package org.apache.kylin.common;
 
@@ -39,13 +39,16 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 /**
+ * kylin默认配置类
  */
 public class KylinConfig extends KylinConfigBase {
     private static final long serialVersionUID = 1L;
     private static final Logger logger = LoggerFactory.getLogger(KylinConfig.class);
 
 
-    /** Kylin properties file name */
+    /**
+     * Kylin properties file name
+     */
     public static final String KYLIN_CONF_PROPERTIES_FILE = "kylin.properties";
     public static final String KYLIN_CONF = "KYLIN_CONF";
 
@@ -69,7 +72,7 @@ public class KylinConfig extends KylinConfigBase {
         }
     }
 
-    //Only used in test cases!!! 
+    //Only used in test cases!!!
     public static void destroyInstance() {
         logger.info("Destory KylinConfig");
         dumpStackTrace();
@@ -176,11 +179,11 @@ public class KylinConfig extends KylinConfigBase {
         props.load(new StringReader(propsInStr));
         return createKylinConfig(props);
     }
-    
+
     public static KylinConfig createKylinConfig(KylinConfig another) {
         return createKylinConfig(another.getAllProperties());
     }
-    
+
     public static KylinConfig createKylinConfig(Properties prop) {
         KylinConfig kylinConfig = new KylinConfig();
         kylinConfig.reloadKylinConfig(prop);
@@ -290,7 +293,7 @@ public class KylinConfig extends KylinConfigBase {
 
     private void list(PrintWriter out) {
         Properties props = getAllProperties();
-        for (Enumeration<?> e = props.keys(); e.hasMoreElements();) {
+        for (Enumeration<?> e = props.keys(); e.hasMoreElements(); ) {
             String key = (String) e.nextElement();
             String val = (String) props.get(key);
             out.println(key + "=" + val);

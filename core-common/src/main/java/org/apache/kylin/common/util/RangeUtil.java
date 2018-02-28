@@ -6,15 +6,15 @@
  * to you under the Apache License, Version 2.0 (the
  * "License"); you may not use this file except in compliance
  * with the License.  You may obtain a copy of the License at
- * 
+ *
  *     http://www.apache.org/licenses/LICENSE-2.0
- * 
+ *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
  * See the License for the specific language governing permissions and
  * limitations under the License.
-*/
+ */
 
 package org.apache.kylin.common.util;
 
@@ -31,6 +31,7 @@ import com.google.common.collect.Maps;
 import com.google.common.collect.Range;
 
 /**
+ * 针对集合 范围选择的工具类
  */
 public class RangeUtil {
 
@@ -80,6 +81,7 @@ public class RangeUtil {
 
     /**
      * remove from self the elements that exist in other
+     *
      * @return
      */
     public static <C extends Comparable<?>> List<Range<C>> remove(Range<C> self, Range<C> other) {
@@ -132,7 +134,7 @@ public class RangeUtil {
             }
         }
 
-        //see right part 
+        //see right part
         if (!self.hasUpperBound()) {
             if (share.hasUpperBound()) {
                 if (share.upperBoundType() == BoundType.CLOSED) {

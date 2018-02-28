@@ -20,7 +20,11 @@ package org.apache.kylin.common.util;
 
 import java.util.Collection;
 
+/**
+ * 求和工具类
+ */
 public class SumHelper {
+
     public static Long sumLong(Collection<Long> input) {
         Long sum = 0L;
         for (Long x : input) {

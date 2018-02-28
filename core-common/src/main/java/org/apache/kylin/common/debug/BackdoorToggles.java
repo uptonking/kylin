@@ -6,15 +6,15 @@
  * to you under the Apache License, Version 2.0 (the
  * "License"); you may not use this file except in compliance
  * with the License.  You may obtain a copy of the License at
- * 
+ *
  *     http://www.apache.org/licenses/LICENSE-2.0
- * 
+ *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
  * See the License for the specific language governing permissions and
  * limitations under the License.
-*/
+ */
 
 package org.apache.kylin.common.debug;
 
@@ -24,6 +24,7 @@ import org.apache.commons.lang.StringUtils;
 import org.apache.kylin.common.util.Pair;
 
 /**
+ * todo 后门切换
  */
 public class BackdoorToggles {
 
@@ -100,86 +101,86 @@ public class BackdoorToggles {
 
     /**
      * set DEBUG_TOGGLE_DISABLE_FUZZY_KEY=true to disable fuzzy key for debug/profile usage
-     *
-     *
-     *
-     example:(put it into request body)
-     "backdoorToggles": {
-        "DEBUG_TOGGLE_DISABLE_FUZZY_KEY": "true"
-     }
+     * <p>
+     * <p>
+     * <p>
+     * example:(put it into request body)
+     * "backdoorToggles": {
+     * "DEBUG_TOGGLE_DISABLE_FUZZY_KEY": "true"
+     * }
      */
     public final static String DEBUG_TOGGLE_DISABLE_FUZZY_KEY = "DEBUG_TOGGLE_DISABLE_FUZZY_KEY";
 
     /**
      * set DEBUG_TOGGLE_DISABLE_QUERY_CACHE=true to prevent using cache for current query
-     *
-     *
-     *
-     example:(put it into request body)
-     "backdoorToggles": {
-     "DEBUG_TOGGLE_DISABLE_QUERY_CACHE": "true"
-     }
+     * <p>
+     * <p>
+     * <p>
+     * example:(put it into request body)
+     * "backdoorToggles": {
+     * "DEBUG_TOGGLE_DISABLE_QUERY_CACHE": "true"
+     * }
      */
     public final static String DEBUG_TOGGLE_DISABLE_QUERY_CACHE = "DEBUG_TOGGLE_DISABLE_QUERY_CACHE";
 
     /**
      * set DEBUG_TOGGLE_HBASE_CUBE_QUERY_VERSION=v1/v2 to control which version CubeStorageQuery to use
-     *
-     example:(put it into request body)
-     "backdoorToggles": {
-     "DEBUG_TOGGLE_HBASE_CUBE_QUERY_VERSION": "v1"
-     }
+     * <p>
+     * example:(put it into request body)
+     * "backdoorToggles": {
+     * "DEBUG_TOGGLE_HBASE_CUBE_QUERY_VERSION": "v1"
+     * }
      */
     public final static String DEBUG_TOGGLE_HBASE_CUBE_QUERY_VERSION = "DEBUG_TOGGLE_HBASE_CUBE_QUERY_VERSION";
 
     /**
      * set DEBUG_TOGGLE_HBASE_CUBE_QUERY_PROTOCOL=endpoint/scan to control how to visit hbase cube
      * this param is only valid when DEBUG_TOGGLE_HBASE_CUBE_QUERY_VERSION set to v2(bdefault)
-     *
-     example:(put it into request body)
-     "backdoorToggles": {
-     "DEBUG_TOGGLE_HBASE_CUBE_QUERY_PROTOCOL": "scan"
-     }
+     * <p>
+     * example:(put it into request body)
+     * "backdoorToggles": {
+     * "DEBUG_TOGGLE_HBASE_CUBE_QUERY_PROTOCOL": "scan"
+     * }
      */
     public final static String DEBUG_TOGGLE_HBASE_CUBE_QUERY_PROTOCOL = "DEBUG_TOGGLE_HBASE_CUBE_QUERY_PROTOCOL";
 
     /**
      * set DEBUG_TOGGLE_COPROCESSOR_BEHAVIOR=SCAN/SCAN_FILTER/SCAN_FILTER_AGGR/SCAN_FILTER_AGGR_CHECKMEM to control observer behavior for debug/profile usage
-     *
-     example:(put it into request body)
-     "backdoorToggles": {
-        "DEBUG_TOGGLE_COPROCESSOR_BEHAVIOR": "SCAN"
-     }
+     * <p>
+     * example:(put it into request body)
+     * "backdoorToggles": {
+     * "DEBUG_TOGGLE_COPROCESSOR_BEHAVIOR": "SCAN"
+     * }
      */
     public final static String DEBUG_TOGGLE_COPROCESSOR_BEHAVIOR = "DEBUG_TOGGLE_COPROCESSOR_BEHAVIOR";
 
     /**
      * set DEBUG_TOGGLE_LOCAL_COPROCESSOR=true to run coprocessor at client side (not in HBase region server)
-     *
-     example:(put it into request body)
-     "backdoorToggles": {
-        "DEBUG_TOGGLE_LOCAL_COPROCESSOR": "true"
-     }
+     * <p>
+     * example:(put it into request body)
+     * "backdoorToggles": {
+     * "DEBUG_TOGGLE_LOCAL_COPROCESSOR": "true"
+     * }
      */
     public final static String DEBUG_TOGGLE_LOCAL_COPROCESSOR = "DEBUG_TOGGLE_LOCAL_COPROCESSOR";
 
     /**
      * set DEBUG_TOGGLE_QUERY_TIMEOUT="timeout_millis" to overwrite the global timeout settings
-     *
-     example:(put it into request body)
-     "backdoorToggles": {
-     "DEBUG_TOGGLE_QUERY_TIMEOUT": "120000"
-     }
+     * <p>
+     * example:(put it into request body)
+     * "backdoorToggles": {
+     * "DEBUG_TOGGLE_QUERY_TIMEOUT": "120000"
+     * }
      */
     public final static String DEBUG_TOGGLE_QUERY_TIMEOUT = "DEBUG_TOGGLE_QUERY_TIMEOUT";
 
     /**
      * set DEBUG_TOGGLE_SHARD_ASSIGNMENT="totalAssignedWorkers#assignedWorkerID" to specify subset of shards to deal with
-     *
-     example:(put it into request body)
-     "backdoorToggles": {
-     "DEBUG_TOGGLE_SHARD_ASSIGNMENT": "4#0"
-     }
+     * <p>
+     * example:(put it into request body)
+     * "backdoorToggles": {
+     * "DEBUG_TOGGLE_SHARD_ASSIGNMENT": "4#0"
+     * }
      */
     public final static String DEBUG_TOGGLE_SHARD_ASSIGNMENT = "DEBUG_TOGGLE_SHARD_ASSIGNMENT";
 

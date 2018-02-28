@@ -21,6 +21,9 @@ package org.apache.kylin.common.util;
 import com.google.common.hash.HashFunction;
 import com.google.common.hash.Hashing;
 
+/**
+ * 分片hash工具类
+ */
 public class ShardingHash {
 
     static HashFunction hashFunc = Hashing.murmur3_128();

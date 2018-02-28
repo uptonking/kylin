@@ -20,8 +20,13 @@ package org.apache.kylin.common.util;
 
 import java.util.BitSet;
 
+/**
+ * 位集 BitSet 工具类
+ */
 public class BitSets {
+
     public static BitSet valueOf(int[] indexes) {
+
         if (indexes == null || indexes.length == 0) {
             return new BitSet();
         }
