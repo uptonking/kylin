@@ -38,12 +38,17 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 /**
+ * 访问权限Controller
+ *
  * @author xduo
  */
 @Controller
 @RequestMapping(value = "/access")
 public class AccessController extends BasicController {
 
+    /**
+     * 权限管理Service
+     */
     @Autowired
     private AccessService accessService;
 
@@ -96,8 +101,6 @@ public class AccessController extends BasicController {
 
     /**
      * Revoke access on a domain object from a user/role
-     *
-     * @param AccessRequest
      */
     @RequestMapping(value = "/{type}/{uuid}", method = {RequestMethod.DELETE})
     public List<AccessEntryResponse> revoke(@PathVariable String type, @PathVariable String uuid, AccessRequest accessRequest) {
@@ -107,9 +110,6 @@ public class AccessController extends BasicController {
         return accessService.generateAceResponses(acl);
     }
 
-    /**
-     * @param accessService
-     */
     public void setAccessService(AccessService accessService) {
         this.accessService = accessService;
     }

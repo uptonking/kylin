@@ -6,9 +6,9 @@
  * to you under the Apache License, Version 2.0 (the
  * "License"); you may not use this file except in compliance
  * with the License.  You may obtain a copy of the License at
- * 
+ *
  *     http://www.apache.org/licenses/LICENSE-2.0
- * 
+ *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
@@ -51,7 +51,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 /**
- *
+ *作业管理Controller
  */
 @Controller
 @RequestMapping(value = "jobs")
@@ -65,7 +65,7 @@ public class JobController extends BasicController implements InitializingBean {
 
     /*
      * (non-Javadoc)
-     * 
+     *
      * @see
      * org.springframework.beans.factory.InitializingBean#afterPropertiesSet()
      */
@@ -110,7 +110,7 @@ public class JobController extends BasicController implements InitializingBean {
 
     /**
      * get all cube jobs
-     * 
+     *
      * @return
      * @throws IOException
      */
@@ -140,7 +140,7 @@ public class JobController extends BasicController implements InitializingBean {
 
     /**
      * Get a cube job
-     * 
+     *
      * @return
      * @throws IOException
      */
@@ -160,7 +160,7 @@ public class JobController extends BasicController implements InitializingBean {
 
     /**
      * Get a job step output
-     * 
+     *
      * @return
      * @throws IOException
      */
@@ -176,7 +176,7 @@ public class JobController extends BasicController implements InitializingBean {
 
     /**
      * Resume a cube job
-     * 
+     *
      * @return
      * @throws IOException
      */
@@ -195,7 +195,7 @@ public class JobController extends BasicController implements InitializingBean {
 
     /**
      * Cancel a job
-     * 
+     *
      * @return
      * @throws IOException
      */

@@ -45,6 +45,9 @@ import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.google.common.collect.Lists;
 
+/**
+ * 作业诊断Controller
+ */
 @Controller
 @RequestMapping(value = "/diag")
 public class DiagnosisController extends BasicController {

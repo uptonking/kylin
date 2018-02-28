@@ -6,15 +6,15 @@
  * to you under the Apache License, Version 2.0 (the
  * "License"); you may not use this file except in compliance
  * with the License.  You may obtain a copy of the License at
- * 
+ *
  *     http://www.apache.org/licenses/LICENSE-2.0
- * 
+ *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
  * See the License for the specific language governing permissions and
  * limitations under the License.
-*/
+ */
 
 package org.apache.kylin.rest.controller;
 
@@ -52,6 +52,7 @@ import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.JsonMappingException;
 
 /**
+ * 数据模型操作Controller
  * ModelController is defined as Restful API entrance for UI.
  *
  * @author jiazhong
@@ -64,7 +65,7 @@ public class ModelController extends BasicController {
     @Autowired
     private ModelService modelService;
 
-    @RequestMapping(value = "", method = { RequestMethod.GET })
+    @RequestMapping(value = "", method = {RequestMethod.GET})
     @ResponseBody
     public List<DataModelDesc> getModels(@RequestParam(value = "modelName", required = false) String modelName, @RequestParam(value = "projectName", required = false) String projectName, @RequestParam(value = "limit", required = false) Integer limit, @RequestParam(value = "offset", required = false) Integer offset) {
         try {
@@ -76,11 +77,11 @@ public class ModelController extends BasicController {
     }
 
     /**
-     *
      * create model
+     *
      * @throws java.io.IOException
      */
-    @RequestMapping(value = "", method = { RequestMethod.POST })
+    @RequestMapping(value = "", method = {RequestMethod.POST})
     @ResponseBody
     public ModelRequest saveModelDesc(@RequestBody ModelRequest modelRequest) {
         //Update Model
@@ -110,7 +111,7 @@ public class ModelController extends BasicController {
         return modelRequest;
     }
 
-    @RequestMapping(value = "", method = { RequestMethod.PUT })
+    @RequestMapping(value = "", method = {RequestMethod.PUT})
     @ResponseBody
     public ModelRequest updateModelDesc(@RequestBody ModelRequest modelRequest) throws JsonProcessingException {
         DataModelDesc modelDesc = deserializeDataModelDesc(modelRequest);
@@ -137,7 +138,7 @@ public class ModelController extends BasicController {
         return modelRequest;
     }
 
-    @RequestMapping(value = "/{modelName}", method = { RequestMethod.DELETE })
+    @RequestMapping(value = "/{modelName}", method = {RequestMethod.DELETE})
     @ResponseBody
     public void deleteModel(@PathVariable String modelName) {
         DataModelDesc desc = modelService.getMetadataManager().getDataModelDesc(modelName);
@@ -152,7 +153,7 @@ public class ModelController extends BasicController {
         }
     }
 
-    @RequestMapping(value = "/{modelName}/clone", method = { RequestMethod.PUT })
+    @RequestMapping(value = "/{modelName}/clone", method = {RequestMethod.PUT})
     @ResponseBody
     public ModelRequest cloneModel(@PathVariable String modelName, @RequestBody ModelRequest modelRequest) {
         String project = modelRequest.getProject();
@@ -225,7 +226,7 @@ public class ModelController extends BasicController {
      */
     private String omitMessage(List<String> errors) {
         StringBuffer buffer = new StringBuffer();
-        for (Iterator<String> iterator = errors.iterator(); iterator.hasNext();) {
+        for (Iterator<String> iterator = errors.iterator(); iterator.hasNext(); ) {
             String string = (String) iterator.next();
             buffer.append(string);
             buffer.append("\n");

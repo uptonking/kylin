@@ -6,15 +6,15 @@
  * to you under the Apache License, Version 2.0 (the
  * "License"); you may not use this file except in compliance
  * with the License.  You may obtain a copy of the License at
- * 
+ *
  *     http://www.apache.org/licenses/LICENSE-2.0
- * 
+ *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
  * See the License for the specific language governing permissions and
  * limitations under the License.
-*/
+ */
 
 package org.apache.kylin.rest.controller;
 
@@ -55,6 +55,7 @@ import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.JsonMappingException;
 
 /**
+ * 流式数据源操作Controller
  * StreamingController is defined as Restful API entrance for UI.
  *
  * @author jiazhong
@@ -71,7 +72,7 @@ public class StreamingController extends BasicController {
     @Autowired
     private CubeService cubeMgmtService;
 
-    @RequestMapping(value = "/getConfig", method = { RequestMethod.GET })
+    @RequestMapping(value = "/getConfig", method = {RequestMethod.GET})
     @ResponseBody
     public List<StreamingConfig> getStreamings(@RequestParam(value = "table", required = false) String table, @RequestParam(value = "limit", required = false) Integer limit, @RequestParam(value = "offset", required = false) Integer offset) {
         try {
@@ -82,7 +83,7 @@ public class StreamingController extends BasicController {
         }
     }
 
-    @RequestMapping(value = "/getKfkConfig", method = { RequestMethod.GET })
+    @RequestMapping(value = "/getKfkConfig", method = {RequestMethod.GET})
     @ResponseBody
     public List<KafkaConfig> getKafkaConfigs(@RequestParam(value = "kafkaConfigName", required = false) String kafkaConfigName, @RequestParam(value = "limit", required = false) Integer limit, @RequestParam(value = "offset", required = false) Integer offset) {
         try {
@@ -94,11 +95,11 @@ public class StreamingController extends BasicController {
     }
 
     /**
-     *
      * create Streaming Schema
+     *
      * @throws java.io.IOException
      */
-    @RequestMapping(value = "", method = { RequestMethod.POST })
+    @RequestMapping(value = "", method = {RequestMethod.POST})
     @ResponseBody
     public StreamingRequest saveStreamingConfig(@RequestBody StreamingRequest streamingRequest) {
 
@@ -112,7 +113,7 @@ public class StreamingController extends BasicController {
             tableDesc.setUuid(UUID.randomUUID().toString());
             MetadataManager metaMgr = MetadataManager.getInstance(KylinConfig.getInstanceFromEnv());
             metaMgr.saveSourceTable(tableDesc);
-            cubeMgmtService.syncTableToProject(new String[] { tableDesc.getIdentity() }, project);
+            cubeMgmtService.syncTableToProject(new String[]{tableDesc.getIdentity()}, project);
         } catch (IOException e) {
             throw new BadRequestException("Failed to add streaming table.");
         }
@@ -171,7 +172,7 @@ public class StreamingController extends BasicController {
         return streamingRequest;
     }
 
-    @RequestMapping(value = "", method = { RequestMethod.PUT })
+    @RequestMapping(value = "", method = {RequestMethod.PUT})
     @ResponseBody
     public StreamingRequest updateStreamingConfig(@RequestBody StreamingRequest streamingRequest) throws JsonProcessingException {
         StreamingConfig streamingConfig = deserializeSchemalDesc(streamingRequest);
@@ -202,7 +203,7 @@ public class StreamingController extends BasicController {
         return streamingRequest;
     }
 
-    @RequestMapping(value = "/{configName}", method = { RequestMethod.DELETE })
+    @RequestMapping(value = "/{configName}", method = {RequestMethod.DELETE})
     @ResponseBody
     public void deleteConfig(@PathVariable String configName) throws IOException {
         StreamingConfig config = streamingService.getStreamingManager().getStreamingConfig(configName);

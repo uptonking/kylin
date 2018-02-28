@@ -6,15 +6,15 @@
  * to you under the Apache License, Version 2.0 (the
  * "License"); you may not use this file except in compliance
  * with the License.  You may obtain a copy of the License at
- * 
+ *
  *     http://www.apache.org/licenses/LICENSE-2.0
- * 
+ *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
  * See the License for the specific language governing permissions and
  * limitations under the License.
-*/
+ */
 
 package org.apache.kylin.rest;
 
@@ -33,6 +33,9 @@ import org.apache.kylin.common.KylinConfig;
 
 public class DebugTomcat {
 
+    /**
+     * 设置tomcat debug的环境变量
+     */
     public static void setupDebugEnv() {
         try {
             System.setProperty("log4j.configuration", "kylin-log4j.properties");
@@ -82,12 +85,20 @@ public class DebugTomcat {
         if (devJobJar != null) {
             conf.overrideMRJobJarPath(devJobJar.getAbsolutePath());
         }
+
         File devCoprocessorJar = findFile("../storage-hbase/target", "kylin-storage-hbase-.*-SNAPSHOT-coprocessor.jar");
         if (devCoprocessorJar != null) {
             conf.overrideCoprocessorLocalJar(devCoprocessorJar.getAbsolutePath());
         }
     }
 
+    /**
+     * 在指定目录下查找指定文件
+     *
+     * @param dir 目录路径
+     * @param ptn 文件名
+     * @return 匹配到的第一个文件
+     */
     private static File findFile(String dir, String ptn) {
         File[] files = new File(dir).listFiles();
         if (files != null) {

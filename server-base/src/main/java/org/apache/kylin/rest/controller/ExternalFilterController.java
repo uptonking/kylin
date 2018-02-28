@@ -6,15 +6,15 @@
  * to you under the Apache License, Version 2.0 (the
  * "License"); you may not use this file except in compliance
  * with the License.  You may obtain a copy of the License at
- * 
+ *
  *     http://www.apache.org/licenses/LICENSE-2.0
- * 
+ *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
  * See the License for the specific language governing permissions and
  * limitations under the License.
-*/
+ */
 
 package org.apache.kylin.rest.controller;
 
@@ -42,6 +42,8 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import com.google.common.collect.Lists;
 
 /**
+ * 外部过滤器Controller
+ *
  * @author jiazhong
  */
 @Controller
@@ -52,7 +54,7 @@ public class ExternalFilterController extends BasicController {
     @Autowired
     private ExtFilterService extFilterService;
 
-    @RequestMapping(value = "/saveExtFilter", method = { RequestMethod.POST })
+    @RequestMapping(value = "/saveExtFilter", method = {RequestMethod.POST})
     @ResponseBody
     public Map<String, String> saveExternalFilter(@RequestBody ExternalFilterRequest request) throws IOException {
         Map<String, String> result = new HashMap();
@@ -60,23 +62,23 @@ public class ExternalFilterController extends BasicController {
         ExternalFilterDesc desc = JsonUtil.readValue(request.getExtFilter(), ExternalFilterDesc.class);
         desc.setUuid(UUID.randomUUID().toString());
         extFilterService.saveExternalFilter(desc);
-        extFilterService.syncExtFilterToProject(new String[] { desc.getName() }, filterProject);
+        extFilterService.syncExtFilterToProject(new String[]{desc.getName()}, filterProject);
         result.put("success", "true");
         return result;
     }
 
-    @RequestMapping(value = "/updateExtFilter", method = { RequestMethod.PUT })
+    @RequestMapping(value = "/updateExtFilter", method = {RequestMethod.PUT})
     @ResponseBody
     public Map<String, String> updateExternalFilter(@RequestBody ExternalFilterRequest request) throws IOException {
         Map<String, String> result = new HashMap();
         ExternalFilterDesc desc = JsonUtil.readValue(request.getExtFilter(), ExternalFilterDesc.class);
         extFilterService.updateExternalFilter(desc);
-        extFilterService.syncExtFilterToProject(new String[] { desc.getName() }, request.getProject());
+        extFilterService.syncExtFilterToProject(new String[]{desc.getName()}, request.getProject());
         result.put("success", "true");
         return result;
     }
 
-    @RequestMapping(value = "/{filter}/{project}", method = { RequestMethod.DELETE })
+    @RequestMapping(value = "/{filter}/{project}", method = {RequestMethod.DELETE})
     @ResponseBody
     public Map<String, String> removeFilter(@PathVariable String filter, @PathVariable String project) throws IOException {
         Map<String, String> result = new HashMap<String, String>();
@@ -86,7 +88,7 @@ public class ExternalFilterController extends BasicController {
         return result;
     }
 
-    @RequestMapping(value = "", method = { RequestMethod.GET })
+    @RequestMapping(value = "", method = {RequestMethod.GET})
     @ResponseBody
     public List<ExternalFilterDesc> getExternalFilters(@RequestParam(value = "project", required = true) String project) throws IOException {
         List<ExternalFilterDesc> filterDescs = Lists.newArrayList();

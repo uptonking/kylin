@@ -6,15 +6,15 @@
  * to you under the Apache License, Version 2.0 (the
  * "License"); you may not use this file except in compliance
  * with the License.  You may obtain a copy of the License at
- * 
+ *
  *     http://www.apache.org/licenses/LICENSE-2.0
- * 
+ *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
  * See the License for the specific language governing permissions and
  * limitations under the License.
-*/
+ */
 
 package org.apache.kylin.rest.controller;
 
@@ -65,11 +65,15 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import com.google.common.collect.Sets;
 
 /**
+ * 数据表Controller
+ * 管理hive表和流式表
+ *
  * @author xduo
  */
 @Controller
 @RequestMapping(value = "/tables")
 public class TableController extends BasicController {
+
     private static final Logger logger = LoggerFactory.getLogger(TableController.class);
 
     @Autowired
@@ -89,7 +93,7 @@ public class TableController extends BasicController {
      * @return Table metadata array
      * @throws IOException
      */
-    @RequestMapping(value = "", method = { RequestMethod.GET })
+    @RequestMapping(value = "", method = {RequestMethod.GET})
     @ResponseBody
     public List<TableDesc> getHiveTables(@RequestParam(value = "ext", required = false) boolean withExt, @RequestParam(value = "project", required = true) String project) {
         long start = System.currentTimeMillis();
@@ -116,7 +120,7 @@ public class TableController extends BasicController {
      * @return Table metadata array
      * @throws IOException
      */
-    @RequestMapping(value = "/{tableName:.+}", method = { RequestMethod.GET })
+    @RequestMapping(value = "/{tableName:.+}", method = {RequestMethod.GET})
     @ResponseBody
     public TableDesc getHiveTable(@PathVariable String tableName) {
         return cubeMgmtService.getMetadataManager().getTableDesc(tableName);
@@ -128,21 +132,21 @@ public class TableController extends BasicController {
      * @return Table metadata array
      * @throws IOException
      */
-    @RequestMapping(value = "/{tableName}/exd-map", method = { RequestMethod.GET })
+    @RequestMapping(value = "/{tableName}/exd-map", method = {RequestMethod.GET})
     @ResponseBody
     public Map<String, String> getHiveTableExd(@PathVariable String tableName) {
         Map<String, String> tableExd = cubeMgmtService.getMetadataManager().getTableDescExd(tableName);
         return tableExd;
     }
 
-    @RequestMapping(value = "/reload", method = { RequestMethod.PUT })
+    @RequestMapping(value = "/reload", method = {RequestMethod.PUT})
     @ResponseBody
     public String reloadSourceTable() {
         cubeMgmtService.getMetadataManager().reload();
         return "ok";
     }
 
-    @RequestMapping(value = "/{tables}/{project}", method = { RequestMethod.POST })
+    @RequestMapping(value = "/{tables}/{project}", method = {RequestMethod.POST})
     @ResponseBody
     public Map<String, String[]> loadHiveTable(@PathVariable String tables, @PathVariable String project, @RequestBody HiveTableRequest request) throws IOException {
         String submitter = SecurityContextHolder.getContext().getAuthentication().getName();
@@ -153,11 +157,11 @@ public class TableController extends BasicController {
         cubeMgmtService.syncTableToProject(loaded, project);
         Map<String, String[]> result = new HashMap<String, String[]>();
         result.put("result.loaded", loaded);
-        result.put("result.unloaded", new String[] {});
+        result.put("result.unloaded", new String[]{});
         return result;
     }
 
-    @RequestMapping(value = "/{tables}/{project}", method = { RequestMethod.DELETE })
+    @RequestMapping(value = "/{tables}/{project}", method = {RequestMethod.DELETE})
     @ResponseBody
     public Map<String, String[]> unLoadHiveTables(@PathVariable String tables, @PathVariable String project) {
         Set<String> unLoadSuccess = Sets.newHashSet();
@@ -178,6 +182,7 @@ public class TableController extends BasicController {
     /**
      * table may referenced by several projects, and kylin only keep one copy of meta for each table,
      * that's why we have two if statement here.
+     *
      * @param tableName
      * @param project
      * @return
@@ -198,9 +203,9 @@ public class TableController extends BasicController {
             if (!modelService.isTableInModel(tableName, project)) {
                 cubeMgmtService.removeTableFromProject(tableName, project);
                 rtn = true;
-            }else{
+            } else {
                 List<String> models = modelService.getModelsUsingTable(tableName, project);
-                throw new InternalErrorException("Table is already in use by models "+models);
+                throw new InternalErrorException("Table is already in use by models " + models);
             }
         } catch (IOException e) {
             logger.error(e.getMessage(), e);
@@ -232,7 +237,7 @@ public class TableController extends BasicController {
         return rtn;
     }
 
-    @RequestMapping(value = "/addStreamingSrc", method = { RequestMethod.POST })
+    @RequestMapping(value = "/addStreamingSrc", method = {RequestMethod.POST})
     @ResponseBody
     public Map<String, String> addStreamingTable(@RequestBody StreamingRequest request) throws IOException {
         Map<String, String> result = new HashMap<String, String>();
@@ -241,7 +246,7 @@ public class TableController extends BasicController {
         desc.setUuid(UUID.randomUUID().toString());
         MetadataManager metaMgr = MetadataManager.getInstance(KylinConfig.getInstanceFromEnv());
         metaMgr.saveSourceTable(desc);
-        cubeMgmtService.syncTableToProject(new String[] { desc.getName() }, project);
+        cubeMgmtService.syncTableToProject(new String[]{desc.getName()}, project);
         result.put("success", "true");
         return result;
     }
@@ -252,7 +257,7 @@ public class TableController extends BasicController {
      * @return Table metadata array
      * @throws IOException
      */
-    @RequestMapping(value = "/{tableNames}/cardinality", method = { RequestMethod.PUT })
+    @RequestMapping(value = "/{tableNames}/cardinality", method = {RequestMethod.PUT})
     @ResponseBody
     public CardinalityRequest generateCardinality(@PathVariable String tableNames, @RequestBody CardinalityRequest request) {
         String submitter = SecurityContextHolder.getContext().getAuthentication().getName();
@@ -313,7 +318,7 @@ public class TableController extends BasicController {
      * @return Hive databases list
      * @throws IOException
      */
-    @RequestMapping(value = "/hive", method = { RequestMethod.GET })
+    @RequestMapping(value = "/hive", method = {RequestMethod.GET})
     @ResponseBody
     private static List<String> showHiveDatabases() throws IOException {
         IHiveClient hiveClient = HiveClientFactory.getHiveClient();
@@ -334,7 +339,7 @@ public class TableController extends BasicController {
      * @return Hive table list
      * @throws IOException
      */
-    @RequestMapping(value = "/hive/{database}", method = { RequestMethod.GET })
+    @RequestMapping(value = "/hive/{database}", method = {RequestMethod.GET})
     @ResponseBody
     private static List<String> showHiveTables(@PathVariable String database) throws IOException {
         IHiveClient hiveClient = HiveClientFactory.getHiveClient();
