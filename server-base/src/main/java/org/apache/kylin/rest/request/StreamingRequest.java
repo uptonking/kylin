@@ -18,6 +18,9 @@
 
 package org.apache.kylin.rest.request;
 
+/**
+ * 流式数据操作请求bean
+ */
 public class StreamingRequest {
 
     private String project;

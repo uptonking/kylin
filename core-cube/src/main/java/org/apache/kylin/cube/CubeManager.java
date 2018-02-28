@@ -6,15 +6,15 @@
  * to you under the Apache License, Version 2.0 (the
  * "License"); you may not use this file except in compliance
  * with the License.  You may obtain a copy of the License at
- * 
+ *
  *     http://www.apache.org/licenses/LICENSE-2.0
- * 
+ *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
  * See the License for the specific language governing permissions and
  * limitations under the License.
-*/
+ */
 
 package org.apache.kylin.cube;
 
@@ -224,7 +224,7 @@ public class CubeManager implements IRealizationProvider {
         if (dictInfo != null) {
             Dictionary<?> dict = dictInfo.getDictionaryObject();
             cubeSeg.putDictResPath(col, dictInfo.getResourcePath());
-            cubeSeg.getRowkeyStats().add(new Object[] { col.getName(), dict.getSize(), dict.getSizeOfId() });
+            cubeSeg.getRowkeyStats().add(new Object[]{col.getName(), dict.getSize(), dict.getSizeOfId()});
 
             CubeUpdate cubeBuilder = new CubeUpdate(cubeSeg.getCubeInstance());
             cubeBuilder.setToUpdateSegs(cubeSeg);
@@ -302,7 +302,10 @@ public class CubeManager implements IRealizationProvider {
         return cube;
     }
 
-    // sync on update
+    /**
+     * 创建cube实例
+     * sync on update
+     */
     public CubeInstance createCube(String cubeName, String projectName, CubeDesc desc, String owner) throws IOException {
         logger.info("Creating cube '" + projectName + "-->" + cubeName + "' from desc '" + desc.getName() + "'");
 
@@ -818,7 +821,7 @@ public class CubeManager implements IRealizationProvider {
         CubeSegment firstSeg = tobe.get(0);
         firstSeg.validate();
 
-        for (int i = 0, j = 1; j < tobe.size();) {
+        for (int i = 0, j = 1; j < tobe.size(); ) {
             CubeSegment is = tobe.get(i);
             CubeSegment js = tobe.get(j);
             js.validate();
@@ -993,6 +996,7 @@ public class CubeManager implements IRealizationProvider {
 
     /**
      * Get the columns which need build the dictionary from fact table. (the column exists on fact and is not fk)
+     *
      * @param cubeDesc
      * @return
      * @throws IOException
@@ -1012,6 +1016,7 @@ public class CubeManager implements IRealizationProvider {
 
     /**
      * Calculate the holes (gaps) in segments.
+     *
      * @param cubeName
      * @return
      */

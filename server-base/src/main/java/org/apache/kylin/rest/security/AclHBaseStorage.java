@@ -23,8 +23,10 @@ import java.io.IOException;
 import org.apache.hadoop.hbase.client.Table;
 
 /**
+ * 权限在hbase中存储的接口
  */
 public interface AclHBaseStorage {
+
     String DEFAULT_TABLE_PREFIX = "kylin_metadata";
 
     String ACL_INFO_FAMILY = "i";

@@ -25,15 +25,27 @@ import org.apache.kylin.common.KylinVersion;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+/**
+ * 客户端信息打印日志的任务
+ * 用于统计监控
+ */
 public class ClientInfoTask extends InitialTask {
 
     private static final Logger logger = LoggerFactory.getLogger(ClientInfoTask.class);
 
+    /**
+     * 日志打印客户端信息
+     */
     @Override
     public void execute() {
         logger.info(getClientDetailInformation());
     }
 
+    /**
+     * 获取kylin客户端配置信息
+     *
+     * @return 信息以\n作为分隔符，格式为 k: v\n
+     */
     public static String getClientDetailInformation() {
         StringBuilder buf = new StringBuilder();
 

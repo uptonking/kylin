@@ -30,6 +30,7 @@ import org.apache.kylin.rest.service.UserService;
 import org.apache.kylin.storage.hbase.HBaseConnection;
 
 /**
+ * 在HBase表中存储权限验证的信息
  */
 public class RealAclHBaseStorage implements AclHBaseStorage {
 

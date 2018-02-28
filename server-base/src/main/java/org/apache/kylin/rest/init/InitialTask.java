@@ -19,6 +19,8 @@
 package org.apache.kylin.rest.init;
 
 /**
+ * 任务执行抽象类
+ * <p>
  * Created by dongli on 3/16/16.
  */
 public abstract class InitialTask {

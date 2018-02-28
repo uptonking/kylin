@@ -6,15 +6,15 @@
  * to you under the Apache License, Version 2.0 (the
  * "License"); you may not use this file except in compliance
  * with the License.  You may obtain a copy of the License at
- * 
+ *
  *     http://www.apache.org/licenses/LICENSE-2.0
- * 
+ *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
  * See the License for the specific language governing permissions and
  * limitations under the License.
-*/
+ */
 
 package org.apache.kylin.rest.service;
 
@@ -76,21 +76,31 @@ import org.springframework.stereotype.Component;
 import com.google.common.collect.Lists;
 
 /**
+ * cube crud 管理服务
  * Stateless & lightweight service facade of cube management functions.
  *
  * @author yangli9
  */
 @Component("cubeMgmtService")
 public class CubeService extends BasicService {
-    private static final String DESC_SUFFIX = "_desc";
 
     private static final Logger logger = LoggerFactory.getLogger(CubeService.class);
 
+    /**
+     * cube描述的默认后缀
+     */
+    private static final String DESC_SUFFIX = "_desc";
+    /**
+     * htable信息缓存
+     */
     private WeakHashMap<String, HBaseResponse> htableInfoCache = new WeakHashMap<>();
 
     @Autowired
     private AccessService accessService;
 
+    /**
+     * 获取所有cube实例
+     */
     @PostFilter(Constant.ACCESS_POST_FILTER_READ)
     public List<CubeInstance> listAllCubes(final String cubeName, final String projectName, final String modelName) {
         List<CubeInstance> cubeInstances = null;
@@ -127,6 +137,31 @@ public class CubeService extends BasicService {
         return filterCubes;
     }
 
+    /**
+     * 获取project下的所有cube
+     */
+    public List<CubeInstance> listAllCubes(String projectName) {
+        ProjectManager projectManager = getProjectManager();
+        ProjectInstance project = projectManager.getProject(projectName);
+        if (project == null) {
+            return Collections.emptyList();
+        }
+        ArrayList<CubeInstance> result = new ArrayList<CubeInstance>();
+        for (RealizationEntry projectDataModel : project.getRealizationEntries()) {
+            if (projectDataModel.getType() == RealizationType.CUBE) {
+                CubeInstance cube = getCubeManager().getCube(projectDataModel.getRealization());
+                if (cube != null)
+                    result.add(cube);
+                else
+                    logger.error("Cube instance " + projectDataModel.getRealization() + " is failed to load");
+            }
+        }
+        return result;
+    }
+
+    /**
+     * 更新cube成本
+     */
     @PreAuthorize(Constant.ACCESS_HAS_ROLE_ADMIN + " or hasPermission(#cube, 'ADMINISTRATION') or hasPermission(#cube, 'MANAGEMENT')")
     public CubeInstance updateCubeCost(CubeInstance cube, int cost) throws IOException {
 
@@ -144,6 +179,9 @@ public class CubeService extends BasicService {
         return getCubeManager().updateCube(cubeBuilder);
     }
 
+    /**
+     * 根据cube描述创建cube实例
+     */
     @PreAuthorize(Constant.ACCESS_HAS_ROLE_ADMIN + " or " + Constant.ACCESS_HAS_ROLE_MODELER)
     public CubeInstance createCubeAndDesc(String cubeName, String projectName, CubeDesc desc) throws IOException {
         if (getCubeManager().getCube(cubeName) != null) {
@@ -182,25 +220,9 @@ public class CubeService extends BasicService {
         return createdCube;
     }
 
-    public List<CubeInstance> listAllCubes(String projectName) {
-        ProjectManager projectManager = getProjectManager();
-        ProjectInstance project = projectManager.getProject(projectName);
-        if (project == null) {
-            return Collections.emptyList();
-        }
-        ArrayList<CubeInstance> result = new ArrayList<CubeInstance>();
-        for (RealizationEntry projectDataModel : project.getRealizationEntries()) {
-            if (projectDataModel.getType() == RealizationType.CUBE) {
-                CubeInstance cube = getCubeManager().getCube(projectDataModel.getRealization());
-                if (cube != null)
-                    result.add(cube);
-                else
-                    logger.error("Cube instance " + projectDataModel.getRealization() + " is failed to load");
-            }
-        }
-        return result;
-    }
-
+    /**
+     * 判断cube实例target是否属于projectName
+     */
     private boolean isCubeInProject(String projectName, CubeInstance target) {
         ProjectManager projectManager = getProjectManager();
         ProjectInstance project = projectManager.getProject(projectName);
@@ -222,6 +244,9 @@ public class CubeService extends BasicService {
         return false;
     }
 
+    /**
+     * 更新cube描述
+     */
     @PreAuthorize(Constant.ACCESS_HAS_ROLE_ADMIN + " or hasPermission(#cube, 'ADMINISTRATION') or hasPermission(#cube, 'MANAGEMENT')")
     public CubeDesc updateCubeAndDesc(CubeInstance cube, CubeDesc desc, String newProjectName, boolean forceUpdate) throws IOException, JobException {
 
@@ -253,6 +278,9 @@ public class CubeService extends BasicService {
         }
     }
 
+    /**
+     * 删除cube实例
+     */
     @PreAuthorize(Constant.ACCESS_HAS_ROLE_ADMIN + " or hasPermission(#cube, 'ADMINISTRATION') or hasPermission(#cube, 'MANAGEMENT')")
     public void deleteCube(CubeInstance cube) throws IOException, JobException {
         final List<CubingJob> cubingJobs = listAllCubingJobs(cube.getName(), null, EnumSet.of(ExecutableState.READY, ExecutableState.RUNNING));
@@ -272,6 +300,9 @@ public class CubeService extends BasicService {
         accessService.clean(cube, true);
     }
 
+    /**
+     * 从cube描述中获取cube名称
+     */
     public static String getCubeNameFromDesc(String descName) {
         if (descName.toLowerCase().endsWith(DESC_SUFFIX)) {
             return descName.substring(0, descName.toLowerCase().indexOf(DESC_SUFFIX));
@@ -281,12 +312,8 @@ public class CubeService extends BasicService {
     }
 
     /**
+     * 清理cube
      * Stop all jobs belonging to this cube and clean out all segments
-     *
-     * @param cube
-     * @return
-     * @throws IOException
-     * @throws JobException
      */
     @PreAuthorize(Constant.ACCESS_HAS_ROLE_ADMIN + " or hasPermission(#cube, 'ADMINISTRATION') or hasPermission(#cube, 'OPERATION') or hasPermission(#cube, 'MANAGEMENT')")
     public CubeInstance purgeCube(CubeInstance cube) throws IOException, JobException {
@@ -307,11 +334,8 @@ public class CubeService extends BasicService {
     }
 
     /**
+     * 禁用cube
      * Update a cube status from ready to disabled.
-     *
-     * @return
-     * @throws IOException
-     * @throws JobException
      */
     @PreAuthorize(Constant.ACCESS_HAS_ROLE_ADMIN + " or hasPermission(#cube, 'ADMINISTRATION') or hasPermission(#cube, 'OPERATION') or hasPermission(#cube, 'MANAGEMENT')")
     public CubeInstance disableCube(CubeInstance cube) throws IOException, JobException {
@@ -336,11 +360,8 @@ public class CubeService extends BasicService {
     }
 
     /**
+     * 启用cube
      * Update a cube status from disable to ready.
-     *
-     * @return
-     * @throws IOException
-     * @throws JobException
      */
     @PreAuthorize(Constant.ACCESS_HAS_ROLE_ADMIN + " or hasPermission(#cube, 'ADMINISTRATION') or hasPermission(#cube, 'OPERATION')  or hasPermission(#cube, 'MANAGEMENT')")
     public CubeInstance enableCube(CubeInstance cube) throws IOException, JobException {
@@ -373,6 +394,9 @@ public class CubeService extends BasicService {
         }
     }
 
+    /**
+     * 计算cube数量和占用的存储空间等性能指标
+     */
     public MetricsResponse calculateMetrics(MetricsRequest request) {
         List<CubeInstance> cubes = this.getCubeManager().listAllCubes();
         MetricsResponse metrics = new MetricsResponse();
@@ -396,8 +420,8 @@ public class CubeService extends BasicService {
     }
 
     /**
-     * Calculate size of each region for given table and other info of the
-     * table.
+     * 获取hatable信息
+     * Calculate size of each region for given table and other info of the table.
      *
      * @param tableName The table name.
      * @return The HBaseResponse object contains table size, region count. null
@@ -432,10 +456,9 @@ public class CubeService extends BasicService {
     }
 
     /**
+     * 计算基数
      * Generate cardinality for table This will trigger a hadoop job
      * The result will be merged into table exd info
-     *
-     * @param tableName
      */
     @PreAuthorize(Constant.ACCESS_HAS_ROLE_MODELER + " or " + Constant.ACCESS_HAS_ROLE_ADMIN)
     public void calculateCardinality(String tableName, String submitter) {
@@ -472,6 +495,9 @@ public class CubeService extends BasicService {
         getExecutableManager().addJob(job);
     }
 
+    /**
+     * 更新cube异常时的通知列表
+     */
     @PreAuthorize(Constant.ACCESS_HAS_ROLE_ADMIN + " or hasPermission(#cube, 'ADMINISTRATION') or hasPermission(#cube, 'OPERATION')  or hasPermission(#cube, 'MANAGEMENT')")
     public void updateCubeNotifyList(CubeInstance cube, List<String> notifyList) throws IOException {
         CubeDesc desc = cube.getDescriptor();
@@ -479,6 +505,9 @@ public class CubeService extends BasicService {
         getCubeDescManager().updateCubeDesc(desc);
     }
 
+    /**
+     * 重新构建维度表快照
+     */
     @PreAuthorize(Constant.ACCESS_HAS_ROLE_ADMIN + " or hasPermission(#cube, 'ADMINISTRATION') or hasPermission(#cube, 'OPERATION')  or hasPermission(#cube, 'MANAGEMENT')")
     public CubeInstance rebuildLookupSnapshot(CubeInstance cube, String segmentName, String lookupTable) throws IOException {
         CubeSegment seg = cube.getSegment(segmentName, SegmentStatusEnum.READY);
@@ -487,6 +516,9 @@ public class CubeService extends BasicService {
         return cube;
     }
 
+    /**
+     * 删除某一段cube
+     */
     @PreAuthorize(Constant.ACCESS_HAS_ROLE_ADMIN + " or hasPermission(#cube, 'ADMINISTRATION') or hasPermission(#cube, 'OPERATION')  or hasPermission(#cube, 'MANAGEMENT')")
     public CubeInstance deleteSegment(CubeInstance cube, String segmentName) throws IOException {
 
@@ -505,10 +537,13 @@ public class CubeService extends BasicService {
         }
 
         CubeUpdate update = new CubeUpdate(cube);
-        update.setToRemoveSegs(new CubeSegment[] { toDelete });
+        update.setToRemoveSegs(new CubeSegment[]{toDelete});
         return CubeManager.getInstance(getConfig()).updateCube(update);
     }
 
+    /**
+     * 释放cube的任务
+     */
     private void releaseAllJobs(CubeInstance cube) {
         final List<CubingJob> cubingJobs = listAllCubingJobs(cube.getName(), null);
         for (CubingJob cubingJob : cubingJobs) {
@@ -520,10 +555,7 @@ public class CubeService extends BasicService {
     }
 
     /**
-     * purge the cube
-     *
-     * @throws IOException
-     * @throws JobException
+     * 清理cube所有分段
      */
     private void releaseAllSegments(CubeInstance cube) throws IOException, JobException {
         releaseAllJobs(cube);
@@ -533,12 +565,18 @@ public class CubeService extends BasicService {
         CubeManager.getInstance(getConfig()).updateCube(update);
     }
 
+    /**
+     * 重新加载hive表
+     */
     @PreAuthorize(Constant.ACCESS_HAS_ROLE_MODELER + " or " + Constant.ACCESS_HAS_ROLE_ADMIN)
     public String[] reloadHiveTable(String tables) throws IOException {
         Set<String> loaded = HiveSourceTableLoader.reloadHiveTables(tables.split(","), getConfig());
         return (String[]) loaded.toArray(new String[loaded.size()]);
     }
 
+    /**
+     * 卸载hive表
+     */
     @PreAuthorize(Constant.ACCESS_HAS_ROLE_ADMIN)
     public void unLoadHiveTable(String tableName) throws IOException {
         String[] dbTableName = HadoopUtil.parseHiveTableName(tableName);
@@ -546,11 +584,17 @@ public class CubeService extends BasicService {
         HiveSourceTableLoader.unLoadHiveTable(tableName.toUpperCase());
     }
 
+    /**
+     * 同步表信息到project
+     */
     @PreAuthorize(Constant.ACCESS_HAS_ROLE_ADMIN)
     public void syncTableToProject(String[] tables, String project) throws IOException {
         getProjectManager().addTableDescToProject(tables, project);
     }
 
+    /**
+     * 从project中移除table
+     */
     @PreAuthorize(Constant.ACCESS_HAS_ROLE_ADMIN)
     public void removeTableFromProject(String tableName, String projectName) throws IOException {
         String[] dbTableName = HadoopUtil.parseHiveTableName(tableName);
@@ -558,6 +602,9 @@ public class CubeService extends BasicService {
         getProjectManager().removeTableDescFromProject(tableName, projectName);
     }
 
+    /**
+     * 基数未计算时就计算
+     */
     @PreAuthorize(Constant.ACCESS_HAS_ROLE_MODELER + " or " + Constant.ACCESS_HAS_ROLE_ADMIN)
     public void calculateCardinalityIfNotPresent(String[] tables, String submitter) throws IOException {
         MetadataManager metaMgr = getMetadataManager();
@@ -569,6 +616,9 @@ public class CubeService extends BasicService {
         }
     }
 
+    /**
+     * 有新cube分段可用时更新cube信息
+     */
     public void updateOnNewSegmentReady(String cubeName) {
         final KylinConfig kylinConfig = KylinConfig.getInstanceFromEnv();
         String serverMode = kylinConfig.getServerMode();
@@ -584,6 +634,9 @@ public class CubeService extends BasicService {
         }
     }
 
+    /**
+     * 清理过期cube
+     */
     private void keepCubeRetention(String cubeName) {
         logger.info("checking keepCubeRetention");
         CubeInstance cube = getCubeManager().getCube(cubeName);
@@ -601,7 +654,8 @@ public class CubeService extends BasicService {
             long tail = readySegs.get(readySegs.size() - 1).getDateRangeEnd();
             long head = tail - desc.getRetentionRange();
             for (CubeSegment seg : readySegs) {
-                if (seg.getDateRangeEnd() > 0) { // for streaming cube its initial value is 0
+                // for streaming cube its initial value is 0
+                if (seg.getDateRangeEnd() > 0) {
                     if (seg.getDateRangeEnd() <= head) {
                         toRemoveSegs.add(seg);
                     }
@@ -620,6 +674,9 @@ public class CubeService extends BasicService {
         }
     }
 
+    /**
+     * 合并cube中的分段
+     */
     private void mergeCubeSegment(String cubeName) {
         CubeInstance cube = getCubeManager().getCube(cubeName);
         if (!cube.needAutoMerge())

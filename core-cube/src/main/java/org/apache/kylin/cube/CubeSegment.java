@@ -6,15 +6,15 @@
  * to you under the Apache License, Version 2.0 (the
  * "License"); you may not use this file except in compliance
  * with the License.  You may obtain a copy of the License at
- * 
+ *
  *     http://www.apache.org/licenses/LICENSE-2.0
- * 
+ *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
  * See the License for the specific language governing permissions and
  * limitations under the License.
-*/
+ */
 
 package org.apache.kylin.cube;
 
@@ -51,6 +51,9 @@ import com.google.common.collect.Maps;
 
 import javax.annotation.concurrent.GuardedBy;
 
+/**
+ * cube分段
+ */
 @JsonAutoDetect(fieldVisibility = Visibility.NONE, getterVisibility = Visibility.NONE, isGetterVisibility = Visibility.NONE, setterVisibility = Visibility.NONE)
 public class CubeSegment implements Comparable<CubeSegment>, IBuildable, ISegment {
 
@@ -86,7 +89,8 @@ public class CubeSegment implements Comparable<CubeSegment>, IBuildable, ISegmen
     private long createTimeUTC;
     @JsonProperty("cuboid_shard_nums")
     private Map<Long, Short> cuboidShardNums = Maps.newHashMap();
-    @JsonProperty("total_shards") //it is only valid when all cuboids are squshed into some shards. like the HBASE_STORAGE case, otherwise it'll stay 0
+    @JsonProperty("total_shards")
+    //it is only valid when all cuboids are squshed into some shards. like the HBASE_STORAGE case, otherwise it'll stay 0
     private int totalShards = 0;
     @JsonProperty("blackout_cuboids")
     private List<Long> blackoutCuboids = Lists.newArrayList();
@@ -127,7 +131,7 @@ public class CubeSegment implements Comparable<CubeSegment>, IBuildable, ISegmen
     /**
      * @param startDate
      * @param endDate
-     * @return if(startDate == 0 && endDate == 0), returns "FULL_BUILD", else
+     * @return if(startDate = = 0 & & endDate = = 0), returns "FULL_BUILD", else
      * returns "yyyyMMddHHmmss_yyyyMMddHHmmss"
      */
     public static String makeSegmentName(long startDate, long endDate, long startOffset, long endOffset) {

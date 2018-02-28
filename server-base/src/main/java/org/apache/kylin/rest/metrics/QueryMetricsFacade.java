@@ -14,7 +14,7 @@
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
  * See the License for the specific language governing permissions and
  * limitations under the License.
-*/
+ */
 
 package org.apache.kylin.rest.metrics;
 
@@ -30,6 +30,7 @@ import javax.annotation.concurrent.ThreadSafe;
 import java.util.concurrent.ConcurrentHashMap;
 
 /**
+ * 查询指标入口类
  * The entrance of metrics features.
  */
 @ThreadSafe

@@ -26,6 +26,9 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.InitializingBean;
 
 /**
+ * 初始任务管理器
+ * 用于统计监控
+ * <p>
  * Created by dongli on 3/16/16.
  */
 public class InitialTaskManager implements InitializingBean {
@@ -34,6 +37,7 @@ public class InitialTaskManager implements InitializingBean {
 
     @Override
     public void afterPropertiesSet() throws Exception {
+
         logger.info("Kylin service is starting.....");
 
         runInitialTasks();
@@ -42,7 +46,7 @@ public class InitialTaskManager implements InitializingBean {
     private void runInitialTasks() {
         // init metrics system for kylin
         QueryMetricsFacade.init();
-        
+
         KylinConfig kylinConfig = KylinConfig.getInstanceFromEnv();
         String initTasks = kylinConfig.getInitTasks();
         if (!StringUtils.isEmpty(initTasks)) {

@@ -22,6 +22,9 @@ import javax.servlet.ServletContextEvent;
 
 import org.apache.kylin.common.KylinConfig;
 
+/**
+ * log4j配置监听器
+ */
 public class Log4jConfigListener extends org.springframework.web.util.Log4jConfigListener {
 
     private boolean isDebugTomcat;

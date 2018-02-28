@@ -18,6 +18,9 @@
 
 package org.apache.kylin.rest.request;
 
+/**
+ * 外部过滤器请求参数bean
+ */
 public class ExternalFilterRequest {
 
     private String project;

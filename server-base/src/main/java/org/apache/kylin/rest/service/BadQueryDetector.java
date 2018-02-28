@@ -37,6 +37,9 @@ import org.slf4j.LoggerFactory;
 
 import com.google.common.collect.Maps;
 
+/**
+ * 坏查询检测
+ */
 public class BadQueryDetector extends Thread {
 
     public static final int ONE_MB = 1024 * 1024;

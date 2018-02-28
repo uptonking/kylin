@@ -10,3 +10,5 @@
 - support more local file formats, like .xls, db.dump
 - integrate with datax
 - integrate with playboard
+
+## faq

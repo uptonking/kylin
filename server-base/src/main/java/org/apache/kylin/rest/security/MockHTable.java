@@ -20,9 +20,9 @@
  * This file is licensed to you under the Apache License, Version 2.0 (the
  * "License"); you may not use this file except in compliance with the
  * License. You may obtain a copy of the License at
- *
- *     http://www.apache.org/licenses/LICENSE-2.0
- *
+ * <p>
+ * http://www.apache.org/licenses/LICENSE-2.0
+ * <p>
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
@@ -72,26 +72,29 @@ import com.google.protobuf.Service;
 import com.google.protobuf.ServiceException;
 
 /**
+ * HTable测试类
+ * <p>
  * MockHTable.
- *
+ * <p>
  * original MockHTable (by agaoglu) : https://gist.github.com/agaoglu/613217#file_mock_h_table.java
- *
+ * <p>
  * Modifications
- *
+ * <p>
  * <ul>
- *     <li>fix filter (by k-mack) : https://gist.github.com/k-mack/4600133</li>
- *     <li>fix batch() : implement all mutate operation and fix result[] count.</li>
- *     <li>fix exists()</li>
- *     <li>fix increment() : wrong return value</li>
- *     <li>check columnFamily</li>
- *     <li>implement mutateRow()</li>
- *     <li>implement getTableName()</li>
- *     <li>implement getTableDescriptor()</li>
- *     <li>throws RuntimeException when unimplemented method was called.</li>
- *     <li>remove some methods for loading data, checking values ...</li>
+ * <li>fix filter (by k-mack) : https://gist.github.com/k-mack/4600133</li>
+ * <li>fix batch() : implement all mutate operation and fix result[] count.</li>
+ * <li>fix exists()</li>
+ * <li>fix increment() : wrong return value</li>
+ * <li>check columnFamily</li>
+ * <li>implement mutateRow()</li>
+ * <li>implement getTableName()</li>
+ * <li>implement getTableDescriptor()</li>
+ * <li>throws RuntimeException when unimplemented method was called.</li>
+ * <li>remove some methods for loading data, checking values ...</li>
  * </ul>
  */
 public class MockHTable implements Table {
+
     private final String tableName;
     private final List<String> columnFamilies = new ArrayList<>();
 

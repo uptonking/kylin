@@ -6,22 +6,31 @@
  * to you under the Apache License, Version 2.0 (the
  * "License"); you may not use this file except in compliance
  * with the License.  You may obtain a copy of the License at
- * 
+ *
  *     http://www.apache.org/licenses/LICENSE-2.0
- * 
+ *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
  * See the License for the specific language governing permissions and
  * limitations under the License.
-*/
+ */
 
 package org.apache.kylin.rest.util;
 
 import org.apache.kylin.rest.util.QueryUtil.IQueryTransformer;
 
+/**
+ * 查询关键词hack工具类
+ */
 public class KeywordDefaultDirtyHack implements IQueryTransformer {
 
+    /**
+     * sql中关键词替换工具类
+     *
+     * @param sql 原sql
+     * @return 替换后的sql
+     */
     @Override
     public String transform(String sql) {
         // KYLIN-2108, DEFAULT is hive default database, but a sql keyword too, needs quote

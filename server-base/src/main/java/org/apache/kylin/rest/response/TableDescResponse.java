@@ -6,15 +6,15 @@
  * to you under the Apache License, Version 2.0 (the
  * "License"); you may not use this file except in compliance
  * with the License.  You may obtain a copy of the License at
- * 
+ *
  *     http://www.apache.org/licenses/LICENSE-2.0
- * 
+ *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
  * See the License for the specific language governing permissions and
  * limitations under the License.
-*/
+ */
 
 package org.apache.kylin.rest.response;
 
@@ -26,14 +26,16 @@ import org.apache.kylin.metadata.model.TableDesc;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
 /**
+ * 数据表元信息响应bean
  * A response class to wrap TableDesc
- * 
+ *
  * @author jianliu
- * 
  */
 public class TableDescResponse extends TableDesc {
+
     @JsonProperty("exd")
     Map<String, String> descExd = new HashMap<String, String>();
+
     @JsonProperty("cardinality")
     Map<String, Long> cardinality = new HashMap<String, Long>();
 
@@ -45,8 +47,7 @@ public class TableDescResponse extends TableDesc {
     }
 
     /**
-     * @param cardinality
-     *            the cardinality to set
+     * @param cardinality the cardinality to set
      */
     public void setCardinality(Map<String, Long> cardinality) {
         this.cardinality = cardinality;
@@ -60,8 +61,7 @@ public class TableDescResponse extends TableDesc {
     }
 
     /**
-     * @param descExd
-     *            the descExd to set
+     * @param descExd the descExd to set
      */
     public void setDescExd(Map<String, String> descExd) {
         this.descExd = descExd;

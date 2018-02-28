@@ -26,6 +26,8 @@ import org.springframework.security.ldap.userdetails.LdapUserDetailsService;
 import org.springframework.security.saml.SAMLCredential;
 
 /**
+ * 基于SAML实现单点登陆
+ * <p>
  * An implementation of SAMLUserDetailsService by delegating the query to LdapUserDetailsService.
  */
 public class SAMLUserDetailsService implements org.springframework.security.saml.userdetails.SAMLUserDetailsService {

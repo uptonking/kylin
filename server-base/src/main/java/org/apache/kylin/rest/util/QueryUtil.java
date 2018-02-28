@@ -6,15 +6,15 @@
  * to you under the Apache License, Version 2.0 (the
  * "License"); you may not use this file except in compliance
  * with the License.  You may obtain a copy of the License at
- * 
+ *
  *     http://www.apache.org/licenses/LICENSE-2.0
- * 
+ *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
  * See the License for the specific language governing permissions and
  * limitations under the License.
-*/
+ */
 
 package org.apache.kylin.rest.util;
 
@@ -31,22 +31,22 @@ import org.slf4j.LoggerFactory;
 import com.google.common.collect.Lists;
 
 /**
+ * sql查询工具类
  */
 public class QueryUtil {
 
     protected static final Logger logger = LoggerFactory.getLogger(QueryUtil.class);
 
+    /**
+     * 多个sql转换器
+     */
     private static List<IQueryTransformer> queryTransformers;
-    
-    public interface IQueryTransformer {
-        String transform(String sql);
-    }
 
     public static String massageSql(SQLRequest sqlRequest) {
         String sql = sqlRequest.getSql();
         sql = sql.trim();
         sql = sql.replace("\r", " ").replace("\n", System.getProperty("line.separator"));
-        
+
         while (sql.endsWith(";"))
             sql = sql.substring(0, sql.length() - 1);
 
@@ -73,7 +73,7 @@ public class QueryUtil {
     private static void initQueryTransformers() {
         List<IQueryTransformer> transformers = Lists.newArrayList();
         transformers.add(new DefaultQueryTransformer());
-        
+
         String[] classes = KylinConfig.getInstanceFromEnv().getQueryTransformers();
         for (String clz : classes) {
             try {
@@ -86,7 +86,52 @@ public class QueryUtil {
         queryTransformers = transformers;
     }
 
-    // correct sick / invalid SQL
+
+    public static String makeErrorMsgUserFriendly(Throwable e) {
+        String msg = e.getMessage();
+
+        // pick ParseException error message if possible
+        Throwable cause = e;
+        while (cause != null) {
+            if (cause.getClass().getName().contains("ParseException")) {
+                msg = cause.getMessage();
+                break;
+            }
+            cause = cause.getCause();
+        }
+
+        return makeErrorMsgUserFriendly(msg);
+    }
+
+    public static String makeErrorMsgUserFriendly(String errorMsg) {
+        try {
+            // make one line
+            errorMsg = errorMsg.replaceAll("\\s", " ");
+
+            // move cause to be ahead of sql, calcite creates the message pattern below
+            Pattern pattern = Pattern.compile("error while executing SQL \"(.*)\":(.*)");
+            Matcher matcher = pattern.matcher(errorMsg);
+            if (matcher.find()) {
+                return matcher.group(2).trim() + "\n" + "while executing SQL: \"" + matcher.group(1).trim() + "\"";
+            } else
+                return errorMsg;
+        } catch (Exception e) {
+            return errorMsg;
+        }
+    }
+
+    /**
+     * 查询sql转换接口
+     */
+    public interface IQueryTransformer {
+        String transform(String sql);
+    }
+
+    /**
+     * sql默认转换器
+     * 修正错误sql
+     * correct sick / invalid SQL
+     */
     private static class DefaultQueryTransformer implements IQueryTransformer {
 
         private static final String S0 = "\\s*";
@@ -98,7 +143,7 @@ public class QueryUtil {
         private static final Pattern PTN_INTERVAL = Pattern.compile("interval" + SM + "(floor\\()([\\d\\.]+)(\\))" + SM + "(second|minute|hour|day|month|year)", Pattern.CASE_INSENSITIVE);
         private static final Pattern PTN_CONCAT = Pattern.compile("concat\\(.+?\\)");//non-greedy
         private static final Pattern PTN_HAVING_ESCAPE_FUNCTION = Pattern.compile("\\{fn" + "(.*?)" + "\\}", Pattern.CASE_INSENSITIVE);
-        
+
         @Override
         public String transform(String sql) {
             Matcher m;
@@ -141,7 +186,7 @@ public class QueryUtil {
             }
 
             //according to https://issues.apache.org/jira/browse/CALCITE-1375,
-            //{fn concat('a','b')} will succeed but concat('a','b') will fail 
+            //{fn concat('a','b')} will succeed but concat('a','b') will fail
             StringBuilder sb = new StringBuilder();
             while (true) {
                 m = PTN_CONCAT.matcher(sql);
@@ -156,40 +201,8 @@ public class QueryUtil {
 
             return sql;
         }
-        
+
     }
 
-    public static String makeErrorMsgUserFriendly(Throwable e) {
-        String msg = e.getMessage();
-
-        // pick ParseException error message if possible
-        Throwable cause = e;
-        while (cause != null) {
-            if (cause.getClass().getName().contains("ParseException")) {
-                msg = cause.getMessage();
-                break;
-            }
-            cause = cause.getCause();
-        }
-
-        return makeErrorMsgUserFriendly(msg);
-    }
-
-    public static String makeErrorMsgUserFriendly(String errorMsg) {
-        try {
-            // make one line
-            errorMsg = errorMsg.replaceAll("\\s", " ");
-
-            // move cause to be ahead of sql, calcite creates the message pattern below
-            Pattern pattern = Pattern.compile("error while executing SQL \"(.*)\":(.*)");
-            Matcher matcher = pattern.matcher(errorMsg);
-            if (matcher.find()) {
-                return matcher.group(2).trim() + "\n" + "while executing SQL: \"" + matcher.group(1).trim() + "\"";
-            } else
-                return errorMsg;
-        } catch (Exception e) {
-            return errorMsg;
-        }
-    }
 
 }

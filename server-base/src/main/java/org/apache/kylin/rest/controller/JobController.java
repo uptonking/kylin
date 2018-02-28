@@ -14,7 +14,7 @@
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
  * See the License for the specific language governing permissions and
  * limitations under the License.
-*/
+ */
 
 package org.apache.kylin.rest.controller;
 
@@ -51,7 +51,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 /**
- *作业管理Controller
+ * 作业管理Controller
  */
 @Controller
 @RequestMapping(value = "jobs")
@@ -63,12 +63,6 @@ public class JobController extends BasicController implements InitializingBean {
 
     private JobLock jobLock;
 
-    /*
-     * (non-Javadoc)
-     *
-     * @see
-     * org.springframework.beans.factory.InitializingBean#afterPropertiesSet()
-     */
     @SuppressWarnings("unchecked")
     @Override
     public void afterPropertiesSet() throws Exception {
@@ -114,7 +108,7 @@ public class JobController extends BasicController implements InitializingBean {
      * @return
      * @throws IOException
      */
-    @RequestMapping(value = "", method = { RequestMethod.GET })
+    @RequestMapping(value = "", method = {RequestMethod.GET})
     @ResponseBody
     public List<JobInstance> list(JobListRequest jobRequest) {
 
@@ -144,7 +138,7 @@ public class JobController extends BasicController implements InitializingBean {
      * @return
      * @throws IOException
      */
-    @RequestMapping(value = "/{jobId}", method = { RequestMethod.GET })
+    @RequestMapping(value = "/{jobId}", method = {RequestMethod.GET})
     @ResponseBody
     public JobInstance get(@PathVariable String jobId) {
         JobInstance jobInstance = null;
@@ -164,7 +158,7 @@ public class JobController extends BasicController implements InitializingBean {
      * @return
      * @throws IOException
      */
-    @RequestMapping(value = "/{jobId}/steps/{stepId}/output", method = { RequestMethod.GET })
+    @RequestMapping(value = "/{jobId}/steps/{stepId}/output", method = {RequestMethod.GET})
     @ResponseBody
     public Map<String, String> getStepOutput(@PathVariable String jobId, @PathVariable String stepId) {
         Map<String, String> result = new HashMap<String, String>();
@@ -180,7 +174,7 @@ public class JobController extends BasicController implements InitializingBean {
      * @return
      * @throws IOException
      */
-    @RequestMapping(value = "/{jobId}/resume", method = { RequestMethod.PUT })
+    @RequestMapping(value = "/{jobId}/resume", method = {RequestMethod.PUT})
     @ResponseBody
     public JobInstance resume(@PathVariable String jobId) {
         try {
@@ -199,7 +193,7 @@ public class JobController extends BasicController implements InitializingBean {
      * @return
      * @throws IOException
      */
-    @RequestMapping(value = "/{jobId}/cancel", method = { RequestMethod.PUT })
+    @RequestMapping(value = "/{jobId}/cancel", method = {RequestMethod.PUT})
     @ResponseBody
     public JobInstance cancel(@PathVariable String jobId) {
 

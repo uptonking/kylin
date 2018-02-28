@@ -40,6 +40,7 @@ import net.sf.ehcache.CacheManager;
 import net.sf.ehcache.Element;
 
 /**
+ * 身份验证提供者
  * A wrapper class for the authentication provider; Will do something more for Kylin.
  */
 public class KylinAuthenticationProvider implements AuthenticationProvider {

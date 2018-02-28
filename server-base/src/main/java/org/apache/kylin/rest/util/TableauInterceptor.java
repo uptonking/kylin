@@ -6,15 +6,15 @@
  * to you under the Apache License, Version 2.0 (the
  * "License"); you may not use this file except in compliance
  * with the License.  You may obtain a copy of the License at
- * 
+ *
  *     http://www.apache.org/licenses/LICENSE-2.0
- * 
+ *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
  * See the License for the specific language governing permissions and
  * limitations under the License.
-*/
+ */
 
 package org.apache.kylin.rest.util;
 
@@ -28,11 +28,14 @@ import org.apache.kylin.rest.response.SQLResponse;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+/**
+ * tableau查询拦截器
+ */
 public class TableauInterceptor {
 
     protected static final Logger logger = LoggerFactory.getLogger(TableauInterceptor.class);
 
-    private static String[] tableauTestQueries = new String[] { "SELECT 1", //
+    private static String[] tableauTestQueries = new String[]{"SELECT 1", //
             "CREATE LOCAL TEMPORARY TABLE \"XTableau_B_Connect\" ( \"COL\" INTEGER ) ON COMMIT PRESERVE ROWS", //
             "DROP TABLE \"XTableau_B_Connect\"", //
             "SELECT \"COL\" FROM (SELECT 1 AS \"COL\") AS \"SUBQUERY\"", //
@@ -42,9 +45,10 @@ public class TableauInterceptor {
             "SELECT \"SUBCOL\" AS \"COL\" FROM (   SELECT 1 AS \"SUBCOL\" ) \"SUBQUERY\" GROUP BY 2", //
             "INSERT INTO \"XTableau_C_Connect\" SELECT * FROM (SELECT 1 AS COL) AS CHECKTEMP LIMIT 1", //
             "DROP TABLE \"XTableau_C_Connect\"", //
-            "INSERT INTO \"XTableau_B_Connect\" SELECT * FROM (SELECT 1 AS COL) AS CHECKTEMP LIMIT 1" };
+            "INSERT INTO \"XTableau_B_Connect\" SELECT * FROM (SELECT 1 AS COL) AS CHECKTEMP LIMIT 1"};
 
     private static SQLResponse temp = new SQLResponse(new LinkedList<SelectedColumnMeta>() {
+
         private static final long serialVersionUID = -8086728462624901359L;
 
         {
@@ -64,7 +68,7 @@ public class TableauInterceptor {
         }
     }, 0, false, null);
 
-    private static SQLResponse[] fakeResponses = new SQLResponse[] { temp, //
+    private static SQLResponse[] fakeResponses = new SQLResponse[]{temp, //
             new SQLResponse(null, null, 0, false, null), //
             new SQLResponse(null, null, 0, false, null), //
             temp, //
@@ -74,7 +78,7 @@ public class TableauInterceptor {
             new SQLResponse(null, null, 0, true, "group by 2????"), //
             new SQLResponse(null, null, 0, true, "XTableau_C_Connect not exist"), //
             new SQLResponse(null, null, 0, true, "XTableau_C_Connect not exist"), //
-            new SQLResponse(null, null, 0, true, "XTableau_B_Connect not exist"), };
+            new SQLResponse(null, null, 0, true, "XTableau_B_Connect not exist"),};
 
     private static ArrayList<HashSet<String>> tableauTestQueriesInToken = new ArrayList<HashSet<String>>();
 

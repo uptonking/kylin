@@ -6,15 +6,15 @@
  * to you under the Apache License, Version 2.0 (the
  * "License"); you may not use this file except in compliance
  * with the License.  You may obtain a copy of the License at
- * 
+ *
  *     http://www.apache.org/licenses/LICENSE-2.0
- * 
+ *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
  * See the License for the specific language governing permissions and
  * limitations under the License.
-*/
+ */
 
 package org.apache.kylin.rest.service;
 
@@ -67,6 +67,8 @@ import com.google.common.collect.Lists;
 import com.google.common.collect.Sets;
 
 /**
+ * 作业操作及状态管理
+ *
  * @author ysong1
  */
 @Component("jobService")
@@ -78,7 +80,16 @@ public class JobService extends BasicService {
     @Autowired
     private AccessService accessService;
 
-    public List<JobInstance> listAllJobs(final String cubeName, final String projectName, final List<JobStatusEnum> statusList, final Integer limitValue, final Integer offsetValue, final JobTimeFilterEnum timeFilter) throws IOException, JobException {
+    /**
+     * 获取所有作业
+     * 可分页
+     */
+    public List<JobInstance> listAllJobs(final String cubeName,
+                                         final String projectName,
+                                         final List<JobStatusEnum> statusList,
+                                         final Integer limitValue,
+                                         final Integer offsetValue,
+                                         final JobTimeFilterEnum timeFilter) throws IOException, JobException {
         Integer limit = (null == limitValue) ? 30 : limitValue;
         Integer offset = (null == offsetValue) ? 0 : offsetValue;
         List<JobInstance> jobs = listAllJobs(cubeName, projectName, statusList, timeFilter);
@@ -95,7 +106,13 @@ public class JobService extends BasicService {
         return jobs.subList(offset, offset + limit);
     }
 
-    public List<JobInstance> listAllJobs(final String cubeName, final String projectName, final List<JobStatusEnum> statusList, final JobTimeFilterEnum timeFilter) {
+    /**
+     * 获取所有作业
+     */
+    public List<JobInstance> listAllJobs(final String cubeName,
+                                         final String projectName,
+                                         final List<JobStatusEnum> statusList,
+                                         final JobTimeFilterEnum timeFilter) {
         Calendar calendar = Calendar.getInstance();
         calendar.setTime(new Date());
         long currentTimeMillis = calendar.getTimeInMillis();
@@ -104,7 +121,11 @@ public class JobService extends BasicService {
     }
 
     @Deprecated
-    public List<JobInstance> listAllJobs(final String cubeName, final String projectName, final List<JobStatusEnum> statusList, final Integer limitValue, final Integer offsetValue) throws IOException, JobException {
+    public List<JobInstance> listAllJobs(final String cubeName,
+                                         final String projectName,
+                                         final List<JobStatusEnum> statusList,
+                                         final Integer limitValue,
+                                         final Integer offsetValue) throws IOException, JobException {
         Integer limit = (null == limitValue) ? 30 : limitValue;
         Integer offset = (null == offsetValue) ? 0 : offsetValue;
         List<JobInstance> jobs = listAllJobs(cubeName, projectName, statusList);
@@ -121,32 +142,50 @@ public class JobService extends BasicService {
         return jobs.subList(offset, offset + limit);
     }
 
-    public List<JobInstance> listAllJobs(final String cubeName, final String projectName, final List<JobStatusEnum> statusList) {
+    public List<JobInstance> listAllJobs(final String cubeName,
+                                         final String projectName,
+                                         final List<JobStatusEnum> statusList) {
         return listCubeJobInstance(cubeName, projectName, statusList);
     }
 
-    private List<JobInstance> listCubeJobInstance(final String cubeName, final String projectName, List<JobStatusEnum> statusList, final long timeStartInMillis, final long timeEndInMillis) {
+    /**
+     * 获取所有作业，包括CubingJob
+     */
+    private List<JobInstance> listCubeJobInstance(final String cubeName,
+                                                  final String projectName,
+                                                  List<JobStatusEnum> statusList,
+                                                  final long timeStartInMillis,
+                                                  final long timeEndInMillis) {
         Set<ExecutableState> states = convertStatusEnumToStates(statusList);
         final Map<String, Output> allOutputs = getExecutableManager().getAllOutputs(timeStartInMillis, timeEndInMillis);
-        return Lists.newArrayList(FluentIterable.from(listAllCubingJobs(cubeName, projectName, states, timeStartInMillis, timeEndInMillis, allOutputs)).transform(new Function<CubingJob, JobInstance>() {
-            @Override
-            public JobInstance apply(CubingJob cubingJob) {
-                return parseToJobInstance(cubingJob, allOutputs);
-            }
-        }));
+        return Lists.newArrayList(
+                FluentIterable
+                        .from(listAllCubingJobs(cubeName, projectName, states, timeStartInMillis, timeEndInMillis, allOutputs))
+                        .transform(new Function<CubingJob, JobInstance>() {
+                            @Override
+                            public JobInstance apply(CubingJob cubingJob) {
+                                return parseToJobInstance(cubingJob, allOutputs);
+                            }
+                        }));
     }
 
     private List<JobInstance> listCubeJobInstance(final String cubeName, final String projectName, List<JobStatusEnum> statusList) {
         Set<ExecutableState> states = convertStatusEnumToStates(statusList);
         final Map<String, Output> allOutputs = getExecutableManager().getAllOutputs();
-        return Lists.newArrayList(FluentIterable.from(listAllCubingJobs(cubeName, projectName, states, allOutputs)).transform(new Function<CubingJob, JobInstance>() {
-            @Override
-            public JobInstance apply(CubingJob cubingJob) {
-                return parseToJobInstance(cubingJob, allOutputs);
-            }
-        }));
+        return Lists.newArrayList(
+                FluentIterable
+                        .from(listAllCubingJobs(cubeName, projectName, states, allOutputs))
+                        .transform(new Function<CubingJob, JobInstance>() {
+                            @Override
+                            public JobInstance apply(CubingJob cubingJob) {
+                                return parseToJobInstance(cubingJob, allOutputs);
+                            }
+                        }));
     }
 
+    /**
+     * 将多个作业状态枚举转换成作业执行状态枚举
+     */
     private Set<ExecutableState> convertStatusEnumToStates(List<JobStatusEnum> statusList) {
         Set<ExecutableState> states;
         if (statusList == null || statusList.isEmpty()) {
@@ -160,71 +199,118 @@ public class JobService extends BasicService {
         return states;
     }
 
-    private long getTimeStartInMillis(Calendar calendar, JobTimeFilterEnum timeFilter) {
-        switch (timeFilter) {
-        case LAST_ONE_DAY:
-            calendar.add(Calendar.DAY_OF_MONTH, -1);
-            return calendar.getTimeInMillis();
-        case LAST_ONE_WEEK:
-            calendar.add(Calendar.WEEK_OF_MONTH, -1);
-            return calendar.getTimeInMillis();
-        case LAST_ONE_MONTH:
-            calendar.add(Calendar.MONTH, -1);
-            return calendar.getTimeInMillis();
-        case LAST_ONE_YEAR:
-            calendar.add(Calendar.YEAR, -1);
-            return calendar.getTimeInMillis();
-        case ALL:
-            return 0;
-        default:
-            throw new RuntimeException("illegal timeFilter for job history:" + timeFilter);
-        }
-    }
-
+    /**
+     * 将单个作业状态枚举转换成作业执行状态枚举
+     */
     private ExecutableState parseToExecutableState(JobStatusEnum status) {
         switch (status) {
-        case DISCARDED:
-            return ExecutableState.DISCARDED;
-        case ERROR:
-            return ExecutableState.ERROR;
-        case FINISHED:
-            return ExecutableState.SUCCEED;
-        case NEW:
-            return ExecutableState.READY;
-        case PENDING:
-            return ExecutableState.READY;
-        case RUNNING:
-            return ExecutableState.RUNNING;
-        default:
-            throw new RuntimeException("illegal status:" + status);
+            case DISCARDED:
+                return ExecutableState.DISCARDED;
+            case ERROR:
+                return ExecutableState.ERROR;
+            case FINISHED:
+                return ExecutableState.SUCCEED;
+            case NEW:
+                return ExecutableState.READY;
+            case PENDING:
+                return ExecutableState.READY;
+            case RUNNING:
+                return ExecutableState.RUNNING;
+            default:
+                throw new RuntimeException("illegal status:" + status);
         }
     }
 
+    /**
+     * 将单个作业执行状态枚举转换成作业状态枚举
+     */
+    private JobStatusEnum parseToJobStatus(ExecutableState state) {
+        switch (state) {
+            case READY:
+                return JobStatusEnum.PENDING;
+            case RUNNING:
+                return JobStatusEnum.RUNNING;
+            case ERROR:
+                return JobStatusEnum.ERROR;
+            case DISCARDED:
+                return JobStatusEnum.DISCARDED;
+            case SUCCEED:
+                return JobStatusEnum.FINISHED;
+            case STOPPED:
+            default:
+                throw new RuntimeException("invalid state:" + state);
+        }
+    }
+
+    /**
+     * 将作业可执行状态转换成作业步骤状态枚举
+     */
+    private JobStepStatusEnum parseToJobStepStatus(ExecutableState state) {
+        switch (state) {
+            case READY:
+                return JobStepStatusEnum.PENDING;
+            case RUNNING:
+                return JobStepStatusEnum.RUNNING;
+            case ERROR:
+                return JobStepStatusEnum.ERROR;
+            case DISCARDED:
+                return JobStepStatusEnum.DISCARDED;
+            case SUCCEED:
+                return JobStepStatusEnum.FINISHED;
+            case STOPPED:
+            default:
+                throw new RuntimeException("invalid state:" + state);
+        }
+    }
+
+
+    /**
+     * 作业提交
+     */
     @PreAuthorize(Constant.ACCESS_HAS_ROLE_ADMIN + " or hasPermission(#cube, 'ADMINISTRATION') or hasPermission(#cube, 'OPERATION') or hasPermission(#cube, 'MANAGEMENT')")
-    public JobInstance submitJob(CubeInstance cube, long startDate, long endDate, long startOffset, long endOffset, //
-            Map<Integer, Long> sourcePartitionOffsetStart, Map<Integer, Long> sourcePartitionOffsetEnd, CubeBuildTypeEnum buildType, boolean force, String submitter) throws IOException, JobException {
+    public JobInstance submitJob(CubeInstance cube,
+                                 long startDate,
+                                 long endDate,
+                                 long startOffset,
+                                 long endOffset,
+                                 Map<Integer, Long> sourcePartitionOffsetStart,
+                                 Map<Integer, Long> sourcePartitionOffsetEnd,
+                                 CubeBuildTypeEnum buildType,
+                                 boolean force,
+                                 String submitter) throws IOException, JobException {
 
         if (cube.getStatus() == RealizationStatusEnum.DESCBROKEN) {
             throw new BadRequestException("Broken cube " + cube.getName() + " can't be built");
         }
 
+        //检查cube描述签名
         checkCubeDescSignature(cube);
+
         DefaultChainedExecutable job;
         if (buildType == CubeBuildTypeEnum.BUILD) {
+            ///执行build
+
             ISource source = SourceFactory.tableSource(cube);
             SourcePartition sourcePartition = new SourcePartition(startDate, endDate, startOffset, endOffset, sourcePartitionOffsetStart, sourcePartitionOffsetEnd);
             sourcePartition = source.parsePartitionBeforeBuild(cube, sourcePartition);
             CubeSegment newSeg = getCubeManager().appendSegment(cube, sourcePartition);
             job = EngineFactory.createBatchCubingJob(newSeg, submitter);
+
         } else if (buildType == CubeBuildTypeEnum.MERGE) {
+            ///执行merge
+
             CubeSegment newSeg = getCubeManager().mergeSegments(cube, startDate, endDate, startOffset, endOffset, force);
             job = EngineFactory.createBatchMergeJob(newSeg, submitter);
         } else if (buildType == CubeBuildTypeEnum.REFRESH) {
+            ///执行refresh
+
             CubeSegment refreshSeg = getCubeManager().refreshSegment(cube, startDate, endDate, startOffset, endOffset);
             job = EngineFactory.createBatchCubingJob(refreshSeg, submitter);
         } else {
+            ///build类型异常抛出
             throw new JobException("invalid build type:" + buildType);
         }
+
         getExecutableManager().addJob(job);
         JobInstance jobInstance = getSingleJobInstance(job);
 
@@ -234,19 +320,31 @@ public class JobService extends BasicService {
         return jobInstance;
     }
 
+    /**
+     * 检查cube描述签名
+     */
     private void checkCubeDescSignature(CubeInstance cube) {
         if (!cube.getDescriptor().checkSignature())
             throw new IllegalStateException("Inconsistent cube desc signature for " + cube.getDescriptor());
     }
 
+    /**
+     * 根据uuid获取作业实例
+     */
     public JobInstance getJobInstance(String uuid) throws IOException, JobException {
         return getSingleJobInstance(getExecutableManager().getJob(uuid));
     }
 
+    /**
+     * 获取输出
+     */
     public Output getOutput(String id) {
         return getExecutableManager().getOutput(id);
     }
 
+    /***
+     * 从job中获取一个job实例
+     */
     private JobInstance getSingleJobInstance(AbstractExecutable job) {
         if (job == null) {
             return null;
@@ -271,6 +369,9 @@ public class JobService extends BasicService {
         return result;
     }
 
+    /**
+     * 将job转换成作业实例
+     */
     private JobInstance parseToJobInstance(AbstractExecutable job, Map<String, Output> outputs) {
         if (job == null) {
             return null;
@@ -298,6 +399,9 @@ public class JobService extends BasicService {
         return result;
     }
 
+    /**
+     * 将作业分步输出转换成作业步骤
+     */
     private JobInstance.JobStep parseToJobStep(AbstractExecutable task, int i, Output stepOutput) {
         Preconditions.checkNotNull(stepOutput);
         JobInstance.JobStep result = new JobInstance.JobStep();
@@ -325,47 +429,42 @@ public class JobService extends BasicService {
         return result;
     }
 
-    private JobStatusEnum parseToJobStatus(ExecutableState state) {
-        switch (state) {
-        case READY:
-            return JobStatusEnum.PENDING;
-        case RUNNING:
-            return JobStatusEnum.RUNNING;
-        case ERROR:
-            return JobStatusEnum.ERROR;
-        case DISCARDED:
-            return JobStatusEnum.DISCARDED;
-        case SUCCEED:
-            return JobStatusEnum.FINISHED;
-        case STOPPED:
-        default:
-            throw new RuntimeException("invalid state:" + state);
+    /**
+     * 获取作业开始执行时间
+     * 返回 long
+     */
+    private long getTimeStartInMillis(Calendar calendar, JobTimeFilterEnum timeFilter) {
+        switch (timeFilter) {
+            case LAST_ONE_DAY:
+                calendar.add(Calendar.DAY_OF_MONTH, -1);
+                return calendar.getTimeInMillis();
+            case LAST_ONE_WEEK:
+                calendar.add(Calendar.WEEK_OF_MONTH, -1);
+                return calendar.getTimeInMillis();
+            case LAST_ONE_MONTH:
+                calendar.add(Calendar.MONTH, -1);
+                return calendar.getTimeInMillis();
+            case LAST_ONE_YEAR:
+                calendar.add(Calendar.YEAR, -1);
+                return calendar.getTimeInMillis();
+            case ALL:
+                return 0;
+            default:
+                throw new RuntimeException("illegal timeFilter for job history:" + timeFilter);
         }
     }
 
-    private JobStepStatusEnum parseToJobStepStatus(ExecutableState state) {
-        switch (state) {
-        case READY:
-            return JobStepStatusEnum.PENDING;
-        case RUNNING:
-            return JobStepStatusEnum.RUNNING;
-        case ERROR:
-            return JobStepStatusEnum.ERROR;
-        case DISCARDED:
-            return JobStepStatusEnum.DISCARDED;
-        case SUCCEED:
-            return JobStepStatusEnum.FINISHED;
-        case STOPPED:
-        default:
-            throw new RuntimeException("invalid state:" + state);
-        }
-    }
-
+    /**
+     * 继续执行作业实例
+     */
     @PreAuthorize(Constant.ACCESS_HAS_ROLE_ADMIN + " or hasPermission(#job, 'ADMINISTRATION') or hasPermission(#job, 'OPERATION') or hasPermission(#job, 'MANAGEMENT')")
     public void resumeJob(JobInstance job) throws IOException, JobException {
         getExecutableManager().resumeJob(job.getId());
     }
 
+    /**
+     * 取消执行作业实例
+     */
     @PreAuthorize(Constant.ACCESS_HAS_ROLE_ADMIN + " or hasPermission(#job, 'ADMINISTRATION') or hasPermission(#job, 'OPERATION') or hasPermission(#job, 'MANAGEMENT')")
     public JobInstance cancelJob(JobInstance job) throws IOException, JobException {
         CubeInstance cubeInstance = getCubeManager().getCube(job.getRelatedCube());

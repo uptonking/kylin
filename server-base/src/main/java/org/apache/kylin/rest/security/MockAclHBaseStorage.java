@@ -28,6 +28,7 @@ import org.apache.kylin.rest.service.QueryService;
 import org.apache.kylin.rest.service.UserService;
 
 /**
+ * 在HBase中测试acl
  */
 public class MockAclHBaseStorage implements AclHBaseStorage {
 

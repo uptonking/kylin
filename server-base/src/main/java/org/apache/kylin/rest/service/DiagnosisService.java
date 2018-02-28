@@ -35,6 +35,9 @@ import org.springframework.stereotype.Component;
 
 import com.google.common.io.Files;
 
+/**
+ * project的诊断
+ */
 @Component("diagnosisService")
 public class DiagnosisService extends BasicService {
 
@@ -65,7 +68,7 @@ public class DiagnosisService extends BasicService {
     @PreAuthorize(Constant.ACCESS_HAS_ROLE_ADMIN)
     public String dumpProjectDiagnosisInfo(String project) throws IOException {
         File exportPath = getDumpDir();
-        String[] args = { project, exportPath.getAbsolutePath() };
+        String[] args = {project, exportPath.getAbsolutePath()};
         runDiagnosisCLI(args);
         return getDiagnosisPackageName(exportPath);
     }
@@ -73,7 +76,7 @@ public class DiagnosisService extends BasicService {
     @PreAuthorize(Constant.ACCESS_HAS_ROLE_ADMIN)
     public String dumpJobDiagnosisInfo(String jobId) throws IOException {
         File exportPath = getDumpDir();
-        String[] args = { jobId, exportPath.getAbsolutePath() };
+        String[] args = {jobId, exportPath.getAbsolutePath()};
         runDiagnosisCLI(args);
         return getDiagnosisPackageName(exportPath);
     }

@@ -6,15 +6,15 @@
  * to you under the Apache License, Version 2.0 (the
  * "License"); you may not use this file except in compliance
  * with the License.  You may obtain a copy of the License at
- * 
+ *
  *     http://www.apache.org/licenses/LICENSE-2.0
- * 
+ *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
  * See the License for the specific language governing permissions and
  * limitations under the License.
-*/
+ */
 
 package org.apache.kylin.rest.service;
 
@@ -96,6 +96,8 @@ import net.sf.ehcache.CacheManager;
 import net.sf.ehcache.Element;
 
 /**
+ * sql查询语句crud
+ *
  * @author xduo
  */
 @Component("queryService")
@@ -599,51 +601,51 @@ public class QueryService extends BasicService {
         Rep rep = Rep.of(clazz);
 
         switch (rep) {
-        case PRIMITIVE_CHAR:
-        case CHARACTER:
-        case STRING:
-            preparedState.setString(index, isNull ? null : String.valueOf(param.getValue()));
-            break;
-        case PRIMITIVE_INT:
-        case INTEGER:
-            preparedState.setInt(index, isNull ? 0 : Integer.valueOf(param.getValue()));
-            break;
-        case PRIMITIVE_SHORT:
-        case SHORT:
-            preparedState.setShort(index, isNull ? 0 : Short.valueOf(param.getValue()));
-            break;
-        case PRIMITIVE_LONG:
-        case LONG:
-            preparedState.setLong(index, isNull ? 0 : Long.valueOf(param.getValue()));
-            break;
-        case PRIMITIVE_FLOAT:
-        case FLOAT:
-            preparedState.setFloat(index, isNull ? 0 : Float.valueOf(param.getValue()));
-            break;
-        case PRIMITIVE_DOUBLE:
-        case DOUBLE:
-            preparedState.setDouble(index, isNull ? 0 : Double.valueOf(param.getValue()));
-            break;
-        case PRIMITIVE_BOOLEAN:
-        case BOOLEAN:
-            preparedState.setBoolean(index, !isNull && Boolean.parseBoolean(param.getValue()));
-            break;
-        case PRIMITIVE_BYTE:
-        case BYTE:
-            preparedState.setByte(index, isNull ? 0 : Byte.valueOf(param.getValue()));
-            break;
-        case JAVA_UTIL_DATE:
-        case JAVA_SQL_DATE:
-            preparedState.setDate(index, isNull ? null : java.sql.Date.valueOf(param.getValue()));
-            break;
-        case JAVA_SQL_TIME:
-            preparedState.setTime(index, isNull ? null : Time.valueOf(param.getValue()));
-            break;
-        case JAVA_SQL_TIMESTAMP:
-            preparedState.setTimestamp(index, isNull ? null : Timestamp.valueOf(param.getValue()));
-            break;
-        default:
-            preparedState.setObject(index, isNull ? null : param.getValue());
+            case PRIMITIVE_CHAR:
+            case CHARACTER:
+            case STRING:
+                preparedState.setString(index, isNull ? null : String.valueOf(param.getValue()));
+                break;
+            case PRIMITIVE_INT:
+            case INTEGER:
+                preparedState.setInt(index, isNull ? 0 : Integer.valueOf(param.getValue()));
+                break;
+            case PRIMITIVE_SHORT:
+            case SHORT:
+                preparedState.setShort(index, isNull ? 0 : Short.valueOf(param.getValue()));
+                break;
+            case PRIMITIVE_LONG:
+            case LONG:
+                preparedState.setLong(index, isNull ? 0 : Long.valueOf(param.getValue()));
+                break;
+            case PRIMITIVE_FLOAT:
+            case FLOAT:
+                preparedState.setFloat(index, isNull ? 0 : Float.valueOf(param.getValue()));
+                break;
+            case PRIMITIVE_DOUBLE:
+            case DOUBLE:
+                preparedState.setDouble(index, isNull ? 0 : Double.valueOf(param.getValue()));
+                break;
+            case PRIMITIVE_BOOLEAN:
+            case BOOLEAN:
+                preparedState.setBoolean(index, !isNull && Boolean.parseBoolean(param.getValue()));
+                break;
+            case PRIMITIVE_BYTE:
+            case BYTE:
+                preparedState.setByte(index, isNull ? 0 : Byte.valueOf(param.getValue()));
+                break;
+            case JAVA_UTIL_DATE:
+            case JAVA_SQL_DATE:
+                preparedState.setDate(index, isNull ? null : java.sql.Date.valueOf(param.getValue()));
+                break;
+            case JAVA_SQL_TIME:
+                preparedState.setTime(index, isNull ? null : Time.valueOf(param.getValue()));
+                break;
+            case JAVA_SQL_TIMESTAMP:
+                preparedState.setTimestamp(index, isNull ? null : Timestamp.valueOf(param.getValue()));
+                break;
+            default:
+                preparedState.setObject(index, isNull ? null : param.getValue());
         }
     }
 

@@ -6,22 +6,27 @@
  * to you under the Apache License, Version 2.0 (the
  * "License"); you may not use this file except in compliance
  * with the License.  You may obtain a copy of the License at
- * 
+ *
  *     http://www.apache.org/licenses/LICENSE-2.0
- * 
+ *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
  * See the License for the specific language governing permissions and
  * limitations under the License.
-*/
+ */
 
 package org.apache.kylin.rest.response;
 
 import java.io.Serializable;
 
+/**
+ * hbase操作响应bean
+ */
 public class HBaseResponse implements Serializable {
+
     private static final long serialVersionUID = 7263557115683263492L;
+
     private String segmentName;
     private String segmentStatus;
     private String tableName;
@@ -44,8 +49,7 @@ public class HBaseResponse implements Serializable {
     }
 
     /**
-     * @param tableName
-     *            The hbase table name.
+     * @param tableName The hbase table name.
      */
     public void setTableName(String tableName) {
         this.tableName = tableName;
@@ -59,8 +63,7 @@ public class HBaseResponse implements Serializable {
     }
 
     /**
-     * @param tableSize
-     *            the tableSize to set
+     * @param tableSize the tableSize to set
      */
     public void setTableSize(long tableSize) {
         this.tableSize = tableSize;
@@ -74,8 +77,7 @@ public class HBaseResponse implements Serializable {
     }
 
     /**
-     * @param regionCount
-     *            the regionCount to set
+     * @param regionCount the regionCount to set
      */
     public void setRegionCount(int regionCount) {
         this.regionCount = regionCount;
@@ -89,8 +91,7 @@ public class HBaseResponse implements Serializable {
     }
 
     /**
-     * @param segmentStartTime
-     *            the segmentStartTime to set
+     * @param segmentStartTime the segmentStartTime to set
      */
     public void setDateRangeStart(long dateRangeStart) {
         this.dateRangeStart = dateRangeStart;
@@ -104,8 +105,7 @@ public class HBaseResponse implements Serializable {
     }
 
     /**
-     * @param segmentEndTime
-     *            the segmentEndTime to set
+     * @param segmentEndTime the segmentEndTime to set
      */
     public void setDateRangeEnd(long dateRangeEnd) {
         this.dateRangeEnd = dateRangeEnd;

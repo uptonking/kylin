@@ -18,13 +18,12 @@
 package org.apache.kylin.rest.request;
 
 /**
+ * Hive表请求参数
+ * <p>
  * Created by kangkaisen on 16/5/21.
  */
+
 public class HiveTableRequest {
-
-    public HiveTableRequest() {
-
-    }
 
     private boolean calculate = true;
 

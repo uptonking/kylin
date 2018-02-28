@@ -29,6 +29,8 @@ import org.apache.hadoop.metrics2.lib.DefaultMetricsSystem;
 import javax.annotation.concurrent.ThreadSafe;
 
 /**
+ * 查询性能指标
+ * 基于hadoop的指标实现
  * properties and methods about query.
  */
 
