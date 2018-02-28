@@ -1,4 +1,4 @@
-Apache Kylin
+Apache Kylin 1.6.0
 ============
 
 [![Build Status](https://travis-ci.org/apache/kylin.svg?branch=master)](https://travis-ci.org/apache/kylin)

@@ -6,15 +6,15 @@
  * to you under the Apache License, Version 2.0 (the
  * "License"); you may not use this file except in compliance
  * with the License.  You may obtain a copy of the License at
- * 
+ *
  *     http://www.apache.org/licenses/LICENSE-2.0
- * 
+ *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
  * See the License for the specific language governing permissions and
  * limitations under the License.
-*/
+ */
 
 package org.apache.kylin.rest.controller;
 
@@ -39,7 +39,6 @@ import org.springframework.web.bind.annotation.ResponseBody;
 
 /**
  * @author xduo
- * 
  */
 @Controller
 @RequestMapping(value = "/access")
@@ -50,12 +49,12 @@ public class AccessController extends BasicController {
 
     /**
      * Get access entry list of a domain object
-     * 
+     *
      * @param uuid
      * @return
      * @throws IOException
      */
-    @RequestMapping(value = "/{type}/{uuid}", method = { RequestMethod.GET })
+    @RequestMapping(value = "/{type}/{uuid}", method = {RequestMethod.GET})
     @ResponseBody
     public List<AccessEntryResponse> getAccessEntities(@PathVariable String type, @PathVariable String uuid) {
         AclEntity ae = accessService.getAclEntity(type, uuid);
@@ -66,10 +65,10 @@ public class AccessController extends BasicController {
 
     /**
      * Grant a new access on a domain object to a user/role
-     * 
+     *
      * @param accessRequest
      */
-    @RequestMapping(value = "/{type}/{uuid}", method = { RequestMethod.POST })
+    @RequestMapping(value = "/{type}/{uuid}", method = {RequestMethod.POST})
     @ResponseBody
     public List<AccessEntryResponse> grant(@PathVariable String type, @PathVariable String uuid, @RequestBody AccessRequest accessRequest) {
         AclEntity ae = accessService.getAclEntity(type, uuid);
@@ -82,10 +81,10 @@ public class AccessController extends BasicController {
 
     /**
      * Update a access on a domain object
-     * 
+     *
      * @param accessRequest
      */
-    @RequestMapping(value = "/{type}/{uuid}", method = { RequestMethod.PUT })
+    @RequestMapping(value = "/{type}/{uuid}", method = {RequestMethod.PUT})
     @ResponseBody
     public List<AccessEntryResponse> update(@PathVariable String type, @PathVariable String uuid, @RequestBody AccessRequest accessRequest) {
         AclEntity ae = accessService.getAclEntity(type, uuid);
@@ -97,10 +96,10 @@ public class AccessController extends BasicController {
 
     /**
      * Revoke access on a domain object from a user/role
-     * 
+     *
      * @param AccessRequest
      */
-    @RequestMapping(value = "/{type}/{uuid}", method = { RequestMethod.DELETE })
+    @RequestMapping(value = "/{type}/{uuid}", method = {RequestMethod.DELETE})
     public List<AccessEntryResponse> revoke(@PathVariable String type, @PathVariable String uuid, AccessRequest accessRequest) {
         AclEntity ae = accessService.getAclEntity(type, uuid);
         Acl acl = accessService.revoke(ae, accessRequest.getAccessEntryId());

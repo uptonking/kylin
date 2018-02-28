@@ -7,6 +7,6 @@
 4. new storage
 
 ## todo 
-- support more local file forrmats, like .xls, db.dump
+- support more local file formats, like .xls, db.dump
 - integrate with datax
 - integrate with playboard

@@ -1,24 +1,8 @@
 #!/bin/bash
 
-#
-# Licensed to the Apache Software Foundation (ASF) under one or more
-# contributor license agreements.  See the NOTICE file distributed with
-# this work for additional information regarding copyright ownership.
-# The ASF licenses this file to You under the Apache License, Version 2.0
-# (the "License"); you may not use this file except in compliance with
-# the License.  You may obtain a copy of the License at
-#
-#    http://www.apache.org/licenses/LICENSE-2.0
-#
-# Unless required by applicable law or agreed to in writing, software
-# distributed under the License is distributed on an "AS IS" BASIS,
-# WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
-# See the License for the specific language governing permissions and
-# limitations under the License.
-#
-
 echo "Checking maven..."
 
+# -z用于判断字符串为空
 if [ -z "$(command -v mvn)" ]
 then
     echo "Please install maven first so that Kylin packaging can proceed"
@@ -56,26 +40,16 @@ export version
 
 #commit id
 cat << EOF > build/commit_SHA1
-# Licensed to the Apache Software Foundation (ASF) under one or more
-# contributor license agreements.  See the NOTICE file distributed with
-# this work for additional information regarding copyright ownership.
-# The ASF licenses this file to You under the Apache License, Version 2.0
-# (the "License"); you may not use this file except in compliance with
-# the License.  You may obtain a copy of the License at
-#
-#    http://www.apache.org/licenses/LICENSE-2.0
-#
-# Unless required by applicable law or agreed to in writing, software
-# distributed under the License is distributed on an "AS IS" BASIS,
-# WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
-# See the License for the specific language governing permissions and
-# limitations under the License.
-#
+LICENSE
 EOF
 git rev-parse HEAD >> build/commit_SHA1
 
+# 编译所有子项目
 sh build/script/build.sh || { exit 1; }
+# 下载tomcat并重新配置
 sh build/script/download-tomcat.sh || { exit 1; }
+# 打包前的准备 server/target/kylin-server-${version}.war => build/tomcat/webapps/kylin.war
 sh build/script/prepare.sh || { exit 1; }
+# 压缩打包
 sh build/script/compress.sh || { exit 1; }
 

@@ -38,6 +38,28 @@
     <url>http://kylin.apache.org</url>
     <inceptionYear>2014</inceptionYear>
 
+    <modules>
+        <module>atopcalcite</module>
+        <module>core-common</module>
+        <module>core-metadata</module>
+        <module>core-dictionary</module>
+        <module>core-cube</module>
+        <module>core-job</module>
+        <module>core-storage</module>
+        <module>engine-mr</module>
+        <module>engine-spark</module>
+        <module>source-hive</module>
+        <module>source-kafka</module>
+        <module>storage-hbase</module>
+        <module>query</module>
+        <module>server-base</module>
+        <module>server</module>
+        <module>jdbc</module>
+        <module>assembly</module>
+        <module>tool</module>
+        <module>kylin-it</module>
+        <module>tomcat-ext</module>
+    </modules>
 
     <properties>
         <!-- General Properties -->
@@ -126,7 +148,7 @@
         </sonar.jacoco.excludes>
 
         <!-- JVM Args for Testing -->
-        <argLine>-Xms2G -Xmx2G -XX:MaxPermSize=512M -Duser.timezone=UTC</argLine>
+        <argLine>-Xms3G -Xmx3G -XX:MaxPermSize=768M -Duser.timezone=UTC</argLine>
     </properties>
 
     <licenses>
@@ -145,7 +167,6 @@
         <system>JIRA</system>
         <url>https://issues.apache.org/jira/browse/KYLIN</url>
     </issueManagement>
-
 
     <mailingLists>
         <mailingList>
@@ -1018,28 +1039,6 @@
         </plugins>
     </build>
 
-    <modules>
-        <module>atopcalcite</module>
-        <module>core-common</module>
-        <module>core-metadata</module>
-        <module>core-dictionary</module>
-        <module>core-cube</module>
-        <module>core-job</module>
-        <module>core-storage</module>
-        <module>engine-mr</module>
-        <module>engine-spark</module>
-        <module>source-hive</module>
-        <module>source-kafka</module>
-        <module>storage-hbase</module>
-        <module>query</module>
-        <module>server-base</module>
-        <module>server</module>
-        <module>jdbc</module>
-        <module>assembly</module>
-        <module>tool</module>
-        <module>kylin-it</module>
-        <module>tomcat-ext</module>
-    </modules>
 
     <profiles>
 
@@ -1116,6 +1115,7 @@
                 </plugins>
             </build>
         </profile>
+
         <profile>
             <!-- This profile adds/overrides few features of the 'apache-release'
                  profile in the parent pom. -->
@@ -1308,6 +1308,5 @@
             </build>
         </profile>
     </profiles>
-
 
 </project>
