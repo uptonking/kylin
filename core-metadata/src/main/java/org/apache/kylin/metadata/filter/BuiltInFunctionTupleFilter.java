@@ -35,6 +35,9 @@ import org.slf4j.LoggerFactory;
 import com.google.common.collect.Lists;
 import com.google.common.primitives.Primitives;
 
+/**
+ * 内置的函数过滤器
+ */
 public class BuiltInFunctionTupleFilter extends FunctionTupleFilter {
     public static final Logger logger = LoggerFactory.getLogger(BuiltInFunctionTupleFilter.class);
 

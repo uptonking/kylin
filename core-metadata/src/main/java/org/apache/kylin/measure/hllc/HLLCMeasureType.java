@@ -6,15 +6,15 @@
  * to you under the Apache License, Version 2.0 (the
  * "License"); you may not use this file except in compliance
  * with the License.  You may obtain a copy of the License at
- * 
+ *
  *     http://www.apache.org/licenses/LICENSE-2.0
- * 
+ *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
  * See the License for the specific language governing permissions and
  * limitations under the License.
-*/
+ */
 
 package org.apache.kylin.measure.hllc;
 
@@ -33,6 +33,9 @@ import org.apache.kylin.metadata.model.TblColRef;
 
 import com.google.common.collect.ImmutableMap;
 
+/**
+ * hll计数 度量类型
+ */
 public class HLLCMeasureType extends MeasureType<HyperLogLogPlusCounter> {
 
     public static final String FUNC_COUNT_DISTINCT = FunctionDesc.FUNC_COUNT_DISTINCT;
@@ -118,8 +121,8 @@ public class HLLCMeasureType extends MeasureType<HyperLogLogPlusCounter> {
         return true;
     }
 
-    static final Map<String, Class<?>> UDAF_MAP = ImmutableMap.<String, Class<?>> of(FUNC_COUNT_DISTINCT, HLLDistinctCountAggFunc.class);
-    
+    static final Map<String, Class<?>> UDAF_MAP = ImmutableMap.<String, Class<?>>of(FUNC_COUNT_DISTINCT, HLLDistinctCountAggFunc.class);
+
     @Override
     public Map<String, Class<?>> getRewriteCalciteAggrFunctions() {
         return UDAF_MAP;

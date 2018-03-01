@@ -6,9 +6,9 @@
  * to you under the Apache License, Version 2.0 (the
  * "License"); you may not use this file except in compliance
  * with the License.  You may obtain a copy of the License at
- *  
+ *
  *     http://www.apache.org/licenses/LICENSE-2.0
- *  
+ *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
@@ -27,10 +27,12 @@ import com.fasterxml.jackson.annotation.JsonAutoDetect.Visibility;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
 /**
+ * 外部过滤器
+ * <p>
  * External filter enables user to register dynamic external filters out the scope of cubes.
  * External filters are maintained logically in a filter store (which may or may not share same physical store with cubes),
  * and are accessed by each cube shard at runtime.
- * 
+ * <p>
  * Currently the way to use external filter is 1. register external filter through REST 2. use UDF to specify conditions on external filter
  */
 @SuppressWarnings("serial")
@@ -92,7 +94,9 @@ public class ExternalFilterDesc extends RootPersistentEntity implements ISourceA
         return "ExternalFilterDesc [ name=" + name + " filter table resource identifier " + this.filterResourceIdentifier + "]";
     }
 
-    /** create a mockup table for unit test */
+    /**
+     * create a mockup table for unit test
+     */
     public static ExternalFilterDesc mockup(String tableName) {
         ExternalFilterDesc mockup = new ExternalFilterDesc();
         mockup.setName(tableName);

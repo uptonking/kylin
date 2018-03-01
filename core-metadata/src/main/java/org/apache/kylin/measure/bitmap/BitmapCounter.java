@@ -30,6 +30,8 @@ import org.apache.commons.io.IOUtils;
 import org.roaringbitmap.buffer.MutableRoaringBitmap;
 
 /**
+ * bitmap普通计数
+ * <p>
  * Created by sunyerui on 15/12/1.
  */
 public class BitmapCounter implements Comparable<BitmapCounter> {
@@ -109,7 +111,7 @@ public class BitmapCounter implements Comparable<BitmapCounter> {
     public void readRegisters(ByteBuffer in) throws IOException {
         DataInputByteBuffer input = new DataInputByteBuffer();
         try {
-            input.reset(new ByteBuffer[] { in });
+            input.reset(new ByteBuffer[]{in});
             bitmap.deserialize(input);
         } finally {
             IOUtils.closeQuietly(input);
@@ -179,7 +181,7 @@ public class BitmapCounter implements Comparable<BitmapCounter> {
         int len;
 
         DataInputByteBuffer input = new DataInputByteBuffer();
-        input.reset(new ByteBuffer[] { in });
+        input.reset(new ByteBuffer[]{in});
         MutableRoaringBitmap bitmap = new MutableRoaringBitmap();
         try {
             bitmap.deserialize(input);

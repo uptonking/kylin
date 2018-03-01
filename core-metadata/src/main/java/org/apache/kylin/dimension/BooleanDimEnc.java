@@ -31,6 +31,8 @@ import org.apache.kylin.common.util.BytesUtil;
 import org.apache.kylin.metadata.datatype.DataTypeSerializer;
 
 /**
+ * boolean维度编码
+ * <p>
  * Encoding Boolean values to bytes
  */
 public class BooleanDimEnc extends DimensionEncoding {
@@ -39,7 +41,7 @@ public class BooleanDimEnc extends DimensionEncoding {
     public static final String ENCODING_NAME = "boolean";
 
     //NOTE: when add new value, append to the array tail, DO NOT insert!
-    public static String[] ALLOWED_VALUES = new String[] { "", "true", "false", "TRUE", "FALSE", "True", "False", "t", "f", "T", "F", "yes", "no", "YES", "NO", "Yes", "No", "y", "n", "Y", "N", "1", "0" };
+    public static String[] ALLOWED_VALUES = new String[]{"", "true", "false", "TRUE", "FALSE", "True", "False", "t", "f", "T", "F", "yes", "no", "YES", "NO", "Yes", "No", "y", "n", "Y", "N", "1", "0"};
 
     public static final Map<String, Integer> map = Maps.newHashMap();
 
@@ -59,7 +61,9 @@ public class BooleanDimEnc extends DimensionEncoding {
         public DimensionEncoding createDimensionEncoding(String encodingName, String[] args) {
             return new BooleanDimEnc();
         }
-    };
+    }
+
+    ;
 
     // ============================================================================
 

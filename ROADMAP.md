@@ -12,3 +12,7 @@
 - integrate with playboard
 
 ## faq
+- MeasureIngester怎么理解
+- java的基本数据类型变量可变吗
+- core-metadata模块的realization怎么理解
+是结果存储的实现，还是对结果查询的实现

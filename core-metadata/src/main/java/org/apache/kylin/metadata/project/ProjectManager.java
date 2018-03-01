@@ -6,15 +6,15 @@
  * to you under the Apache License, Version 2.0 (the
  * "License"); you may not use this file except in compliance
  * with the License.  You may obtain a copy of the License at
- * 
+ *
  *     http://www.apache.org/licenses/LICENSE-2.0
- * 
+ *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
  * See the License for the specific language governing permissions and
  * limitations under the License.
-*/
+ */
 
 package org.apache.kylin.metadata.project;
 
@@ -45,6 +45,9 @@ import org.slf4j.LoggerFactory;
 
 import com.google.common.collect.Lists;
 
+/**
+ * project管理器
+ */
 public class ProjectManager {
     private static final Logger logger = LoggerFactory.getLogger(ProjectManager.class);
     private static final ConcurrentHashMap<KylinConfig, ProjectManager> CACHE = new ConcurrentHashMap<KylinConfig, ProjectManager>();
@@ -97,7 +100,7 @@ public class ProjectManager {
     }
 
     private class ProjectSyncListener extends Broadcaster.Listener {
-        
+
         @Override
         public void onClearAll(Broadcaster broadcaster) throws IOException {
             clearCache();
@@ -106,12 +109,12 @@ public class ProjectManager {
         @Override
         public void onEntityChange(Broadcaster broadcaster, String entity, Event event, String cacheKey) throws IOException {
             String project = cacheKey;
-            
+
             if (event == Event.DROP)
                 removeProjectLocal(project);
             else
                 reloadProjectLocal(project);
-            
+
             broadcaster.notifyProjectSchemaUpdate(project);
             broadcaster.notifyProjectDataUpdate(project);
         }
@@ -248,7 +251,7 @@ public class ProjectManager {
         projectMap.remove(norm(proj.getName()));
         clearL2Cache();
     }
-    
+
     private void removeProjectLocal(String proj) {
         projectMap.remove(norm(proj));
         clearL2Cache();
@@ -392,7 +395,7 @@ public class ProjectManager {
         }
         return projects;
     }
-    
+
     public ExternalFilterDesc getExternalFilterDesc(String project, String extFilter) {
         return l2Cache.getExternalFilterDesc(project, extFilter);
     }

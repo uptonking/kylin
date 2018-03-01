@@ -6,9 +6,9 @@
  * to you under the Apache License, Version 2.0 (the
  * "License"); you may not use this file except in compliance
  * with the License.  You may obtain a copy of the License at
- *  
+ *
  *     http://www.apache.org/licenses/LICENSE-2.0
- *  
+ *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
@@ -39,6 +39,9 @@ import org.slf4j.LoggerFactory;
 import com.google.common.base.Preconditions;
 import com.google.common.collect.Lists;
 
+/**
+ * 最值过滤器
+ */
 public class MassInTupleFilter extends FunctionTupleFilter {
 
     public static final Logger logger = LoggerFactory.getLogger(MassInTupleFilter.class);
@@ -52,7 +55,7 @@ public class MassInTupleFilter extends FunctionTupleFilter {
     private Functions.FilterTableType filterTableType;
 
     public MassInTupleFilter() {
-        super(Lists.<TupleFilter> newArrayList(), TupleFilter.FilterOperatorEnum.MASSIN);
+        super(Lists.<TupleFilter>newArrayList(), TupleFilter.FilterOperatorEnum.MASSIN);
     }
 
     @Override
@@ -97,7 +100,7 @@ public class MassInTupleFilter extends FunctionTupleFilter {
             this.column = columnFilter.getColumn();
 
         } else if (child instanceof ConstantTupleFilter) {
-            // super.addChild(child) is omitted because the filter table name is useless at storage side, 
+            // super.addChild(child) is omitted because the filter table name is useless at storage side,
             // we'll extract the useful filterTableResourceIdentifier,filterTableType etc and save it at the MassInTupleFilter itself
 
             if (filterTableName == null) {
@@ -114,7 +117,7 @@ public class MassInTupleFilter extends FunctionTupleFilter {
         }
     }
 
-    @SuppressWarnings({ "unchecked", "rawtypes" })
+    @SuppressWarnings({"unchecked", "rawtypes"})
     @Override
     public void serialize(IFilterCodeSystem cs, ByteBuffer buffer) {
         BytesUtil.writeUTFString(filterTableName, buffer);

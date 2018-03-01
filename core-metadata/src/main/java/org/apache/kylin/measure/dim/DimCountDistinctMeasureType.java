@@ -33,6 +33,8 @@ import org.apache.kylin.metadata.realization.SQLDigest;
 import com.google.common.collect.ImmutableMap;
 
 /**
+ * todo 维度去重计数度量类型
+ * <p>
  * Created by dongli on 4/20/16.
  */
 public class DimCountDistinctMeasureType extends MeasureType<Object> {
@@ -80,7 +82,7 @@ public class DimCountDistinctMeasureType extends MeasureType<Object> {
         return false;
     }
 
-    static final Map<String, Class<?>> UDAF_MAP = ImmutableMap.<String, Class<?>> of(FunctionDesc.FUNC_COUNT_DISTINCT, DimCountDistinctAggFunc.class);
+    static final Map<String, Class<?>> UDAF_MAP = ImmutableMap.<String, Class<?>>of(FunctionDesc.FUNC_COUNT_DISTINCT, DimCountDistinctAggFunc.class);
 
     @Override
     public Map<String, Class<?>> getRewriteCalciteAggrFunctions() {

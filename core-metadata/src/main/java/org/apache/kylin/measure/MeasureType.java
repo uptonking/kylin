@@ -6,9 +6,9 @@
  * to you under the Apache License, Version 2.0 (the
  * "License"); you may not use this file except in compliance
  * with the License.  You may obtain a copy of the License at
- * 
+ *
  *     http://www.apache.org/licenses/LICENSE-2.0
- * 
+ *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
@@ -33,9 +33,10 @@ import org.apache.kylin.metadata.tuple.Tuple;
 import org.apache.kylin.metadata.tuple.TupleInfo;
 
 /**
- * MeasureType captures how a kind of aggregation is defined, how it is calculated 
+ * 度量类型 抽象类
+ * MeasureType captures how a kind of aggregation is defined, how it is calculated
  * during cube build, and how it is involved in query and storage scan.
- * 
+ *
  * @param <T> the Java type of aggregation data object, e.g. HyperLogLogPlusCounter
  */
 abstract public class MeasureType<T> {
@@ -49,8 +50,8 @@ abstract public class MeasureType<T> {
         return;
     }
 
-    /** Although most aggregated object takes only 8 bytes like long or double, 
-     * some advanced aggregation like HyperLogLog or TopN can consume more than 10 KB for 
+    /** Although most aggregated object takes only 8 bytes like long or double,
+     * some advanced aggregation like HyperLogLog or TopN can consume more than 10 KB for
      * each object, which requires special care on memory allocation. */
     public boolean isMemoryHungry() {
         return false;
@@ -81,13 +82,13 @@ abstract public class MeasureType<T> {
      * ---------------------------------------------------------------------------- */
 
     /**
-     * Some special measures hold columns which are usually treated as dimensions (or vice-versa). 
+     * Some special measures hold columns which are usually treated as dimensions (or vice-versa).
      * This is where they override to influence cube capability check.
-     * 
+     *
      * A SQLDigest contains dimensions and measures extracted from a query. After comparing to
      * cube definition, the matched dimensions and measures are crossed out, and what's left is
      * the <code>unmatchedDimensions</code> and <code>unmatchedAggregations</code>.
-     * 
+     *
      * Each measure type on the cube is then called on this method to check if any of the unmatched
      * can be fulfilled. If a measure type cannot fulfill any of the unmatched, it simply return null.
      * Or otherwise, <code>unmatchedDimensions</code> and <code>unmatchedAggregations</code> must
@@ -123,7 +124,7 @@ abstract public class MeasureType<T> {
      * ---------------------------------------------------------------------------- */
 
     /**
-     * Some special measures hold columns which are usually treated as dimensions (or vice-versa). 
+     * Some special measures hold columns which are usually treated as dimensions (or vice-versa).
      * They need to adjust dimensions and measures in <code>sqlDigest</code> before scanning,
      * such that correct cuboid and measures can be selected by storage.
      */

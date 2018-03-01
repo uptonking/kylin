@@ -34,6 +34,7 @@ import org.slf4j.LoggerFactory;
  * deprecated use IntegerDimEnc instead
  * @deprecated
  */
+@Deprecated
 public class IntDimEnc extends DimensionEncoding {
     private static final long serialVersionUID = 1L;
 

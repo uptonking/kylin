@@ -23,6 +23,9 @@ import java.nio.ByteBuffer;
 import org.apache.commons.lang.ArrayUtils;
 import org.apache.commons.lang.BooleanUtils;
 
+/**
+ * boolean 序列化
+ */
 public class BooleanSerializer extends DataTypeSerializer<LongMutable> {
 
     public final static String[] TRUE_VALUE_SET = { "true", "t", "on", "yes" };

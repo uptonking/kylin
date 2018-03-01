@@ -6,15 +6,15 @@
  * to you under the Apache License, Version 2.0 (the
  * "License"); you may not use this file except in compliance
  * with the License.  You may obtain a copy of the License at
- * 
+ *
  *     http://www.apache.org/licenses/LICENSE-2.0
- * 
+ *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
  * See the License for the specific language governing permissions and
  * limitations under the License.
-*/
+ */
 
 package org.apache.kylin.measure;
 
@@ -40,28 +40,30 @@ import com.google.common.collect.Lists;
 import com.google.common.collect.Maps;
 
 /**
+ * MeasureType的工厂类
+ * <p>
  * Factory for MeasureType.
- * 
+ * <p>
  * The factory registers itself by claiming the aggregation function and data type it supports,
  * to match a measure descriptor in cube definition.
- * 
+ * <p>
  * E.g. HyperLogLog measure type claims "COUNT_DISCINT" as function and "hllc" as data type to
  * match measure descriptor:
  * <pre>
-  {
-    "name" : "SELLER_CNT_HLL",
-    "function" : {
-      "expression" : "COUNT_DISTINCT",        <----  function name
-      "parameter" : {
-        "type" : "column",
-        "value" : "SELLER_ID",
-        "next_parameter" : null
-      },
-      "returntype" : "hllc(10)"               <----  data type
-    }
-  }
-</pre>
- * 
+ * {
+ * "name" : "SELLER_CNT_HLL",
+ * "function" : {
+ * "expression" : "COUNT_DISTINCT",        <----  function name
+ * "parameter" : {
+ * "type" : "column",
+ * "value" : "SELLER_ID",
+ * "next_parameter" : null
+ * },
+ * "returntype" : "hllc(10)"               <----  data type
+ * }
+ * }
+ * </pre>
+ *
  * @param <T> the Java type of aggregation data object, e.g. HyperLogLogPlusCounter
  */
 abstract public class MeasureTypeFactory<T> {
@@ -70,19 +72,25 @@ abstract public class MeasureTypeFactory<T> {
 
     /**
      * Create a measure type with specified aggregation function and data type.
-     * 
+     *
      * @param funcName should always match this factory's claim <code>getAggrFunctionName()</code>
      * @param dataType should always match this factory's claim <code>getAggrDataTypeName()</code>
      */
     abstract public MeasureType<T> createMeasureType(String funcName, DataType dataType);
 
-    /** Return the aggregation function this factory supports, like "COUNT_DISTINCT" */
+    /**
+     * Return the aggregation function this factory supports, like "COUNT_DISTINCT"
+     */
     abstract public String getAggrFunctionName();
 
-    /** Return the aggregation data type name this factory supports, like "hllc" */
+    /**
+     * Return the aggregation data type name this factory supports, like "hllc"
+     */
     abstract public String getAggrDataTypeName();
 
-    /** Return the Serializer for aggregation data object. Note a Serializer implementation must be thread-safe! */
+    /**
+     * Return the Serializer for aggregation data object. Note a Serializer implementation must be thread-safe!
+     */
     abstract public Class<? extends DataTypeSerializer<T>> getAggrDataTypeSerializer();
 
     // ============================================================================

@@ -21,6 +21,8 @@ package org.apache.kylin.measure.bitmap;
 import org.apache.kylin.measure.MeasureAggregator;
 
 /**
+ * bitmap聚合器
+ * <p>
  * Created by sunyerui on 15/12/2.
  */
 public class BitmapAggregator extends MeasureAggregator<BitmapCounter> {

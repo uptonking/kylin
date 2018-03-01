@@ -6,9 +6,9 @@
  * to you under the Apache License, Version 2.0 (the
  * "License"); you may not use this file except in compliance
  * with the License.  You may obtain a copy of the License at
- *  
+ *
  *     http://www.apache.org/licenses/LICENSE-2.0
- *  
+ *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
@@ -32,6 +32,9 @@ import org.apache.kylin.metadata.tuple.IEvaluatableTuple;
 
 import com.google.common.collect.Lists;
 
+/**
+ * 可执行函数的过滤器
+ */
 public class EvaluatableFunctionTupleFilter extends BuiltInFunctionTupleFilter {
 
     private boolean constantsInitted = false;
@@ -128,7 +131,7 @@ public class EvaluatableFunctionTupleFilter extends BuiltInFunctionTupleFilter {
         ByteArray byteArray = (ByteArray) methodParams.get(constantPosition);
         StringSerializer s = new StringSerializer(DataType.getType("string"));
         String pattern = s.deserialize(ByteBuffer.wrap(byteArray.array(), byteArray.offset(), byteArray.length()));
-        //TODO 
+        //TODO
         //pattern = pattern.toLowerCase();//to remove upper case
         methodParams.set(constantPosition, pattern);
         constantsInitted = true;

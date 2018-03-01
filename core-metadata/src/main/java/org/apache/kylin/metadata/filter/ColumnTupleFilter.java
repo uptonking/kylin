@@ -6,15 +6,15 @@
  * to you under the Apache License, Version 2.0 (the
  * "License"); you may not use this file except in compliance
  * with the License.  You may obtain a copy of the License at
- * 
+ *
  *     http://www.apache.org/licenses/LICENSE-2.0
- * 
+ *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
  * See the License for the specific language governing permissions and
  * limitations under the License.
-*/
+ */
 
 package org.apache.kylin.metadata.filter;
 
@@ -35,20 +35,20 @@ import org.apache.kylin.metadata.model.TblColRef;
 import org.apache.kylin.metadata.tuple.IEvaluatableTuple;
 
 /**
- * 
+ * 列过滤器
+ *
  * @author xjiang
- * 
  */
 public class ColumnTupleFilter extends TupleFilter {
 
     private static final String _QUALIFIED_ = "_QUALIFIED_";
-    
+
     private TblColRef columnRef;
     private Object tupleValue;
     private List<Object> values;
 
     public ColumnTupleFilter(TblColRef column) {
-        super(Collections.<TupleFilter> emptyList(), FilterOperatorEnum.COLUMN);
+        super(Collections.<TupleFilter>emptyList(), FilterOperatorEnum.COLUMN);
         this.columnRef = column;
         this.values = new ArrayList<Object>(1);
         this.values.add(null);
@@ -92,7 +92,7 @@ public class ColumnTupleFilter extends TupleFilter {
     @Override
     public void serialize(IFilterCodeSystem<?> cs, ByteBuffer buffer) {
         TableRef tableRef = columnRef.getTableRef();
-        
+
         if (tableRef == null) {
             // un-qualified column
             String table = columnRef.getTable();
@@ -109,13 +109,13 @@ public class ColumnTupleFilter extends TupleFilter {
         } else {
             // qualified column (from model)
             BytesUtil.writeUTFString(_QUALIFIED_, buffer);
-            
+
             String model = tableRef.getModel().getName();
             BytesUtil.writeUTFString(model, buffer);
-            
+
             String alias = tableRef.getAlias();
             BytesUtil.writeUTFString(alias, buffer);
-            
+
             String col = columnRef.getName();
             BytesUtil.writeUTFString(col, buffer);
         }
@@ -125,17 +125,17 @@ public class ColumnTupleFilter extends TupleFilter {
     public void deserialize(IFilterCodeSystem<?> cs, ByteBuffer buffer) {
 
         String tableName = BytesUtil.readUTFString(buffer);
-        
+
         if (_QUALIFIED_.equals(tableName)) {
             // qualified column (from model)
             String model = BytesUtil.readUTFString(buffer);
             String alias = BytesUtil.readUTFString(buffer);
             String col = BytesUtil.readUTFString(buffer);
-            
+
             KylinConfig config = KylinConfig.getInstanceFromEnv();
             DataModelDesc modelDesc = MetadataManager.getInstance(config).getDataModelDesc(model);
             this.columnRef = modelDesc.findColumn(alias, col);
-            
+
         } else {
             // un-qualified column
             TableDesc tableDesc = null;

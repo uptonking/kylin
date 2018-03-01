@@ -6,15 +6,15 @@
  * to you under the Apache License, Version 2.0 (the
  * "License"); you may not use this file except in compliance
  * with the License.  You may obtain a copy of the License at
- * 
+ *
  *     http://www.apache.org/licenses/LICENSE-2.0
- * 
+ *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
  * See the License for the specific language governing permissions and
  * limitations under the License.
-*/
+ */
 
 package org.apache.kylin.source;
 
@@ -26,21 +26,30 @@ import com.fasterxml.jackson.annotation.JsonAutoDetect.Visibility;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
 /**
+ * 可读表 接口
  */
 public interface ReadableTable {
 
-    /** Returns a reader to read the table. */
+    /**
+     * Returns a reader to read the table.
+     */
     public TableReader getReader() throws IOException;
 
-    /** Used to detect table modifications mainly. Return null in case table does not exist. */
+    /**
+     * Used to detect table modifications mainly. Return null in case table does not exist.
+     */
     public TableSignature getSignature() throws IOException;
 
     public interface TableReader extends Closeable {
 
-        /** Move to the next row, return false if no more record. */
+        /**
+         * Move to the next row, return false if no more record.
+         */
         public boolean next() throws IOException;
 
-        /** Get the current row. */
+        /**
+         * Get the current row.
+         */
         public String[] getRow();
 
     }

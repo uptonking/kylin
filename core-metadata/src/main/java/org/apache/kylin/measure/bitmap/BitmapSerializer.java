@@ -25,6 +25,8 @@ import org.apache.kylin.metadata.datatype.DataType;
 import org.apache.kylin.metadata.datatype.DataTypeSerializer;
 
 /**
+ * bitmap序列化
+ * <p>
  * Created by sunyerui on 15/12/1.
  */
 public class BitmapSerializer extends DataTypeSerializer<BitmapCounter> {
@@ -71,7 +73,7 @@ public class BitmapSerializer extends DataTypeSerializer<BitmapCounter> {
     @Override
     public int maxLength() {
         // the bitmap is non-fixed length, and we just assume 8MB here, maybe change it later
-        // some statistics for bitmap: 
+        // some statistics for bitmap:
         // 1 million distinct keys takes about 2MB storage
         // 5 million takes 10MB
         // 10 million takes 12MB

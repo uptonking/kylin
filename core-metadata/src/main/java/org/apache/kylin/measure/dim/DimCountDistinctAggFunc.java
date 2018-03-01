@@ -14,7 +14,7 @@
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
  * See the License for the specific language governing permissions and
  * limitations under the License.
-*/
+ */
 
 package org.apache.kylin.measure.dim;
 
@@ -26,6 +26,9 @@ import org.slf4j.LoggerFactory;
 
 import com.google.common.collect.Sets;
 
+/**
+ * 维度去重计数
+ */
 public class DimCountDistinctAggFunc {
     private static final Logger logger = LoggerFactory.getLogger(DimCountDistinctAggFunc.class);
 

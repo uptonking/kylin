@@ -25,6 +25,9 @@ import org.apache.commons.lang3.reflect.MethodUtils;
 
 import com.google.common.collect.ImmutableMap;
 
+/**
+ * 内置方法
+ */
 public enum BuiltInMethod {
     UPPER(BuiltInMethod.class, "upper", String.class), LOWER(BuiltInMethod.class, "lower", String.class), SUBSTRING(BuiltInMethod.class, "substring", String.class, int.class, int.class), CHAR_LENGTH(BuiltInMethod.class, "charLength", String.class), LIKE(BuiltInMethod.class, "like", String.class, String.class), INITCAP(BuiltInMethod.class, "initcap", String.class);
     public final Method method;
@@ -49,7 +52,7 @@ public enum BuiltInMethod {
     public static boolean like(String s, String pattern) {
         if (s == null)
             return false;
-        
+
         final String regex = Like.sqlToRegexLike(pattern, null);
         return Pattern.matches(regex, s);
     }

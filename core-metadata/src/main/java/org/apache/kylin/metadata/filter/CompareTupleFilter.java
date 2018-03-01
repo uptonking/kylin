@@ -6,15 +6,15 @@
  * to you under the Apache License, Version 2.0 (the
  * "License"); you may not use this file except in compliance
  * with the License.  You may obtain a copy of the License at
- * 
+ *
  *     http://www.apache.org/licenses/LICENSE-2.0
- * 
+ *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
  * See the License for the specific language governing permissions and
  * limitations under the License.
-*/
+ */
 
 package org.apache.kylin.metadata.filter;
 
@@ -30,6 +30,8 @@ import org.apache.kylin.metadata.model.TblColRef;
 import org.apache.kylin.metadata.tuple.IEvaluatableTuple;
 
 /**
+ * 比较过滤器
+ *
  * @author xjiang
  */
 public class CompareTupleFilter extends TupleFilter {
@@ -146,7 +148,7 @@ public class CompareTupleFilter extends TupleFilter {
 
     // TODO requires generalize, currently only evaluates COLUMN {op} CONST
     @Override
-    @SuppressWarnings({ "unchecked", "rawtypes" })
+    @SuppressWarnings({"unchecked", "rawtypes"})
     public boolean evaluate(IEvaluatableTuple tuple, IFilterCodeSystem cs) {
         // extract tuple value
         Object tupleValue = null;
@@ -174,32 +176,32 @@ public class CompareTupleFilter extends TupleFilter {
 
         boolean result;
         switch (operator) {
-        case EQ:
-            result = comp == 0;
-            break;
-        case NEQ:
-            result = comp != 0;
-            break;
-        case LT:
-            result = comp < 0;
-            break;
-        case LTE:
-            result = comp <= 0;
-            break;
-        case GT:
-            result = comp > 0;
-            break;
-        case GTE:
-            result = comp >= 0;
-            break;
-        case IN:
-            result = conditionValues.contains(tupleValue);
-            break;
-        case NOTIN:
-            result = !conditionValues.contains(tupleValue);
-            break;
-        default:
-            result = false;
+            case EQ:
+                result = comp == 0;
+                break;
+            case NEQ:
+                result = comp != 0;
+                break;
+            case LT:
+                result = comp < 0;
+                break;
+            case LTE:
+                result = comp <= 0;
+                break;
+            case GT:
+                result = comp > 0;
+                break;
+            case GTE:
+                result = comp >= 0;
+                break;
+            case IN:
+                result = conditionValues.contains(tupleValue);
+                break;
+            case NOTIN:
+                result = !conditionValues.contains(tupleValue);
+                break;
+            default:
+                result = false;
         }
         return result;
     }
@@ -213,7 +215,7 @@ public class CompareTupleFilter extends TupleFilter {
         return ((function != null && function.isEvaluable()) || column != null) && !conditionValues.isEmpty();
     }
 
-    @SuppressWarnings({ "unchecked", "rawtypes" })
+    @SuppressWarnings({"unchecked", "rawtypes"})
     @Override
     public void serialize(IFilterCodeSystem cs, ByteBuffer buffer) {
         int size = this.dynamicVariables.size();

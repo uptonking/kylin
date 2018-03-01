@@ -6,9 +6,9 @@
  * to you under the Apache License, Version 2.0 (the
  * "License"); you may not use this file except in compliance
  * with the License.  You may obtain a copy of the License at
- * 
+ *
  *     http://www.apache.org/licenses/LICENSE-2.0
- * 
+ *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
@@ -41,6 +41,9 @@ import com.google.common.collect.Lists;
 import com.google.common.collect.Maps;
 import com.google.common.collect.Sets;
 
+/**
+ * 数据模型描述
+ */
 @SuppressWarnings("serial")
 @JsonAutoDetect(fieldVisibility = Visibility.NONE, getterVisibility = Visibility.NONE, isGetterVisibility = Visibility.NONE, setterVisibility = Visibility.NONE)
 public class DataModelDesc extends RootPersistentEntity {
@@ -48,7 +51,7 @@ public class DataModelDesc extends RootPersistentEntity {
     public static enum RealizationCapacity {
         SMALL, MEDIUM, LARGE
     }
-    
+
     private KylinConfig config;
 
     @JsonProperty("name")
@@ -139,7 +142,7 @@ public class DataModelDesc extends RootPersistentEntity {
     public List<TableRef> getLookupTableRefs() {
         return lookupTableRefs;
     }
-    
+
     @Deprecated
     public List<TableDesc> getLookupTableDescs() {
         List<TableDesc> result = Lists.newArrayList();
@@ -221,7 +224,7 @@ public class DataModelDesc extends RootPersistentEntity {
             throw new IllegalArgumentException("Column not found by " + table + "." + column);
         return result;
     }
-    
+
     public TblColRef findColumn(String column) {
         TblColRef result = null;
 
@@ -255,12 +258,12 @@ public class DataModelDesc extends RootPersistentEntity {
         }
         return result;
     }
-    
+
     // find by table identity, that may match multiple tables in the model
     public TableRef findFirstTable(String tableIdentity) {
         if (factTableRef.getTableIdentity().equals(tableIdentity))
             return factTableRef;
-        
+
         for (TableRef lookup : lookupTableRefs) {
             if (lookup.getTableIdentity().equals(tableIdentity))
                 return lookup;
@@ -270,11 +273,11 @@ public class DataModelDesc extends RootPersistentEntity {
 
     public void init(KylinConfig config, Map<String, TableDesc> tables) {
         this.config = config;
-        
+
         lookupTableRefs.clear();
         aliasMap.clear();
         tableNameMap.clear();
-        
+
         initTableAlias(tables);
         initJoinColumns();
         ModelDimensionDesc.capicalizeStrings(dimensions);
@@ -283,20 +286,20 @@ public class DataModelDesc extends RootPersistentEntity {
 
     private void initTableAlias(Map<String, TableDesc> tables) {
         factTable = factTable.toUpperCase();
-        
+
         if (tables.containsKey(factTable) == false)
             throw new IllegalStateException("Fact table does not exist:" + factTable);
-        
+
         TableDesc factDesc = tables.get(factTable);
         factTableRef = new TableRef(this, factDesc.getName(), factDesc);
         addAlias(factTableRef);
-        
+
         for (LookupDesc lookup : lookups) {
             lookup.setTable(lookup.getTable().toUpperCase());
-            
+
             if (tables.containsKey(lookup.getTable()) == false)
                 throw new IllegalStateException("Lookup table does not exist:" + lookup.getTable());
-            
+
             TableDesc tableDesc = tables.get(lookup.getTable());
             String alias = lookup.getAlias();
             if (alias == null)
@@ -315,7 +318,7 @@ public class DataModelDesc extends RootPersistentEntity {
         if (aliasMap.containsKey(alias))
             throw new IllegalStateException("Alias '" + alias + "' ref to multiple tables: " + ref.getTableIdentity() + ", " + aliasMap.get(alias).getTableIdentity());
         aliasMap.put(alias, ref);
-        
+
         TableDesc table = ref.getTableDesc();
         addTableName(table.getName(), ref);
         addTableName(table.getIdentity(), ref);

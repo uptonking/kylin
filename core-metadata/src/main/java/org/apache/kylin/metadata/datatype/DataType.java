@@ -6,15 +6,15 @@
  * to you under the Apache License, Version 2.0 (the
  * "License"); you may not use this file except in compliance
  * with the License.  You may obtain a copy of the License at
- * 
+ *
  *     http://www.apache.org/licenses/LICENSE-2.0
- * 
+ *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
  * See the License for the specific language governing permissions and
  * limitations under the License.
-*/
+ */
 
 package org.apache.kylin.metadata.datatype;
 
@@ -37,6 +37,7 @@ import org.apache.kylin.measure.MeasureTypeFactory;
 import org.apache.kylin.metadata.model.TblColRef.InnerDataTypeEnum;
 
 /**
+ * 数据类型定义
  */
 @SuppressWarnings("serial")
 public class DataType implements Serializable {
@@ -74,6 +75,7 @@ public class DataType implements Serializable {
     public static final Set<String> DATETIME_FAMILY = new HashSet<String>();
     public static final Set<String> STRING_FAMILY = new HashSet<String>();
     private static final Map<String, String> LEGACY_TYPE_MAP = new HashMap<String, String>();
+
     static {
         INTEGER_FAMILY.add("tinyint");
         INTEGER_FAMILY.add("smallint");
@@ -177,7 +179,7 @@ public class DataType implements Serializable {
         // FIXME 256 for unknown string precision
         if ((name.equals("char") || name.equals("varchar")) && precision == -1) {
             precision = 256; // to save memory at frontend, e.g. tableau will
-                             // allocate memory according to this
+            // allocate memory according to this
         }
 
         // FIXME (19,4) for unknown decimal precision
@@ -215,7 +217,7 @@ public class DataType implements Serializable {
     public boolean isTimeFamily() {
         return DATETIME_FAMILY.contains(name) && !isDate();
     }
-    
+
     public boolean isDate() {
         return name.equals("date");
     }

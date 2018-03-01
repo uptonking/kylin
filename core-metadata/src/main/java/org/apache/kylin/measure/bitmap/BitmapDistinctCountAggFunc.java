@@ -14,7 +14,7 @@
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
  * See the License for the specific language governing permissions and
  * limitations under the License.
-*/
+ */
 
 package org.apache.kylin.measure.bitmap;
 
@@ -22,6 +22,8 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 /**
+ * bitmap去重计数工具类
+ * <p>
  * Created by sunyerui on 15/12/22.
  */
 public class BitmapDistinctCountAggFunc {

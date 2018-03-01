@@ -6,9 +6,9 @@
  * to you under the Apache License, Version 2.0 (the
  * "License"); you may not use this file except in compliance
  * with the License.  You may obtain a copy of the License at
- *  
+ *
  *     http://www.apache.org/licenses/LICENSE-2.0
- *  
+ *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
@@ -32,6 +32,8 @@ import org.slf4j.LoggerFactory;
 import com.google.common.base.Preconditions;
 
 /**
+ * 16进制定长维度编码
+ * <p>
  * used to store hex values like "1A2BFF"
  * <p>
  * <p>
@@ -39,7 +41,7 @@ import com.google.common.base.Preconditions;
  * <p>
  * 1. "FFFF" will become null encode and decode
  * 2. "AB" will become "AB00"
- * 
+ * <p>
  * <p>
  * Due to these limitations hex representation of hash values(with no padding, better with even characters) is more suitable
  */

@@ -6,9 +6,9 @@
  * to you under the Apache License, Version 2.0 (the
  * "License"); you may not use this file except in compliance
  * with the License.  You may obtain a copy of the License at
- * 
+ *
  *     http://www.apache.org/licenses/LICENSE-2.0
- * 
+ *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
@@ -26,6 +26,7 @@ import org.apache.commons.lang.StringUtils;
 import org.apache.kylin.metadata.datatype.DataType;
 
 /**
+ * 列主要信息
  */
 @SuppressWarnings("serial")
 public class TblColRef implements Serializable {
@@ -62,18 +63,18 @@ public class TblColRef implements Serializable {
         colRef.markInnerColumn(dataType);
         return colRef;
     }
-    
+
     private static final DataModelDesc UNKNOWN_MODEL = new DataModelDesc();
-    
+
     public static TableRef tableForUnknownModel(String tempTableAlias, TableDesc table) {
         return new TableRef(UNKNOWN_MODEL, tempTableAlias, table);
     }
-    
+
     public static TblColRef columnForUnknownModel(TableRef table, ColumnDesc colDesc) {
         checkArgument(table.getModel() == UNKNOWN_MODEL);
         return new TblColRef(table, colDesc);
     }
-    
+
     public static void fixUnknownModel(DataModelDesc model, String alias, TblColRef col) {
         checkArgument(col.table.getModel() == UNKNOWN_MODEL || col.table.getModel() == model);
         TableRef tableRef = model.findTable(alias);
@@ -91,7 +92,7 @@ public class TblColRef implements Serializable {
         desc.init(table);
         return new TblColRef(desc);
     }
-    
+
     // ============================================================================
 
     private TableRef table;
@@ -100,13 +101,13 @@ public class TblColRef implements Serializable {
     TblColRef(ColumnDesc column) {
         this.column = column;
     }
-    
+
     TblColRef(TableRef table, ColumnDesc column) {
         checkArgument(table.getTableDesc() == column.getTable());
         this.table = table;
         this.column = column;
     }
-    
+
     public ColumnDesc getColumnDesc() {
         return column;
     }
@@ -118,7 +119,7 @@ public class TblColRef implements Serializable {
     public TableRef getTableRef() {
         return table;
     }
-    
+
     public String getTable() {
         if (column.getTable() == null) {
             return null;

@@ -6,15 +6,15 @@
  * to you under the Apache License, Version 2.0 (the
  * "License"); you may not use this file except in compliance
  * with the License.  You may obtain a copy of the License at
- * 
+ *
  *     http://www.apache.org/licenses/LICENSE-2.0
- * 
+ *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
  * See the License for the specific language governing permissions and
  * limitations under the License.
-*/
+ */
 
 package org.apache.kylin.metadata.filter;
 
@@ -30,10 +30,10 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 /**
+ * 过滤器 序列化
  * http://eli.thegreenplace.net/2011/09/29/an-interesting-tree-serialization-algorithm-from-dwarf
- * 
+ *
  * @author xjiang
- * 
  */
 public class TupleFilterSerializer {
 
@@ -154,51 +154,51 @@ public class TupleFilterSerializer {
         }
         TupleFilter filter = null;
         switch (op) {
-        case AND:
-        case OR:
-        case NOT:
-            filter = new LogicalTupleFilter(op);
-            break;
-        case EQ:
-        case NEQ:
-        case LT:
-        case LTE:
-        case GT:
-        case GTE:
-        case IN:
-        case ISNULL:
-        case ISNOTNULL:
-            filter = new CompareTupleFilter(op);
-            break;
-        case EXTRACT:
-            filter = new ExtractTupleFilter(op);
-            break;
-        case CASE:
-            filter = new CaseTupleFilter();
-            break;
-        case COLUMN:
-            filter = new ColumnTupleFilter(null);
-            break;
-        case CONSTANT:
-            filter = new ConstantTupleFilter();
-            break;
-        case DYNAMIC:
-            filter = new DynamicTupleFilter(null);
-            break;
-        case FUNCTION:
-            filter = new BuiltInFunctionTupleFilter(null);
-            break;
-        case UNSUPPORTED:
-            filter = new UnsupportedTupleFilter(op);
-            break;
-        case EVAL_FUNC:
-            filter = new EvaluatableFunctionTupleFilter(null);
-            break;
-        case MASSIN:
-            filter = new MassInTupleFilter();
-            break;
-        default:
-            throw new IllegalStateException("Error FilterOperatorEnum: " + op.getValue());
+            case AND:
+            case OR:
+            case NOT:
+                filter = new LogicalTupleFilter(op);
+                break;
+            case EQ:
+            case NEQ:
+            case LT:
+            case LTE:
+            case GT:
+            case GTE:
+            case IN:
+            case ISNULL:
+            case ISNOTNULL:
+                filter = new CompareTupleFilter(op);
+                break;
+            case EXTRACT:
+                filter = new ExtractTupleFilter(op);
+                break;
+            case CASE:
+                filter = new CaseTupleFilter();
+                break;
+            case COLUMN:
+                filter = new ColumnTupleFilter(null);
+                break;
+            case CONSTANT:
+                filter = new ConstantTupleFilter();
+                break;
+            case DYNAMIC:
+                filter = new DynamicTupleFilter(null);
+                break;
+            case FUNCTION:
+                filter = new BuiltInFunctionTupleFilter(null);
+                break;
+            case UNSUPPORTED:
+                filter = new UnsupportedTupleFilter(op);
+                break;
+            case EVAL_FUNC:
+                filter = new EvaluatableFunctionTupleFilter(null);
+                break;
+            case MASSIN:
+                filter = new MassInTupleFilter();
+                break;
+            default:
+                throw new IllegalStateException("Error FilterOperatorEnum: " + op.getValue());
         }
 
         return filter;

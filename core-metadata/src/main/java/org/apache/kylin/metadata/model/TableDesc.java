@@ -6,15 +6,15 @@
  * to you under the Apache License, Version 2.0 (the
  * "License"); you may not use this file except in compliance
  * with the License.  You may obtain a copy of the License at
- * 
+ *
  *     http://www.apache.org/licenses/LICENSE-2.0
- * 
+ *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
  * See the License for the specific language governing permissions and
  * limitations under the License.
-*/
+ */
 
 package org.apache.kylin.metadata.model;
 
@@ -30,6 +30,8 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonAutoDetect.Visibility;
 
 /**
+ * 表描述
+ * <p>
  * Table Metadata from Source. All name should be uppercase.
  */
 @SuppressWarnings("serial")
@@ -83,8 +85,8 @@ public class TableDesc extends RootPersistentEntity implements ISourceAware {
     }
 
     /**
-     * @deprecated this is for compatible with data model v1;
      * @return
+     * @deprecated this is for compatible with data model v1;
      */
     public String getResourcePathV1() {
         return concatResourcePath(name);
@@ -211,7 +213,7 @@ public class TableDesc extends RootPersistentEntity implements ISourceAware {
             return false;
         if (!Arrays.equals(columns, tableDesc.columns))
             return false;
-        
+
         return getIdentity().equals(tableDesc.getIdentity());
 
     }
@@ -225,7 +227,9 @@ public class TableDesc extends RootPersistentEntity implements ISourceAware {
         return "TableDesc{" + "name='" + name + '\'' + ", columns=" + Arrays.toString(columns) + ", sourceType=" + sourceType + ", tableType='" + tableType + '\'' + ", database=" + database + ", identity='" + getIdentity() + '\'' + '}';
     }
 
-    /** create a mockup table for unit test */
+    /**
+     * create a mockup table for unit test
+     */
     public static TableDesc mockup(String tableName) {
         TableDesc mockup = new TableDesc();
         mockup.setName(tableName);

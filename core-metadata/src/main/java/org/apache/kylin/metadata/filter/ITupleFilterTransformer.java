@@ -18,6 +18,9 @@
 
 package org.apache.kylin.metadata.filter;
 
+/**
+ * 过滤器转换接口
+ */
 public interface ITupleFilterTransformer {
     TupleFilter transform(TupleFilter tupleFilter);
 }

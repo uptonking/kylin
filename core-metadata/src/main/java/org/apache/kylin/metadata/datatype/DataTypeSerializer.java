@@ -6,15 +6,15 @@
  * to you under the Apache License, Version 2.0 (the
  * "License"); you may not use this file except in compliance
  * with the License.  You may obtain a copy of the License at
- * 
+ *
  *     http://www.apache.org/licenses/LICENSE-2.0
- * 
+ *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
  * See the License for the specific language governing permissions and
  * limitations under the License.
-*/
+ */
 
 package org.apache.kylin.metadata.datatype;
 
@@ -26,11 +26,14 @@ import org.apache.kylin.common.util.BytesSerializer;
 import com.google.common.collect.Maps;
 
 /**
+ * 数据类型序列化 抽象类
+ * <p>
  * Note: the implementations MUST be thread-safe.
  */
 abstract public class DataTypeSerializer<T> implements BytesSerializer<T> {
 
     final static Map<String, Class<?>> implementations = Maps.newHashMap();
+
     static {
         implementations.put("char", StringSerializer.class);
         implementations.put("varchar", StringSerializer.class);
@@ -71,23 +74,33 @@ abstract public class DataTypeSerializer<T> implements BytesSerializer<T> {
         }
     }
 
-    /** Peek into buffer and return the length of serialization which is previously written by this.serialize().
-     *  The current position of input buffer is guaranteed to be at the beginning of the serialization.
-     *  The implementation must not alter the buffer position by its return. */
+    /**
+     * Peek into buffer and return the length of serialization which is previously written by this.serialize().
+     * The current position of input buffer is guaranteed to be at the beginning of the serialization.
+     * The implementation must not alter the buffer position by its return.
+     */
     abstract public int peekLength(ByteBuffer in);
 
-    /** Return the max number of bytes to the longest possible serialization */
+    /**
+     * Return the max number of bytes to the longest possible serialization
+     */
     abstract public int maxLength();
 
-    /** Get an estimate of the average size in bytes of this kind of serialized data */
+    /**
+     * Get an estimate of the average size in bytes of this kind of serialized data
+     */
     abstract public int getStorageBytesEstimate();
 
-    /** An optional convenient method that converts a string to this data type (for dimensions) */
+    /**
+     * An optional convenient method that converts a string to this data type (for dimensions)
+     */
     public T valueOf(String str) {
         throw new UnsupportedOperationException();
     }
 
-    /** Convert from obj to string */
+    /**
+     * Convert from obj to string
+     */
     public String toString(T value) {
         if (value == null)
             return "NULL";

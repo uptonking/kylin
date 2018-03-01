@@ -6,15 +6,15 @@
  * to you under the Apache License, Version 2.0 (the
  * "License"); you may not use this file except in compliance
  * with the License.  You may obtain a copy of the License at
- * 
+ *
  *     http://www.apache.org/licenses/LICENSE-2.0
- * 
+ *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
  * See the License for the specific language governing permissions and
  * limitations under the License.
-*/
+ */
 
 package org.apache.kylin.measure;
 
@@ -26,12 +26,15 @@ import org.apache.kylin.metadata.datatype.DataType;
 import org.apache.kylin.metadata.model.MeasureDesc;
 
 /**
+ * 为了方便度量编码而设计的字节缓冲区
+ * <p>
  * This class embeds a reusable byte buffer for measure encoding, and is not thread-safe.
  * The buffer will grow to accommodate BufferOverflowException until a limit.
  * The problem here to solve is some measure type cannot provide accurate DataTypeSerializer.maxLength()
  */
-@SuppressWarnings({ "unchecked" })
+@SuppressWarnings({"unchecked"})
 public class BufferedMeasureCodec {
+
     public static final int DEFAULT_BUFFER_SIZE = 1024 * 1024; // 1 MB
     public static final int MAX_BUFFER_SIZE = 1 * 1024 * DEFAULT_BUFFER_SIZE; // 1 GB
 
@@ -60,12 +63,16 @@ public class BufferedMeasureCodec {
         this.measureSizes = new int[codec.getMeasuresCount()];
     }
 
-    /** return the buffer that contains result of last encoding */
+    /**
+     * return the buffer that contains result of last encoding
+     */
     public ByteBuffer getBuffer() {
         return buf;
     }
 
-    /** return the measure sizes of last encoding */
+    /**
+     * return the measure sizes of last encoding
+     */
     public int[] getMeasureSizes() {
         return measureSizes;
     }

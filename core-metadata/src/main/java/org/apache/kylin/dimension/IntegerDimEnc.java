@@ -6,9 +6,9 @@
  * to you under the Apache License, Version 2.0 (the
  * "License"); you may not use this file except in compliance
  * with the License.  You may obtain a copy of the License at
- *  
+ *
  *     http://www.apache.org/licenses/LICENSE-2.0
- *  
+ *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
@@ -31,6 +31,8 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 /**
+ * 整型维度编码
+ * <p>
  * replacement for IntegerDimEnc, the diff is VLongDimEnc supports negative values
  */
 public class IntegerDimEnc extends DimensionEncoding {
@@ -38,9 +40,10 @@ public class IntegerDimEnc extends DimensionEncoding {
 
     private static Logger logger = LoggerFactory.getLogger(IntegerDimEnc.class);
 
-    private static final long[] CAP = { 0, 0x7fL, 0x7fffL, 0x7fffffL, 0x7fffffffL, 0x7fffffffffL, 0x7fffffffffffL, 0x7fffffffffffffL, 0x7fffffffffffffffL };
-    private static final long[] MASK = { 0, 0xffL, 0xffffL, 0xffffffL, 0xffffffffL, 0xffffffffffL, 0xffffffffffffL, 0xffffffffffffffL, 0xffffffffffffffffL };
-    private static final long[] TAIL = { 0, 0x80L, 0x8000L, 0x800000L, 0x80000000L, 0x8000000000L, 0x800000000000L, 0x80000000000000L, 0x8000000000000000L };
+    private static final long[] CAP = {0, 0x7fL, 0x7fffL, 0x7fffffL, 0x7fffffffL, 0x7fffffffffL, 0x7fffffffffffL, 0x7fffffffffffffL, 0x7fffffffffffffffL};
+    private static final long[] MASK = {0, 0xffL, 0xffffL, 0xffffffL, 0xffffffffL, 0xffffffffffL, 0xffffffffffffL, 0xffffffffffffffL, 0xffffffffffffffffL};
+    private static final long[] TAIL = {0, 0x80L, 0x8000L, 0x800000L, 0x80000000L, 0x8000000000L, 0x800000000000L, 0x80000000000000L, 0x8000000000000000L};
+
     static {
         for (int i = 1; i < TAIL.length; ++i) {
             long head = ~MASK[i];
@@ -60,7 +63,9 @@ public class IntegerDimEnc extends DimensionEncoding {
         public DimensionEncoding createDimensionEncoding(String encodingName, String[] args) {
             return new IntegerDimEnc(Integer.parseInt(args[0]));
         }
-    };
+    }
+
+    ;
 
     // ============================================================================
 

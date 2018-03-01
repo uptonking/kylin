@@ -14,7 +14,7 @@
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
  * See the License for the specific language governing permissions and
  * limitations under the License.
-*/
+ */
 
 package org.apache.kylin.measure.topn;
 
@@ -33,8 +33,10 @@ import com.google.common.collect.Lists;
 import com.google.common.collect.Sets;
 
 /**
+ * top n 计数器
+ * <p>
  * Modified from the StreamSummary.java in https://github.com/addthis/stream-lib
- *
+ * <p>
  * Based on the <i>Space-Saving</i> algorithm and the <i>Stream-Summary</i>
  * data structure as described in:
  * <i>Efficient Computation of Frequent and Top-k Elements in Data Streams</i>
@@ -142,6 +144,7 @@ public class TopNCounter<T> implements Iterable<Counter<T>> {
     /**
      * Put element to the head position;
      * The consumer should call this method with count in ascending way; the item will be directly put to the head of the list, without comparison for best performance;
+     *
      * @param item
      * @param count
      */
@@ -153,6 +156,7 @@ public class TopNCounter<T> implements Iterable<Counter<T>> {
 
     /**
      * Merge another counter into this counter;
+     *
      * @param another
      * @return
      */
@@ -201,6 +205,7 @@ public class TopNCounter<T> implements Iterable<Counter<T>> {
 
     /**
      * Retain the capacity to the given number; The extra counters will be cut off
+     *
      * @param newCapacity
      */
     public void retain(int newCapacity) {
@@ -217,6 +222,7 @@ public class TopNCounter<T> implements Iterable<Counter<T>> {
 
     /**
      * Get the counter values in ascending order
+     *
      * @return
      */
     public double[] getCounters() {

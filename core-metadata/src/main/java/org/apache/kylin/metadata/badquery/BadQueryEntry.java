@@ -26,6 +26,9 @@ import org.apache.kylin.common.util.DateFormat;
 import com.fasterxml.jackson.annotation.JsonAutoDetect;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
+/**
+ * 坏查询记录bean
+ */
 @JsonAutoDetect(fieldVisibility = JsonAutoDetect.Visibility.NONE, getterVisibility = JsonAutoDetect.Visibility.NONE, isGetterVisibility = JsonAutoDetect.Visibility.NONE, setterVisibility = JsonAutoDetect.Visibility.NONE)
 public class BadQueryEntry extends RootPersistentEntity implements Comparable<BadQueryEntry> {
 

@@ -6,15 +6,15 @@
  * to you under the Apache License, Version 2.0 (the
  * "License"); you may not use this file except in compliance
  * with the License.  You may obtain a copy of the License at
- * 
+ *
  *     http://www.apache.org/licenses/LICENSE-2.0
- * 
+ *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
  * See the License for the specific language governing permissions and
  * limitations under the License.
-*/
+ */
 
 package org.apache.kylin.metadata.cachesync;
 
@@ -43,12 +43,14 @@ import com.google.common.collect.Lists;
 import com.google.common.collect.Maps;
 
 /**
+ * 广播器
+ * <p>
  * Broadcast metadata changes across all Kylin servers.
- * 
+ * <p>
  * The origin server announce the event via Rest API to all Kylin servers including itself.
- * On target server, listeners are registered to process events. As part of processing, a 
+ * On target server, listeners are registered to process events. As part of processing, a
  * listener can re-notify a new event to other local listeners.
- * 
+ * <p>
  * A typical project schema change event:
  * - model is update on origin server, a "model" update event is announced
  * - on all servers, model listener is invoked, reload the model, and notify a "project_schema" update event
@@ -190,29 +192,29 @@ public class Broadcaster {
             // prevents concurrent modification exception
             list = Lists.newArrayList(list);
             switch (entity) {
-            case SYNC_ALL:
-                for (Listener l : list) {
-                    l.onClearAll(this);
-                }
-                clearCache(); // clear broadcaster too in the end
-                break;
-            case SYNC_PRJ_SCHEMA:
-                ProjectManager.getInstance(config).clearL2Cache();
-                for (Listener l : list) {
-                    l.onProjectSchemaChange(this, cacheKey);
-                }
-                break;
-            case SYNC_PRJ_DATA:
-                ProjectManager.getInstance(config).clearL2Cache(); // cube's first becoming ready leads to schema change too
-                for (Listener l : list) {
-                    l.onProjectDataChange(this, cacheKey);
-                }
-                break;
-            default:
-                for (Listener l : list) {
-                    l.onEntityChange(this, entity, event, cacheKey);
-                }
-                break;
+                case SYNC_ALL:
+                    for (Listener l : list) {
+                        l.onClearAll(this);
+                    }
+                    clearCache(); // clear broadcaster too in the end
+                    break;
+                case SYNC_PRJ_SCHEMA:
+                    ProjectManager.getInstance(config).clearL2Cache();
+                    for (Listener l : list) {
+                        l.onProjectSchemaChange(this, cacheKey);
+                    }
+                    break;
+                case SYNC_PRJ_DATA:
+                    ProjectManager.getInstance(config).clearL2Cache(); // cube's first becoming ready leads to schema change too
+                    for (Listener l : list) {
+                        l.onProjectDataChange(this, cacheKey);
+                    }
+                    break;
+                default:
+                    for (Listener l : list) {
+                        l.onEntityChange(this, entity, event, cacheKey);
+                    }
+                    break;
             }
 
             logger.debug("Done broadcasting metadata change: entity=" + entity + ", event=" + event + ", cacheKey=" + cacheKey);

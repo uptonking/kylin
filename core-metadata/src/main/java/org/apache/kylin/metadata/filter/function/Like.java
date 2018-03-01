@@ -19,15 +19,18 @@
 package org.apache.kylin.metadata.filter.function;
 
 /**
+ * like匹配方法
+ * <p>
  * From Calcite
- *
+ * <p>
  * Utilities for converting SQL {@code LIKE} and {@code SIMILAR} operators
  * to regular expressions.
  */
 public class Like {
+
     private static final String JAVA_REGEX_SPECIALS = "[]()|^-+*?{}$\\";
     private static final String SQL_SIMILAR_SPECIALS = "[]()|^-+*_%?{}";
-    private static final String[] REG_CHAR_CLASSES = { "[:ALPHA:]", "\\p{Alpha}", "[:alpha:]", "\\p{Alpha}", "[:UPPER:]", "\\p{Upper}", "[:upper:]", "\\p{Upper}", "[:LOWER:]", "\\p{Lower}", "[:lower:]", "\\p{Lower}", "[:DIGIT:]", "\\d", "[:digit:]", "\\d", "[:SPACE:]", " ", "[:space:]", " ", "[:WHITESPACE:]", "\\s", "[:whitespace:]", "\\s", "[:ALNUM:]", "\\p{Alnum}", "[:alnum:]", "\\p{Alnum}" };
+    private static final String[] REG_CHAR_CLASSES = {"[:ALPHA:]", "\\p{Alpha}", "[:alpha:]", "\\p{Alpha}", "[:UPPER:]", "\\p{Upper}", "[:upper:]", "\\p{Upper}", "[:LOWER:]", "\\p{Lower}", "[:lower:]", "\\p{Lower}", "[:DIGIT:]", "\\d", "[:digit:]", "\\d", "[:SPACE:]", " ", "[:space:]", " ", "[:WHITESPACE:]", "\\s", "[:whitespace:]", "\\s", "[:ALNUM:]", "\\p{Alnum}", "[:alnum:]", "\\p{Alnum}"};
 
     private Like() {
     }
@@ -227,36 +230,36 @@ public class Like {
                 i++; // we already process the next char.
             } else {
                 switch (c) {
-                case '_':
-                    javaPattern.append('.');
-                    break;
-                case '%':
-                    javaPattern.append('.');
-                    javaPattern.append('*');
-                    break;
-                case '[':
-                    javaPattern.append('[');
-                    insideCharacterEnumeration = true;
-                    i = sqlSimilarRewriteCharEnumeration(sqlPattern, javaPattern, i, escapeChar);
-                    break;
-                case ']':
-                    if (!insideCharacterEnumeration) {
-                        throw invalidRegularExpression(sqlPattern, i);
-                    }
-                    insideCharacterEnumeration = false;
-                    javaPattern.append(']');
-                    break;
-                case '\\':
-                    javaPattern.append("\\\\");
-                    break;
-                case '$':
+                    case '_':
+                        javaPattern.append('.');
+                        break;
+                    case '%':
+                        javaPattern.append('.');
+                        javaPattern.append('*');
+                        break;
+                    case '[':
+                        javaPattern.append('[');
+                        insideCharacterEnumeration = true;
+                        i = sqlSimilarRewriteCharEnumeration(sqlPattern, javaPattern, i, escapeChar);
+                        break;
+                    case ']':
+                        if (!insideCharacterEnumeration) {
+                            throw invalidRegularExpression(sqlPattern, i);
+                        }
+                        insideCharacterEnumeration = false;
+                        javaPattern.append(']');
+                        break;
+                    case '\\':
+                        javaPattern.append("\\\\");
+                        break;
+                    case '$':
 
-                    // $ is special character in java regex, but regular in
-                    // SQL regex.
-                    javaPattern.append("\\$");
-                    break;
-                default:
-                    javaPattern.append(c);
+                        // $ is special character in java regex, but regular in
+                        // SQL regex.
+                        javaPattern.append("\\$");
+                        break;
+                    default:
+                        javaPattern.append(c);
                 }
             }
         }

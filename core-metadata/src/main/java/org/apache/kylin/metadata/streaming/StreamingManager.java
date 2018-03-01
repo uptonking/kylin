@@ -36,6 +36,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 /**
+ * 流式数据源 管理器
  */
 public class StreamingManager {
 
@@ -58,7 +59,7 @@ public class StreamingManager {
     private StreamingManager(KylinConfig config) throws IOException {
         this.config = config;
         this.streamingMap = new CaseInsensitiveStringCache<StreamingConfig>(config, "streaming");
-        
+
         // touch lower level metadata before registering my listener
         reloadAllStreaming();
         Broadcaster.getInstance(config).registerListener(new StreamingSyncListener(), "streaming");

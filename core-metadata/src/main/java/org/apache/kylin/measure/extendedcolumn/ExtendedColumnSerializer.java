@@ -25,6 +25,9 @@ import org.apache.kylin.common.util.BytesUtil;
 import org.apache.kylin.metadata.datatype.DataType;
 import org.apache.kylin.metadata.datatype.DataTypeSerializer;
 
+/**
+ * 扩展列 序列化
+ */
 public class ExtendedColumnSerializer extends DataTypeSerializer<ByteArray> {
 
     private int extendedColumnSize;
@@ -69,7 +72,7 @@ public class ExtendedColumnSerializer extends DataTypeSerializer<ByteArray> {
 
     @Override
     public ByteArray deserialize(ByteBuffer in) {
-        //the array in ByteArray is garanteed to be completed owned by the ByteArray 
+        //the array in ByteArray is garanteed to be completed owned by the ByteArray
         return new ByteArray(BytesUtil.readByteArray(in));
     }
 }

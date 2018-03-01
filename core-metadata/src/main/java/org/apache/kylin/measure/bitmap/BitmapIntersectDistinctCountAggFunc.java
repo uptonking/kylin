@@ -14,7 +14,7 @@
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
  * See the License for the specific language governing permissions and
  * limitations under the License.
-*/
+ */
 package org.apache.kylin.measure.bitmap;
 
 import org.slf4j.Logger;
@@ -25,10 +25,12 @@ import java.util.List;
 import java.util.Map;
 
 /**
+ * bitmap求交工具类
+ * <p>
  * BitmapIntersectDistinctCountAggFunc is an UDAF used for calculating the intersection of two or more bitmaps
  * Usage:   intersect_count(columnToCount, columnToFilter, filterList)
  * Example: intersect_count(uuid, event, array['A', 'B', 'C']), meaning find the count of uuid in all A/B/C 3 bitmaps
- *          requires an bitmap count distinct measure of uuid, and an dimension of event
+ * requires an bitmap count distinct measure of uuid, and an dimension of event
  */
 public class BitmapIntersectDistinctCountAggFunc {
     private static final Logger logger = LoggerFactory.getLogger(BitmapIntersectDistinctCountAggFunc.class);
@@ -50,7 +52,7 @@ public class BitmapIntersectDistinctCountAggFunc {
                 counter = new BitmapCounter();
                 map.put(key, counter);
             }
-            counter.merge((BitmapCounter)value);
+            counter.merge((BitmapCounter) value);
         }
 
         public long result() {

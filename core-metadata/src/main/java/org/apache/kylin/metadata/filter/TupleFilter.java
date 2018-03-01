@@ -6,15 +6,15 @@
  * to you under the Apache License, Version 2.0 (the
  * "License"); you may not use this file except in compliance
  * with the License.  You may obtain a copy of the License at
- * 
+ *
  *     http://www.apache.org/licenses/LICENSE-2.0
- * 
+ *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
  * See the License for the specific language governing permissions and
  * limitations under the License.
-*/
+ */
 
 package org.apache.kylin.metadata.filter;
 
@@ -31,9 +31,9 @@ import org.apache.kylin.metadata.tuple.IEvaluatableTuple;
 import com.google.common.collect.Maps;
 
 /**
- * 
+ * 过滤器抽象类
+ *
  * @author xjiang
- * 
  */
 public abstract class TupleFilter {
 
@@ -119,11 +119,11 @@ public abstract class TupleFilter {
      * flatten to OR-AND filter, (A AND B AND ..) OR (C AND D AND ..) OR ..
      * flatten filter will ONLY contain AND and OR , no NOT will exist.
      * This will help to decide scan ranges.
-     * 
+     * <p>
      * Notice that the flatten filter will ONLY be used for determining scan ranges,
      * The filter that is later pushed down into storage level is still the ORIGINAL
      * filter, since the flattened filter will be too "fat" to evaluate
-     * 
+     *
      * @return
      */
     public TupleFilter flatFilter() {

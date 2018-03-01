@@ -43,6 +43,9 @@ import org.slf4j.LoggerFactory;
 
 import com.google.common.collect.Lists;
 
+/**
+ * 扩展列 度量类型
+ */
 public class ExtendedColumnMeasureType extends MeasureType<ByteArray> {
 
     private static final Logger logger = LoggerFactory.getLogger(ExtendedColumnMeasureType.class);

@@ -6,15 +6,15 @@
  * to you under the Apache License, Version 2.0 (the
  * "License"); you may not use this file except in compliance
  * with the License.  You may obtain a copy of the License at
- * 
+ *
  *     http://www.apache.org/licenses/LICENSE-2.0
- * 
+ *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
  * See the License for the specific language governing permissions and
  * limitations under the License.
-*/
+ */
 
 package org.apache.kylin.dimension;
 
@@ -24,18 +24,25 @@ import org.apache.kylin.common.util.StringUtil;
 import org.apache.kylin.metadata.datatype.DataTypeSerializer;
 
 /**
+ * 维度编码 抽象类 类似Dictionary
+ * <p>
  * Dimension encoding maps a dimension (String) to bytes of fixed length.
- * 
- * It is similar to Dictionary in 1) the bytes is fixed length; 2) bi-way mapping;
- * 3) the mapping preserves order, but is also different to Dictionary as the target 
- * bytes can be very long while dictionary ID is 4 bytes at most. This means it is 
- * hard to enumerate all values of a encoding, thus TupleFilterDictionaryTranslater 
+ * <p>
+ * It is similar to Dictionary in
+ * 1) the bytes is fixed length;
+ * 2) bi-way mapping;
+ * 3) the mapping preserves order, but is also different to Dictionary as the target
+ * bytes can be very long while dictionary ID is 4 bytes at most. This means it is
+ * hard to enumerate all values of a encoding, thus TupleFilterDictionaryTranslater
  * cannot work on DimensionEncoding.
  */
 public abstract class DimensionEncoding implements Externalizable {
+
     private static final long serialVersionUID = 1L;
 
-    // it's convention that all 0xff means NULL
+    /**
+     * it's convention that all 0xff means NULL
+     */
     public static final byte NULL = (byte) 0xff;
 
     public static boolean isNull(byte[] bytes, int offset, int length) {
@@ -60,19 +67,27 @@ public abstract class DimensionEncoding implements Externalizable {
         final String[] encodingArgs = parts[parts.length - 1].isEmpty() //
                 ? StringUtil.subArray(parts, 1, parts.length - 1) : StringUtil.subArray(parts, 1, parts.length);
 
-        return new Object[] { encodingName, encodingArgs };
+        return new Object[]{encodingName, encodingArgs};
     }
 
-    /** return the fixed length of encoded bytes */
+    /**
+     * return the fixed length of encoded bytes
+     */
     abstract public int getLengthOfEncoding();
 
-    /** encode given value (a string in byte form) to bytes, note the NULL convention */
+    /**
+     * encode given value (a string in byte form) to bytes, note the NULL convention
+     */
     abstract public void encode(byte[] value, int valueLen, byte[] output, int outputOffset);
 
-    /** decode given bytes to value string, note the NULL convention */
+    /**
+     * decode given bytes to value string, note the NULL convention
+     */
     abstract public String decode(byte[] bytes, int offset, int len);
 
-    /** return a DataTypeSerializer that does the same encoding/decoding on ByteBuffer */
+    /**
+     * return a DataTypeSerializer that does the same encoding/decoding on ByteBuffer
+     */
     abstract public DataTypeSerializer<Object> asDataTypeSerializer();
 
 }

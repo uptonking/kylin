@@ -6,15 +6,15 @@
  * to you under the Apache License, Version 2.0 (the
  * "License"); you may not use this file except in compliance
  * with the License.  You may obtain a copy of the License at
- * 
+ *
  *     http://www.apache.org/licenses/LICENSE-2.0
- * 
+ *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
  * See the License for the specific language governing permissions and
  * limitations under the License.
-*/
+ */
 
 package org.apache.kylin.measure.hllc;
 
@@ -30,11 +30,14 @@ import com.google.common.hash.HashFunction;
 import com.google.common.hash.Hashing;
 
 /**
+ * HyperLogLogPlusCounter
+ * 包含使用不同分桶数量的计数错误率
+ *
  * About compression, test on HLLC data shows
- * 
+ * <p>
  * - LZF compression ratio is around 65%-80%, fast
  * - GZIP compression ratio is around 41%-46%, very slow
- * 
+ *
  * @author yangli9
  */
 @SuppressWarnings("serial")
@@ -59,7 +62,9 @@ public class HyperLogLogPlusCounter implements Serializable, Comparable<HyperLog
         merge(another);
     }
 
-    /** The larger p is, the more storage (2^p bytes), the better accuracy */
+    /**
+     * The larger p is, the more storage (2^p bytes), the better accuracy
+     */
     private HyperLogLogPlusCounter(int p, HashFunction hashFunc) {
         this.p = p;
         this.m = 1 << p;//(int) Math.pow(2, p);
@@ -366,7 +371,6 @@ public class HyperLogLogPlusCounter implements Serializable, Comparable<HyperLog
     }
 
     /**
-     *
      * @param num
      * @param size
      * @param out

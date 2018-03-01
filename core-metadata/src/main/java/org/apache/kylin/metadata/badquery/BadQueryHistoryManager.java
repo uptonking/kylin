@@ -31,7 +31,11 @@ import org.apache.kylin.metadata.MetadataConstants;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+/**
+ * 坏查询历史管理器
+ */
 public class BadQueryHistoryManager {
+
     public static final Serializer<BadQueryHistory> BAD_QUERY_INSTANCE_SERIALIZER = new JsonSerializer<>(BadQueryHistory.class);
     private static final Logger logger = LoggerFactory.getLogger(BadQueryHistoryManager.class);
 

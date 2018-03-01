@@ -29,7 +29,11 @@ import org.apache.kylin.metadata.datatype.DataTypeSerializer;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+/**
+ * 定长维度编码
+ */
 public class FixedLenDimEnc extends DimensionEncoding {
+
     private static final long serialVersionUID = 1L;
 
     private static Logger logger = LoggerFactory.getLogger(FixedLenDimEnc.class);
