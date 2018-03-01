@@ -42,6 +42,7 @@ import com.google.common.base.Function;
 import com.google.common.collect.Iterables;
 
 /**
+ * zookeeper作业锁
  */
 public class ZookeeperJobLock implements JobLock {
     private Logger logger = LoggerFactory.getLogger(ZookeeperJobLock.class);

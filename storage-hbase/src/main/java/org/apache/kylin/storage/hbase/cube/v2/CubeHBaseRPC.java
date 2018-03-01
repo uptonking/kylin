@@ -55,6 +55,9 @@ import org.slf4j.LoggerFactory;
 import com.google.common.base.Preconditions;
 import com.google.common.collect.Lists;
 
+/**
+ * hbase上实现提供cube信息的rpc 类
+ */
 public abstract class CubeHBaseRPC implements IGTStorage {
 
     public static final Logger logger = LoggerFactory.getLogger(CubeHBaseRPC.class);
@@ -67,7 +70,7 @@ public abstract class CubeHBaseRPC implements IGTStorage {
 
     public CubeHBaseRPC(ISegment segment, Cuboid cuboid, GTInfo fullGTInfo) {
         Preconditions.checkArgument(segment instanceof CubeSegment, "segment must be CubeSegment");
-        
+
         this.cubeSeg = (CubeSegment) segment;
         this.cuboid = cuboid;
         this.fullGTInfo = fullGTInfo;

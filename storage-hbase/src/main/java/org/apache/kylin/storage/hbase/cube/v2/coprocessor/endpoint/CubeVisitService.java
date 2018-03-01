@@ -74,6 +74,9 @@ import com.google.protobuf.RpcController;
 import com.google.protobuf.Service;
 import com.sun.management.OperatingSystemMXBean;
 
+/**
+ * cube访问服务实现
+ */
 @SuppressWarnings("unused")
 //used in hbase endpoint
 public class CubeVisitService extends CubeVisitProtos.CubeVisitService implements Coprocessor, CoprocessorService {
@@ -351,7 +354,7 @@ public class CubeVisitService extends CubeVisitProtos.CubeVisitService implement
 
             CubeVisitProtos.CubeVisitResponse.Builder responseBuilder = CubeVisitProtos.CubeVisitResponse.newBuilder();
             done.run(responseBuilder.//
-                    setCompressedRows(HBaseZeroCopyByteString.wrap(compressedAllRows)).//too many array copies 
+                    setCompressedRows(HBaseZeroCopyByteString.wrap(compressedAllRows)).//too many array copies
                     setStats(CubeVisitProtos.CubeVisitResponse.Stats.newBuilder().//
                             setAggregatedRowCount(finalScanner.getScannedRowCount() - finalRowCount).//
                             setScannedRowCount(finalScanner.getScannedRowCount()).//
@@ -360,7 +363,7 @@ public class CubeVisitService extends CubeVisitProtos.CubeVisitService implement
                             setSystemCpuLoad(systemCpuLoad).//
                             setFreePhysicalMemorySize(freePhysicalMemorySize).//
                             setFreeSwapSpaceSize(freeSwapSpaceSize).//
-                            setHostname(InetAddress.getLocalHost().getHostName()).// 
+                            setHostname(InetAddress.getLocalHost().getHostName()).//
                             setEtcMsg(sb.toString()).//
                             setNormalComplete(scanNormalComplete.booleanValue() ? 1 : 0).build())
                     .//

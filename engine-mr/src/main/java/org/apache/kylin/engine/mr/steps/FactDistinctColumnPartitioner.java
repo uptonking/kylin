@@ -24,8 +24,10 @@ import org.apache.hadoop.mapreduce.Partitioner;
 import org.apache.kylin.common.util.BytesUtil;
 
 /**
+ * 计算事实表列的分区函数
  */
 public class FactDistinctColumnPartitioner extends Partitioner<Text, Text> {
+
     private Configuration conf;
 
     @Override

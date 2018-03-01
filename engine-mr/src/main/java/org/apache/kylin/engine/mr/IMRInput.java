@@ -6,15 +6,15 @@
  * to you under the Apache License, Version 2.0 (the
  * "License"); you may not use this file except in compliance
  * with the License.  You may obtain a copy of the License at
- * 
+ *
  *     http://www.apache.org/licenses/LICENSE-2.0
- * 
+ *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
  * See the License for the specific language governing permissions and
  * limitations under the License.
-*/
+ */
 
 package org.apache.kylin.engine.mr;
 
@@ -25,17 +25,25 @@ import org.apache.kylin.metadata.model.ISegment;
 import org.apache.kylin.metadata.model.TableDesc;
 
 /**
+ * 适配mr的数据源输入 接口
+ * <p>
  * Any ITableSource that wishes to serve as input of MapReduce build engine must adapt to this interface.
  */
 public interface IMRInput {
 
-    /** Return a helper to participate in batch cubing job flow. */
+    /**
+     * Return a helper to participate in batch cubing job flow.
+     */
     public IMRBatchCubingInputSide getBatchCubingInputSide(IJoinedFlatTableDesc flatDesc);
 
-    /** Return an InputFormat that reads from specified table. */
+    /**
+     * Return an InputFormat that reads from specified table.
+     */
     public IMRTableInputFormat getTableInputFormat(TableDesc table);
 
-    /** Return a helper to participate in batch cubing merge job flow. */
+    /**
+     * Return a helper to participate in batch cubing merge job flow.
+     */
     public IMRBatchMergeInputSide getBatchMergeInputSide(ISegment seg);
 
     /**
@@ -43,17 +51,21 @@ public interface IMRInput {
      */
     public interface IMRTableInputFormat {
 
-        /** Configure the InputFormat of given job. */
+        /**
+         * Configure the InputFormat of given job.
+         */
         public void configureJob(Job job);
 
-        /** Parse a mapper input object into column values. */
+        /**
+         * Parse a mapper input object into column values.
+         */
         public String[] parseMapperInput(Object mapperInput);
     }
 
     /**
      * Participate the batch cubing flow as the input side. Responsible for creating
      * intermediate flat table (Phase 1) and clean up any leftover (Phase 4).
-     * 
+     * <p>
      * - Phase 1: Create Flat Table
      * - Phase 2: Build Dictionary (with FlatTableInputFormat)
      * - Phase 3: Build Cube (with FlatTableInputFormat)
@@ -61,19 +73,27 @@ public interface IMRInput {
      */
     public interface IMRBatchCubingInputSide {
 
-        /** Return an InputFormat that reads from the intermediate flat table */
+        /**
+         * Return an InputFormat that reads from the intermediate flat table
+         */
         public IMRTableInputFormat getFlatTableInputFormat();
 
-        /** Add step that creates an intermediate flat table as defined by CubeJoinedFlatTableDesc */
+        /**
+         * Add step that creates an intermediate flat table as defined by CubeJoinedFlatTableDesc
+         */
         public void addStepPhase1_CreateFlatTable(DefaultChainedExecutable jobFlow);
 
-        /** Add step that does necessary clean up, like delete the intermediate flat table */
+        /**
+         * Add step that does necessary clean up, like delete the intermediate flat table
+         */
         public void addStepPhase4_Cleanup(DefaultChainedExecutable jobFlow);
     }
 
     public interface IMRBatchMergeInputSide {
 
-        /** Add step that executes before merge dictionary and before merge cube. */
+        /**
+         * Add step that executes before merge dictionary and before merge cube.
+         */
         public void addStepPhase1_MergeDictionary(DefaultChainedExecutable jobFlow);
 
     }

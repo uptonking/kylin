@@ -38,9 +38,14 @@ import org.apache.kylin.metadata.model.TblColRef;
 import com.google.common.collect.Sets;
 
 /**
+ * 过滤器装饰器
  */
 @SuppressWarnings("unchecked")
 public class FilterDecorator implements TupleFilterSerializer.Decorator {
+
+    /**
+     * 过滤器类型常量 枚举类
+     */
     public enum FilterConstantsTreatment {
         AS_IT_IS, REPLACE_WITH_GLOBAL_DICT, REPLACE_WITH_LOCAL_DICT
     }
@@ -76,68 +81,68 @@ public class FilterDecorator implements TupleFilterSerializer.Decorator {
 
         // translate constant into rowkey ID
         switch (newCompareFilter.getOperator()) {
-        case EQ:
-        case IN:
-            Set<String> newValues = Sets.newHashSet();
-            for (String value : constValues) {
-                v = translate(col, value, 0);
-                if (!isDictNull(v))
-                    newValues.add(v);
-            }
-            if (newValues.isEmpty()) {
-                result = ConstantTupleFilter.FALSE;
-            } else {
-                newCompareFilter.addChild(new ConstantTupleFilter(newValues));
-                result = newCompareFilter;
-            }
-            break;
-        case NEQ:
-            v = translate(col, firstValue, 0);
-            if (isDictNull(v)) {
-                result = ConstantTupleFilter.TRUE;
-            } else {
-                newCompareFilter.addChild(new ConstantTupleFilter(v));
-                result = newCompareFilter;
-            }
-            break;
-        case LT:
-            v = translate(col, firstValue, 1);
-            if (isDictNull(v)) {
-                result = ConstantTupleFilter.TRUE;
-            } else {
-                newCompareFilter.addChild(new ConstantTupleFilter(v));
-                result = newCompareFilter;
-            }
-            break;
-        case LTE:
-            v = translate(col, firstValue, -1);
-            if (isDictNull(v)) {
-                result = ConstantTupleFilter.FALSE;
-            } else {
-                newCompareFilter.addChild(new ConstantTupleFilter(v));
-                result = newCompareFilter;
-            }
-            break;
-        case GT:
-            v = translate(col, firstValue, -1);
-            if (isDictNull(v)) {
-                result = ConstantTupleFilter.TRUE;
-            } else {
-                newCompareFilter.addChild(new ConstantTupleFilter(v));
-                result = newCompareFilter;
-            }
-            break;
-        case GTE:
-            v = translate(col, firstValue, 1);
-            if (isDictNull(v)) {
-                result = ConstantTupleFilter.FALSE;
-            } else {
-                newCompareFilter.addChild(new ConstantTupleFilter(v));
-                result = newCompareFilter;
-            }
-            break;
-        default:
-            throw new IllegalStateException("Cannot handle operator " + newCompareFilter.getOperator());
+            case EQ:
+            case IN:
+                Set<String> newValues = Sets.newHashSet();
+                for (String value : constValues) {
+                    v = translate(col, value, 0);
+                    if (!isDictNull(v))
+                        newValues.add(v);
+                }
+                if (newValues.isEmpty()) {
+                    result = ConstantTupleFilter.FALSE;
+                } else {
+                    newCompareFilter.addChild(new ConstantTupleFilter(newValues));
+                    result = newCompareFilter;
+                }
+                break;
+            case NEQ:
+                v = translate(col, firstValue, 0);
+                if (isDictNull(v)) {
+                    result = ConstantTupleFilter.TRUE;
+                } else {
+                    newCompareFilter.addChild(new ConstantTupleFilter(v));
+                    result = newCompareFilter;
+                }
+                break;
+            case LT:
+                v = translate(col, firstValue, 1);
+                if (isDictNull(v)) {
+                    result = ConstantTupleFilter.TRUE;
+                } else {
+                    newCompareFilter.addChild(new ConstantTupleFilter(v));
+                    result = newCompareFilter;
+                }
+                break;
+            case LTE:
+                v = translate(col, firstValue, -1);
+                if (isDictNull(v)) {
+                    result = ConstantTupleFilter.FALSE;
+                } else {
+                    newCompareFilter.addChild(new ConstantTupleFilter(v));
+                    result = newCompareFilter;
+                }
+                break;
+            case GT:
+                v = translate(col, firstValue, -1);
+                if (isDictNull(v)) {
+                    result = ConstantTupleFilter.TRUE;
+                } else {
+                    newCompareFilter.addChild(new ConstantTupleFilter(v));
+                    result = newCompareFilter;
+                }
+                break;
+            case GTE:
+                v = translate(col, firstValue, 1);
+                if (isDictNull(v)) {
+                    result = ConstantTupleFilter.FALSE;
+                } else {
+                    newCompareFilter.addChild(new ConstantTupleFilter(v));
+                    result = newCompareFilter;
+                }
+                break;
+            default:
+                throw new IllegalStateException("Cannot handle operator " + newCompareFilter.getOperator());
         }
         return result;
     }

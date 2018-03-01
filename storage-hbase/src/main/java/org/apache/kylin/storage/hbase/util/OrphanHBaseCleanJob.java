@@ -6,15 +6,15 @@
  * to you under the Apache License, Version 2.0 (the
  * "License"); you may not use this file except in compliance
  * with the License.  You may obtain a copy of the License at
- * 
+ *
  *     http://www.apache.org/licenses/LICENSE-2.0
- * 
+ *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
  * See the License for the specific language governing permissions and
  * limitations under the License.
-*/
+ */
 
 package org.apache.kylin.storage.hbase.util;
 
@@ -42,6 +42,8 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 /**
+ * 独立的hbase清理作业
+ * 清理无用的表
  */
 public class OrphanHBaseCleanJob extends AbstractApplication {
 
@@ -117,6 +119,7 @@ public class OrphanHBaseCleanJob extends AbstractApplication {
     protected void execute(OptionsHelper optionsHelper) throws Exception {
         logger.info("options: '" + optionsHelper.getOptionsAsString() + "'");
         logger.info("delete option value: '" + optionsHelper.getOptionValue(OPTION_DELETE) + "'");
+
         delete = Boolean.parseBoolean(optionsHelper.getOptionValue(OPTION_DELETE));
         String[] metastoreWhitelist = optionsHelper.getOptionValue(OPTION_WHITELIST).split(",");
 

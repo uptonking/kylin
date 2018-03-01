@@ -14,7 +14,7 @@
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
  * See the License for the specific language governing permissions and
  * limitations under the License.
-*/
+ */
 
 package org.apache.kylin.job.execution;
 
@@ -37,7 +37,7 @@ public enum ExecutableState {
     private static Multimap<ExecutableState, ExecutableState> VALID_STATE_TRANSFER;
 
     static {
-        VALID_STATE_TRANSFER = Multimaps.newSetMultimap(Maps.<ExecutableState, Collection<ExecutableState>> newEnumMap(ExecutableState.class), new Supplier<Set<ExecutableState>>() {
+        VALID_STATE_TRANSFER = Multimaps.newSetMultimap(Maps.<ExecutableState, Collection<ExecutableState>>newEnumMap(ExecutableState.class), new Supplier<Set<ExecutableState>>() {
             @Override
             public Set<ExecutableState> get() {
                 return new CopyOnWriteArraySet<ExecutableState>();

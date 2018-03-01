@@ -48,10 +48,11 @@ import com.google.common.collect.Lists;
 
 /**
  * A deprecated job step, used by 0.7 jobs only. Kept here solely for smooth upgrade to 0.8.
- * 
- * Drop the resources that is no longer needed, including intermediate hive table 
+ * <p>
+ * Drop the resources that is no longer needed, including intermediate hive table
  * (after cube build) and hbase tables (after cube merge)
  */
+@Deprecated
 public class DeprecatedGCStep extends AbstractExecutable {
 
     private static final String OLD_HTABLES = "oldHTables";

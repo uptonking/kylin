@@ -21,6 +21,7 @@ package org.apache.kylin.storage.util;
 import net.sf.ehcache.pool.sizeof.ReflectionSizeOf;
 
 /**
+ * 计算对象大小的工具类
  */
 public final class SizeOfUtil {
 

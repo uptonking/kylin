@@ -6,15 +6,15 @@
  * to you under the Apache License, Version 2.0 (the
  * "License"); you may not use this file except in compliance
  * with the License.  You may obtain a copy of the License at
- * 
+ *
  *     http://www.apache.org/licenses/LICENSE-2.0
- * 
+ *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
  * See the License for the specific language governing permissions and
  * limitations under the License.
-*/
+ */
 
 package org.apache.kylin.job.impl.threadpool;
 
@@ -46,6 +46,7 @@ import org.slf4j.LoggerFactory;
 import com.google.common.collect.Maps;
 
 /**
+ * 默认调度器
  */
 public class DefaultScheduler implements Scheduler<AbstractExecutable>, ConnectionStateListener {
 
@@ -183,7 +184,7 @@ public class DefaultScheduler implements Scheduler<AbstractExecutable>, Connecti
     @Override
     public synchronized void init(JobEngineConfig jobEngineConfig, final JobLock jobLock) throws SchedulerException {
         this.jobLock = jobLock;
-        
+
         String serverMode = jobEngineConfig.getConfig().getServerMode();
         if (!("job".equals(serverMode.toLowerCase()) || "all".equals(serverMode.toLowerCase()))) {
             logger.info("server mode: " + serverMode + ", no need to run job scheduler");
@@ -208,7 +209,7 @@ public class DefaultScheduler implements Scheduler<AbstractExecutable>, Connecti
         fetcherPool = Executors.newScheduledThreadPool(1);
         int corePoolSize = jobEngineConfig.getMaxConcurrentJobLimit();
         jobPool = new ThreadPoolExecutor(corePoolSize, corePoolSize, Long.MAX_VALUE, TimeUnit.DAYS, new SynchronousQueue<Runnable>());
-        context = new DefaultContext(Maps.<String, Executable> newConcurrentMap(), jobEngineConfig.getConfig());
+        context = new DefaultContext(Maps.<String, Executable>newConcurrentMap(), jobEngineConfig.getConfig());
 
         executableManager.resumeAllRunningJobs();
 

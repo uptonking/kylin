@@ -6,15 +6,15 @@
  * to you under the Apache License, Version 2.0 (the
  * "License"); you may not use this file except in compliance
  * with the License.  You may obtain a copy of the License at
- * 
+ *
  *     http://www.apache.org/licenses/LICENSE-2.0
- * 
+ *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
  * See the License for the specific language governing permissions and
  * limitations under the License.
-*/
+ */
 
 package org.apache.kylin.storage.hbase.steps;
 
@@ -28,10 +28,12 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 /**
+ * 使用旧版hbase（小于1.x)作为计算引擎输出的过滤类
+ * <p>
  * This "Transition" impl generates cuboid files and then convert to HFile.
  * The additional step slows down build process, but the gains is merge
  * can read from HDFS instead of over HBase region server. See KYLIN-1007.
- * 
+ * <p>
  * This is transitional because finally we want to merge from HTable snapshot.
  * However multiple snapshots as MR input is only supported by HBase 1.x.
  * Before most users upgrade to latest HBase, they can only use this transitional

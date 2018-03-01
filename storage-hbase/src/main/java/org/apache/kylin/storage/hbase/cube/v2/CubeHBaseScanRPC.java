@@ -49,6 +49,8 @@ import com.google.common.collect.Iterators;
 import com.google.common.collect.Lists;
 
 /**
+ * 扫描hbasecube的rpc服务 仅作测试
+ * <p>
  * for test use only
  */
 public class CubeHBaseScanRPC extends CubeHBaseRPC {

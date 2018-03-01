@@ -6,15 +6,15 @@
  * to you under the Apache License, Version 2.0 (the
  * "License"); you may not use this file except in compliance
  * with the License.  You may obtain a copy of the License at
- * 
+ *
  *     http://www.apache.org/licenses/LICENSE-2.0
- * 
+ *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
  * See the License for the specific language governing permissions and
  * limitations under the License.
-*/
+ */
 
 package org.apache.kylin.engine.mr;
 
@@ -41,15 +41,16 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 /**
+ * hdfs中表读取器
  * Tables are typically CSV or SEQ file.
- * 
+ *
  * @author yangli9
  */
 public class DFSFileTableReader implements TableReader {
 
     private static final Logger logger = LoggerFactory.getLogger(DFSFileTableReader.class);
     private static final char CSV_QUOTE = '"';
-    private static final String[] DETECT_DELIMS = new String[] { "\177", "|", "\t", "," };
+    private static final String[] DETECT_DELIMS = new String[]{"\177", "|", "\t", ","};
 
     private String filePath;
     private String delim;
@@ -110,7 +111,7 @@ public class DFSFileTableReader implements TableReader {
                 delim = autoDetectDelim(curLine);
 
             if (delim == null)
-                curColumns = new String[] { curLine };
+                curColumns = new String[]{curLine};
             else
                 curColumns = split(curLine, delim);
         }

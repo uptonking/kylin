@@ -6,15 +6,15 @@
  * to you under the Apache License, Version 2.0 (the
  * "License"); you may not use this file except in compliance
  * with the License.  You may obtain a copy of the License at
- * 
+ *
  *     http://www.apache.org/licenses/LICENSE-2.0
- * 
+ *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
  * See the License for the specific language governing permissions and
  * limitations under the License.
-*/
+ */
 
 package org.apache.kylin.storage.hbase.steps;
 
@@ -47,6 +47,8 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 /**
+ * 创建hfile的作业
+ *
  * @author George Song (ysong1)
  */
 public class CubeHFileJob extends AbstractHadoopJob {
@@ -113,6 +115,7 @@ public class CubeHFileJob extends AbstractHadoopJob {
 
     /**
      * Check if there's partition files for hfile, if yes replace the table splits, to make the job more reducers
+     *
      * @param conf the job configuration
      * @param path the hfile partition file
      * @throws IOException

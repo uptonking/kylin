@@ -6,9 +6,9 @@
  * to you under the Apache License, Version 2.0 (the
  * "License"); you may not use this file except in compliance
  * with the License.  You may obtain a copy of the License at
- *  
+ *
  *     http://www.apache.org/licenses/LICENSE-2.0
- *  
+ *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
@@ -58,6 +58,9 @@ import com.google.common.collect.Lists;
 import com.google.common.collect.Maps;
 import com.google.common.collect.Sets;
 
+/**
+ * cube存储查询的基类
+ */
 public abstract class GTCubeStorageQueryBase implements IStorageQuery {
 
     private static final Logger logger = LoggerFactory.getLogger(GTCubeStorageQueryBase.class);
@@ -394,7 +397,7 @@ public abstract class GTCubeStorageQueryBase implements IStorageQuery {
             if ((temp = map.get(key)) != null) {
                 temp.add(measure);
             } else {
-                map.put(key, Lists.<MeasureDesc> newArrayList(measure));
+                map.put(key, Lists.<MeasureDesc>newArrayList(measure));
             }
         }
 

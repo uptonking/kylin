@@ -14,7 +14,7 @@
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
  * See the License for the specific language governing permissions and
  * limitations under the License.
-*/
+ */
 
 package org.apache.kylin.metadata.realization;
 
@@ -26,7 +26,8 @@ import org.apache.kylin.metadata.model.MeasureDesc;
 import org.apache.kylin.metadata.model.TblColRef;
 
 /**
- * 存储实现 接口
+ * IRealization是在Cube之上的一个 抽象
+ * 其主要的实现就是 Cube ，此外还有被称为 Hybrid 的联合 Cube
  */
 public interface IRealization extends IStorageAware {
 

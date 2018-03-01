@@ -29,6 +29,9 @@ import org.slf4j.LoggerFactory;
 
 import com.google.common.collect.Maps;
 
+/**
+ * cuboid分片工具类
+ */
 public class CuboidShardUtil {
     protected static final Logger logger = LoggerFactory.getLogger(CuboidShardUtil.class);
 

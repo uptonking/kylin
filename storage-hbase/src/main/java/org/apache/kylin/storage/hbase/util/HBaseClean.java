@@ -39,6 +39,8 @@ import org.slf4j.LoggerFactory;
 import com.google.common.collect.Lists;
 
 /**
+ * 清理hbase表的命令行工具类
+ * <p>
  * clean hbase tables by tag
  */
 public class HBaseClean extends AbstractApplication {

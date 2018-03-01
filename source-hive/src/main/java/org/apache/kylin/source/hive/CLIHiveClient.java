@@ -6,15 +6,15 @@
  * to you under the Apache License, Version 2.0 (the
  * "License"); you may not use this file except in compliance
  * with the License.  You may obtain a copy of the License at
- * 
+ *
  *     http://www.apache.org/licenses/LICENSE-2.0
- * 
+ *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
  * See the License for the specific language governing permissions and
  * limitations under the License.
-*/
+ */
 
 package org.apache.kylin.source.hive;
 
@@ -37,9 +37,11 @@ import org.apache.hadoop.hive.ql.session.SessionState;
 import com.google.common.collect.Lists;
 
 /**
+ * hive命令行客户端
+ * <p>
  * Hive meta API client for Kylin
- * @author shaoshi
  *
+ * @author shaoshi
  */
 public class CLIHiveClient implements IHiveClient {
 
@@ -132,12 +134,11 @@ public class CLIHiveClient implements IHiveClient {
 
     /**
      * COPIED FROM org.apache.hadoop.hive.ql.stats.StatsUtil for backward compatibility
-     * 
+     * <p>
      * Get basic stats of table
-     * @param table
-     *          - table
-     * @param statType
-     *          - type of stats
+     *
+     * @param table    - table
+     * @param statType - type of stats
      * @return value of stats
      */
     private long getBasicStatForTable(org.apache.hadoop.hive.ql.metadata.Table table, String statType) {
@@ -156,6 +157,7 @@ public class CLIHiveClient implements IHiveClient {
 
     /**
      * Get the hive ql driver to execute ddl or dml
+     *
      * @return
      */
     private Driver getDriver() {

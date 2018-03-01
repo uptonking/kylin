@@ -6,9 +6,9 @@
  * to you under the Apache License, Version 2.0 (the
  * "License"); you may not use this file except in compliance
  * with the License.  You may obtain a copy of the License at
- *  
+ *
  *     http://www.apache.org/licenses/LICENSE-2.0
- *  
+ *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
@@ -57,6 +57,9 @@ import com.google.common.collect.Lists;
 import com.google.common.collect.Maps;
 import com.google.common.collect.Sets;
 
+/**
+ * cube范围扫描计划
+ */
 public class CubeScanRangePlanner extends ScanRangePlannerBase {
 
     private static final Logger logger = LoggerFactory.getLogger(CubeScanRangePlanner.class);
@@ -72,7 +75,7 @@ public class CubeScanRangePlanner extends ScanRangePlannerBase {
     protected StorageContext context;
 
     public CubeScanRangePlanner(CubeSegment cubeSegment, Cuboid cuboid, TupleFilter filter, Set<TblColRef> dimensions, Set<TblColRef> groupbyDims, //
-            Collection<FunctionDesc> metrics, StorageContext context) {
+                                Collection<FunctionDesc> metrics, StorageContext context) {
         this.context = context;
 
         this.maxScanRanges = KylinConfig.getInstanceFromEnv().getQueryStorageVisitScanRangeMax();
@@ -96,7 +99,7 @@ public class CubeScanRangePlanner extends ScanRangePlannerBase {
         //start key GTRecord compare to stop key GTRecord
         this.rangeStartEndComparator = RecordComparators.getRangeStartEndComparator(comp);
 
-        //replace the constant values in filter to dictionary codes 
+        //replace the constant values in filter to dictionary codes
         this.gtFilter = GTUtil.convertFilterColumnsAndConstants(filter, gtInfo, mapping.getCuboidDimensionsInGTOrder(), groupbyDims);
 
         this.gtDimensions = mapping.makeGridTableColumns(dimensions);
@@ -117,7 +120,8 @@ public class CubeScanRangePlanner extends ScanRangePlannerBase {
     }
 
     /**
-     * constrcut GTScanRangePlanner with incomplete information. only be used for UT  
+     * constrcut GTScanRangePlanner with incomplete information. only be used for UT
+     *
      * @param info
      * @param gtStartAndEnd
      * @param gtPartitionCol
@@ -164,6 +168,7 @@ public class CubeScanRangePlanner extends ScanRangePlannerBase {
 
     /**
      * Overwrite this method to provide smarter storage visit plans
+     *
      * @return
      */
     public List<GTScanRange> planScanRanges() {
@@ -211,7 +216,7 @@ public class CubeScanRangePlanner extends ScanRangePlannerBase {
                 int endCompare = rangeStartEndComparator.comparator.compare(gtStartAndEnd.getFirst(), range.end);
 
                 if ((isPartitionColUsingDatetimeEncoding && endCompare <= 0 && beginCompare < 0) || (!isPartitionColUsingDatetimeEncoding && endCompare <= 0 && beginCompare <= 0)) {
-                    //segment range is [Closed,Open), but segmentStartAndEnd.getSecond() might be rounded when using dict encoding, so use <= when has equals in condition. 
+                    //segment range is [Closed,Open), but segmentStartAndEnd.getSecond() might be rounded when using dict encoding, so use <= when has equals in condition.
                 } else {
                     logger.debug("Pre-check partition col filter failed, partitionColRef {}, segment start {}, segment end {}, range begin {}, range end {}", //
                             gtPartitionCol, makeReadable(gtStartAndEnd.getFirst()), makeReadable(gtStartAndEnd.getSecond()), makeReadable(range.begin), makeReadable(range.end));

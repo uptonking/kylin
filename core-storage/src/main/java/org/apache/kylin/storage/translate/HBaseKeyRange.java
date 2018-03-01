@@ -6,15 +6,15 @@
  * to you under the Apache License, Version 2.0 (the
  * "License"); you may not use this file except in compliance
  * with the License.  You may obtain a copy of the License at
- * 
+ *
  *     http://www.apache.org/licenses/LICENSE-2.0
- * 
+ *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
  * See the License for the specific language governing permissions and
  * limitations under the License.
-*/
+ */
 
 package org.apache.kylin.storage.translate;
 
@@ -45,6 +45,8 @@ import com.google.common.collect.Lists;
 import com.google.common.collect.Maps;
 
 /**
+ * hbase的key范围 类
+ *
  * @author xjiang
  */
 public class HBaseKeyRange implements Comparable<HBaseKeyRange> {
@@ -52,11 +54,12 @@ public class HBaseKeyRange implements Comparable<HBaseKeyRange> {
     private static final Logger logger = LoggerFactory.getLogger(HBaseKeyRange.class);
 
     private static final int FUZZY_VALUE_CAP = 100;
-    private static final byte[] ZERO_TAIL_BYTES = new byte[] { 0 };
+    private static final byte[] ZERO_TAIL_BYTES = new byte[]{0};
 
     private final CubeSegment cubeSeg;
     private final Cuboid cuboid;
-    private final List<Collection<ColumnValueRange>> flatOrAndFilter; // OR-AND filter, (A AND B AND ..) OR (C AND D AND ..) OR ..
+    // OR-AND filter, (A AND B AND ..) OR (C AND D AND ..) OR ..
+    private final List<Collection<ColumnValueRange>> flatOrAndFilter;
 
     private byte[] startKey;
     private byte[] stopKey;

@@ -14,11 +14,15 @@
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
  * See the License for the specific language governing permissions and
  * limitations under the License.
-*/
+ */
 
 package org.apache.kylin.job.constant;
 
+/**
+ * 作业时间过滤器 枚举类
+ */
 public enum JobTimeFilterEnum {
+
     LAST_ONE_DAY(0), LAST_ONE_WEEK(1), LAST_ONE_MONTH(2), LAST_ONE_YEAR(3), ALL(4);
 
     private final int code;

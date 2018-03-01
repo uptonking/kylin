@@ -11,7 +11,7 @@
     <artifactId>kylin-core-common</artifactId>
     <packaging>jar</packaging>
     <name>Apache Kylin - Core Common</name>
-    <description>通用配置及工具类</description>
+    <description>kylin通用配置及工具类</description>
 
     <dependencies>
         <!-- Basic Utilities -->

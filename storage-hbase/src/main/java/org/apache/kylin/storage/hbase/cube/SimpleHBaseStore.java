@@ -45,6 +45,9 @@ import org.apache.kylin.gridtable.IGTWriter;
 import org.apache.kylin.storage.hbase.HBaseConnection;
 import org.apache.kylin.storage.hbase.steps.CubeHTableUtil;
 
+/**
+ * 简单的hbase存储
+ */
 public class SimpleHBaseStore implements IGTStore {
 
     static final String CF = "F";

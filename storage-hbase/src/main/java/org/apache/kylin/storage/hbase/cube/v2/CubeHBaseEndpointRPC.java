@@ -62,6 +62,9 @@ import com.google.common.collect.Lists;
 import com.google.protobuf.ByteString;
 import com.google.protobuf.HBaseZeroCopyByteString;
 
+/**
+ * hbase协处理器的endpoint
+ */
 public class CubeHBaseEndpointRPC extends CubeHBaseRPC {
 
     private static final Logger logger = LoggerFactory.getLogger(CubeHBaseEndpointRPC.class);
@@ -128,14 +131,14 @@ public class CubeHBaseEndpointRPC extends CubeHBaseRPC {
         //TODO: raw scan can be constructed at region side to reduce traffic
         List<RawScan> rawScans = preparedHBaseScans(scanRequest.getGTScanRanges(), selectedColBlocks);
         rawScanByteString = serializeRawScans(rawScans);
-        
+
         int coprocessorTimeout = getCoprocessorTimeoutMillis();
         scanRequest.setTimeout(coprocessorTimeout);
         scanRequest.clearScanRanges();//since raw scans are sent to coprocessor, we don't need to duplicate sending it
         scanRequestByteString = serializeGTScanReq(scanRequest);
 
         final ExpectedSizeIterator epResultItr = new ExpectedSizeIterator(shardNum, coprocessorTimeout);
-        
+
         logger.info("Serialized scanRequestBytes {} bytes, rawScanBytesString {} bytes", scanRequestByteString.size(), rawScanByteString.size());
 
         logger.info("The scan {} for segment {} is as below with {} separate raw scans, shard part of start/end key is set to 0", Integer.toHexString(System.identityHashCode(scanRequest)), cubeSeg, rawScans.size());

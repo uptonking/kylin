@@ -27,6 +27,7 @@ import org.apache.kylin.dimension.FixedLenDimEnc;
 import com.google.common.collect.Lists;
 
 /**
+ * 要聚合的key
  */
 public class AggrKey implements Comparable<AggrKey> {
 

@@ -30,9 +30,12 @@ import org.apache.kylin.measure.BufferedMeasureCodec;
 import org.apache.kylin.metadata.model.MeasureDesc;
 
 /**
+ * 键值对创建者
+ *
  * @author George Song (ysong1)
  */
 public class KeyValueCreator {
+
     byte[] cfBytes;
     byte[] qBytes;
     long timestamp;

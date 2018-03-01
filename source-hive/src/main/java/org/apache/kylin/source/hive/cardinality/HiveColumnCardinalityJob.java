@@ -6,15 +6,15 @@
  * to you under the Apache License, Version 2.0 (the
  * "License"); you may not use this file except in compliance
  * with the License.  You may obtain a copy of the License at
- * 
+ *
  *     http://www.apache.org/licenses/LICENSE-2.0
- * 
+ *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
  * See the License for the specific language governing permissions and
  * limitations under the License.
-*/
+ */
 
 package org.apache.kylin.source.hive.cardinality;
 
@@ -39,15 +39,22 @@ import org.apache.kylin.metadata.MetadataManager;
 import org.apache.kylin.metadata.model.TableDesc;
 
 /**
- * This hadoop job will scan all rows of the hive table and then calculate the cardinality on each column.
- * @author shaoshi
+ * 计算hive表列基数的作业
+ * <p>
+ * This hadoop job will scan all rows of the hive table
+ * and then calculate the cardinality on each column.
  *
+ * @author shaoshi
  */
 public class HiveColumnCardinalityJob extends AbstractHadoopJob {
     public static final String JOB_TITLE = "Kylin Hive Column Cardinality Job";
 
     @SuppressWarnings("static-access")
-    protected static final Option OPTION_TABLE = OptionBuilder.withArgName("table name").hasArg().isRequired(true).withDescription("The hive table name").create("table");
+    protected static final Option OPTION_TABLE = OptionBuilder.
+            withArgName("table name").
+            hasArg().isRequired(true).
+            withDescription("The hive table name").
+            create("table");
 
     public static final String OUTPUT_PATH = BatchConstants.CFG_KYLIN_HDFS_TEMP_DIR + "cardinality";
 

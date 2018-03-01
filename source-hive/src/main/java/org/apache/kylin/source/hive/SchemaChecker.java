@@ -14,7 +14,7 @@
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
  * See the License for the specific language governing permissions and
  * limitations under the License.
-*/
+ */
 
 package org.apache.kylin.source.hive;
 
@@ -43,7 +43,11 @@ import com.google.common.collect.Lists;
 import com.google.common.collect.Maps;
 import com.google.common.collect.Sets;
 
+/**
+ * hive表模式检测 类
+ */
 public class SchemaChecker {
+
     private final IHiveClient hiveClient;
     private final MetadataManager metadataManager;
     private final CubeManager cubeManager;
@@ -145,8 +149,9 @@ public class SchemaChecker {
 
     /**
      * check whether all columns used in `cube` has compatible schema in current hive schema denoted by `fieldsMap`.
-     * @param cube cube to check, must use `table` in its model
-     * @param table kylin's table metadata
+     *
+     * @param cube      cube to check, must use `table` in its model
+     * @param table     kylin's table metadata
      * @param fieldsMap current hive schema of `table`
      * @return true if all columns used in `cube` has compatible schema with `fieldsMap`, false otherwise
      */
@@ -171,7 +176,7 @@ public class SchemaChecker {
     /**
      * check whether all columns in `table` are still in `fields` and have the same index as before.
      *
-     * @param table kylin's table metadata
+     * @param table  kylin's table metadata
      * @param fields current table metadata in hive
      * @return true if only new columns are appended in hive, false otherwise
      */

@@ -6,9 +6,9 @@
  * to you under the Apache License, Version 2.0 (the
  * "License"); you may not use this file except in compliance
  * with the License.  You may obtain a copy of the License at
- *  
+ *
  *     http://www.apache.org/licenses/LICENSE-2.0
- *  
+ *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
@@ -26,8 +26,10 @@ import java.util.Iterator;
 import com.google.common.collect.PeekingIterator;
 
 /**
+ * peek集合元素
+ * <p>
  * copied from guava, change iterator access modifier to public
- * 
+ * <p>
  * Implementation of PeekingIterator that avoids peeking unless necessary.
  */
 class PeekingImpl<E> implements PeekingIterator<E> {
@@ -38,6 +40,15 @@ class PeekingImpl<E> implements PeekingIterator<E> {
 
     public PeekingImpl(Iterator<? extends E> iterator) {
         this.iterator = checkNotNull(iterator);
+    }
+
+    @Override
+    public E peek() {
+        if (!hasPeeked) {
+            peekedElement = iterator.next();
+            hasPeeked = true;
+        }
+        return peekedElement;
     }
 
     @Override
@@ -62,12 +73,5 @@ class PeekingImpl<E> implements PeekingIterator<E> {
         iterator.remove();
     }
 
-    @Override
-    public E peek() {
-        if (!hasPeeked) {
-            peekedElement = iterator.next();
-            hasPeeked = true;
-        }
-        return peekedElement;
-    }
+
 }

@@ -6,15 +6,15 @@
  * to you under the Apache License, Version 2.0 (the
  * "License"); you may not use this file except in compliance
  * with the License.  You may obtain a copy of the License at
- * 
+ *
  *     http://www.apache.org/licenses/LICENSE-2.0
- * 
+ *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
  * See the License for the specific language governing permissions and
  * limitations under the License.
-*/
+ */
 
 package org.apache.kylin.storage.hbase.util;
 
@@ -70,6 +70,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 /**
+ * cube迁移的命令行工具类
  * <p/>
  * This tool serves for the purpose of migrating cubes. e.g. upgrade cube from
  * dev env to test(prod) env, or vice versa.
@@ -198,19 +199,19 @@ public class CubeMigrationCLI {
             String src = JobBuilderSupport.getJobWorkingDir(srcConfig.getHdfsWorkingDirectory(), jobUuid);
             String tgt = JobBuilderSupport.getJobWorkingDir(dstConfig.getHdfsWorkingDirectory(), jobUuid);
 
-            operations.add(new Opt(OptType.RENAME_FOLDER_IN_HDFS, new Object[] { src, tgt }));
+            operations.add(new Opt(OptType.RENAME_FOLDER_IN_HDFS, new Object[]{src, tgt}));
         }
 
     }
 
     private static void changeHtableHost(CubeInstance cube) {
         for (CubeSegment segment : cube.getSegments()) {
-            operations.add(new Opt(OptType.CHANGE_HTABLE_HOST, new Object[] { segment.getStorageLocationIdentifier() }));
+            operations.add(new Opt(OptType.CHANGE_HTABLE_HOST, new Object[]{segment.getStorageLocationIdentifier()}));
         }
     }
 
     private static void copyACL(CubeInstance cube, String projectName) {
-        operations.add(new Opt(OptType.COPY_ACL, new Object[] { cube.getUuid(), cube.getDescriptor().getModel().getUuid(), projectName }));
+        operations.add(new Opt(OptType.COPY_ACL, new Object[]{cube.getUuid(), cube.getDescriptor().getModel().getUuid(), projectName}));
     }
 
     private static void copyFilesInMetaStore(CubeInstance cube, String overwriteIfExists) throws IOException {
@@ -223,11 +224,11 @@ public class CubeMigrationCLI {
             throw new IllegalStateException("The cube named " + cube.getName() + " already exists on target metadata store. Use overwriteIfExists to overwrite it");
 
         for (String item : metaItems) {
-            operations.add(new Opt(OptType.COPY_FILE_IN_META, new Object[] { item }));
+            operations.add(new Opt(OptType.COPY_FILE_IN_META, new Object[]{item}));
         }
 
         for (String item : dictAndSnapshot) {
-            operations.add(new Opt(OptType.COPY_DICT_OR_SNAPSHOT, new Object[] { item, cube.getName() }));
+            operations.add(new Opt(OptType.COPY_DICT_OR_SNAPSHOT, new Object[]{item, cube.getName()}));
         }
     }
 
@@ -236,11 +237,11 @@ public class CubeMigrationCLI {
         if (!dstStore.exists(projectResPath))
             throw new IllegalStateException("The target project " + projectName + "does not exist");
 
-        operations.add(new Opt(OptType.ADD_INTO_PROJECT, new Object[] { srcCube, cubeName, projectName }));
+        operations.add(new Opt(OptType.ADD_INTO_PROJECT, new Object[]{srcCube, cubeName, projectName}));
     }
 
     private static void purgeAndDisable(String cubeName) throws IOException {
-        operations.add(new Opt(OptType.PURGE_AND_DISABLE, new Object[] { cubeName }));
+        operations.add(new Opt(OptType.PURGE_AND_DISABLE, new Object[]{cubeName}));
     }
 
     private static void listCubeRelatedResources(CubeInstance cube, List<String> metaResource, Set<String> dictAndSnapshot) throws IOException {
@@ -323,176 +324,176 @@ public class CubeMigrationCLI {
         logger.info("Executing operation: " + opt.toString());
 
         switch (opt.type) {
-        case CHANGE_HTABLE_HOST: {
-            TableName tableName = TableName.valueOf((String) opt.params[0]);
-            HTableDescriptor desc = hbaseAdmin.getTableDescriptor(tableName);
-            hbaseAdmin.disableTable(tableName);
-            desc.setValue(IRealizationConstants.HTableTag, dstConfig.getMetadataUrlPrefix());
-            hbaseAdmin.modifyTable(tableName, desc);
-            hbaseAdmin.enableTable(tableName);
-            logger.info("CHANGE_HTABLE_HOST is completed");
-            break;
-        }
-        case COPY_FILE_IN_META: {
-            String item = (String) opt.params[0];
-            RawResource res = srcStore.getResource(item);
-            dstStore.putResource(item, res.inputStream, res.timestamp);
-            res.inputStream.close();
-            logger.info("Item " + item + " is copied");
-            break;
-        }
-        case COPY_DICT_OR_SNAPSHOT: {
-            String item = (String) opt.params[0];
+            case CHANGE_HTABLE_HOST: {
+                TableName tableName = TableName.valueOf((String) opt.params[0]);
+                HTableDescriptor desc = hbaseAdmin.getTableDescriptor(tableName);
+                hbaseAdmin.disableTable(tableName);
+                desc.setValue(IRealizationConstants.HTableTag, dstConfig.getMetadataUrlPrefix());
+                hbaseAdmin.modifyTable(tableName, desc);
+                hbaseAdmin.enableTable(tableName);
+                logger.info("CHANGE_HTABLE_HOST is completed");
+                break;
+            }
+            case COPY_FILE_IN_META: {
+                String item = (String) opt.params[0];
+                RawResource res = srcStore.getResource(item);
+                dstStore.putResource(item, res.inputStream, res.timestamp);
+                res.inputStream.close();
+                logger.info("Item " + item + " is copied");
+                break;
+            }
+            case COPY_DICT_OR_SNAPSHOT: {
+                String item = (String) opt.params[0];
 
-            if (item.toLowerCase().endsWith(".dict")) {
-                DictionaryManager dstDictMgr = DictionaryManager.getInstance(dstConfig);
-                DictionaryManager srcDicMgr = DictionaryManager.getInstance(srcConfig);
-                DictionaryInfo dictSrc = srcDicMgr.getDictionaryInfo(item);
+                if (item.toLowerCase().endsWith(".dict")) {
+                    DictionaryManager dstDictMgr = DictionaryManager.getInstance(dstConfig);
+                    DictionaryManager srcDicMgr = DictionaryManager.getInstance(srcConfig);
+                    DictionaryInfo dictSrc = srcDicMgr.getDictionaryInfo(item);
 
-                long ts = dictSrc.getLastModified();
-                dictSrc.setLastModified(0);//to avoid resource store write conflict
-                Dictionary dictObj = dictSrc.getDictionaryObject().copyToAnotherMeta(srcConfig, dstConfig);
-                DictionaryInfo dictSaved = dstDictMgr.trySaveNewDict(dictObj, dictSrc);
-                dictSrc.setLastModified(ts);
+                    long ts = dictSrc.getLastModified();
+                    dictSrc.setLastModified(0);//to avoid resource store write conflict
+                    Dictionary dictObj = dictSrc.getDictionaryObject().copyToAnotherMeta(srcConfig, dstConfig);
+                    DictionaryInfo dictSaved = dstDictMgr.trySaveNewDict(dictObj, dictSrc);
+                    dictSrc.setLastModified(ts);
 
-                if (dictSaved == dictSrc) {
-                    //no dup found, already saved to dest
-                    logger.info("Item " + item + " is copied");
-                } else {
-                    //dictSrc is rejected because of duplication
-                    //modify cube's dictionary path
-                    String cubeName = (String) opt.params[1];
-                    String cubeResPath = CubeInstance.concatResourcePath(cubeName);
-                    Serializer<CubeInstance> cubeSerializer = new JsonSerializer<CubeInstance>(CubeInstance.class);
-                    CubeInstance cube = dstStore.getResource(cubeResPath, CubeInstance.class, cubeSerializer);
-                    for (CubeSegment segment : cube.getSegments()) {
-                        for (Map.Entry<String, String> entry : segment.getDictionaries().entrySet()) {
-                            if (entry.getValue().equalsIgnoreCase(item)) {
-                                entry.setValue(dictSaved.getResourcePath());
+                    if (dictSaved == dictSrc) {
+                        //no dup found, already saved to dest
+                        logger.info("Item " + item + " is copied");
+                    } else {
+                        //dictSrc is rejected because of duplication
+                        //modify cube's dictionary path
+                        String cubeName = (String) opt.params[1];
+                        String cubeResPath = CubeInstance.concatResourcePath(cubeName);
+                        Serializer<CubeInstance> cubeSerializer = new JsonSerializer<CubeInstance>(CubeInstance.class);
+                        CubeInstance cube = dstStore.getResource(cubeResPath, CubeInstance.class, cubeSerializer);
+                        for (CubeSegment segment : cube.getSegments()) {
+                            for (Map.Entry<String, String> entry : segment.getDictionaries().entrySet()) {
+                                if (entry.getValue().equalsIgnoreCase(item)) {
+                                    entry.setValue(dictSaved.getResourcePath());
+                                }
                             }
                         }
+                        dstStore.putResource(cubeResPath, cube, cubeSerializer);
+                        logger.info("Item " + item + " is dup, instead " + dictSaved.getResourcePath() + " is reused");
                     }
-                    dstStore.putResource(cubeResPath, cube, cubeSerializer);
-                    logger.info("Item " + item + " is dup, instead " + dictSaved.getResourcePath() + " is reused");
-                }
 
-            } else if (item.toLowerCase().endsWith(".snapshot")) {
-                SnapshotManager dstSnapMgr = SnapshotManager.getInstance(dstConfig);
-                SnapshotManager srcSnapMgr = SnapshotManager.getInstance(srcConfig);
-                SnapshotTable snapSrc = srcSnapMgr.getSnapshotTable(item);
+                } else if (item.toLowerCase().endsWith(".snapshot")) {
+                    SnapshotManager dstSnapMgr = SnapshotManager.getInstance(dstConfig);
+                    SnapshotManager srcSnapMgr = SnapshotManager.getInstance(srcConfig);
+                    SnapshotTable snapSrc = srcSnapMgr.getSnapshotTable(item);
 
-                long ts = snapSrc.getLastModified();
-                snapSrc.setLastModified(0);
-                SnapshotTable snapSaved = dstSnapMgr.trySaveNewSnapshot(snapSrc);
-                snapSrc.setLastModified(ts);
+                    long ts = snapSrc.getLastModified();
+                    snapSrc.setLastModified(0);
+                    SnapshotTable snapSaved = dstSnapMgr.trySaveNewSnapshot(snapSrc);
+                    snapSrc.setLastModified(ts);
 
-                if (snapSaved == snapSrc) {
-                    //no dup found, already saved to dest
-                    logger.info("Item " + item + " is copied");
+                    if (snapSaved == snapSrc) {
+                        //no dup found, already saved to dest
+                        logger.info("Item " + item + " is copied");
 
-                } else {
-                    String cubeName = (String) opt.params[1];
-                    String cubeResPath = CubeInstance.concatResourcePath(cubeName);
-                    Serializer<CubeInstance> cubeSerializer = new JsonSerializer<CubeInstance>(CubeInstance.class);
-                    CubeInstance cube = dstStore.getResource(cubeResPath, CubeInstance.class, cubeSerializer);
-                    for (CubeSegment segment : cube.getSegments()) {
-                        for (Map.Entry<String, String> entry : segment.getSnapshots().entrySet()) {
-                            if (entry.getValue().equalsIgnoreCase(item)) {
-                                entry.setValue(snapSaved.getResourcePath());
+                    } else {
+                        String cubeName = (String) opt.params[1];
+                        String cubeResPath = CubeInstance.concatResourcePath(cubeName);
+                        Serializer<CubeInstance> cubeSerializer = new JsonSerializer<CubeInstance>(CubeInstance.class);
+                        CubeInstance cube = dstStore.getResource(cubeResPath, CubeInstance.class, cubeSerializer);
+                        for (CubeSegment segment : cube.getSegments()) {
+                            for (Map.Entry<String, String> entry : segment.getSnapshots().entrySet()) {
+                                if (entry.getValue().equalsIgnoreCase(item)) {
+                                    entry.setValue(snapSaved.getResourcePath());
+                                }
                             }
                         }
-                    }
-                    dstStore.putResource(cubeResPath, cube, cubeSerializer);
-                    logger.info("Item " + item + " is dup, instead " + snapSaved.getResourcePath() + " is reused");
+                        dstStore.putResource(cubeResPath, cube, cubeSerializer);
+                        logger.info("Item " + item + " is dup, instead " + snapSaved.getResourcePath() + " is reused");
 
+                    }
+
+                } else {
+                    logger.error("unknown item found: " + item);
+                    logger.info("ignore it");
                 }
 
-            } else {
-                logger.error("unknown item found: " + item);
-                logger.info("ignore it");
+                break;
             }
+            case RENAME_FOLDER_IN_HDFS: {
+                String srcPath = (String) opt.params[0];
+                String dstPath = (String) opt.params[1];
+                renameHDFSPath(srcPath, dstPath);
+                logger.info("HDFS Folder renamed from " + srcPath + " to " + dstPath);
+                break;
+            }
+            case ADD_INTO_PROJECT: {
+                CubeInstance srcCube = (CubeInstance) opt.params[0];
+                String cubeName = (String) opt.params[1];
+                String projectName = (String) opt.params[2];
+                String modelName = srcCube.getDescriptor().getModelName();
 
-            break;
-        }
-        case RENAME_FOLDER_IN_HDFS: {
-            String srcPath = (String) opt.params[0];
-            String dstPath = (String) opt.params[1];
-            renameHDFSPath(srcPath, dstPath);
-            logger.info("HDFS Folder renamed from " + srcPath + " to " + dstPath);
-            break;
-        }
-        case ADD_INTO_PROJECT: {
-            CubeInstance srcCube = (CubeInstance) opt.params[0];
-            String cubeName = (String) opt.params[1];
-            String projectName = (String) opt.params[2];
-            String modelName = srcCube.getDescriptor().getModelName();
+                String projectResPath = ProjectInstance.concatResourcePath(projectName);
+                Serializer<ProjectInstance> projectSerializer = new JsonSerializer<ProjectInstance>(ProjectInstance.class);
+                ProjectInstance project = dstStore.getResource(projectResPath, ProjectInstance.class, projectSerializer);
 
-            String projectResPath = ProjectInstance.concatResourcePath(projectName);
-            Serializer<ProjectInstance> projectSerializer = new JsonSerializer<ProjectInstance>(ProjectInstance.class);
-            ProjectInstance project = dstStore.getResource(projectResPath, ProjectInstance.class, projectSerializer);
+                project.addModel(modelName);
+                project.removeRealization(RealizationType.CUBE, cubeName);
+                project.addRealizationEntry(RealizationType.CUBE, cubeName);
 
-            project.addModel(modelName);
-            project.removeRealization(RealizationType.CUBE, cubeName);
-            project.addRealizationEntry(RealizationType.CUBE, cubeName);
+                dstStore.putResource(projectResPath, project, projectSerializer);
+                logger.info("Project instance for " + projectName + " is corrected");
+                break;
+            }
+            case COPY_ACL: {
+                String cubeId = (String) opt.params[0];
+                String modelId = (String) opt.params[1];
+                String projectName = (String) opt.params[2];
+                String projectResPath = ProjectInstance.concatResourcePath(projectName);
+                Serializer<ProjectInstance> projectSerializer = new JsonSerializer<ProjectInstance>(ProjectInstance.class);
+                ProjectInstance project = dstStore.getResource(projectResPath, ProjectInstance.class, projectSerializer);
+                String projUUID = project.getUuid();
+                Table srcAclHtable = null;
+                Table destAclHtable = null;
+                try {
+                    srcAclHtable = HBaseConnection.get(srcConfig.getStorageUrl()).getTable(TableName.valueOf(srcConfig.getMetadataUrlPrefix() + ACL_TABLE_NAME));
+                    destAclHtable = HBaseConnection.get(dstConfig.getStorageUrl()).getTable(TableName.valueOf(dstConfig.getMetadataUrlPrefix() + ACL_TABLE_NAME));
 
-            dstStore.putResource(projectResPath, project, projectSerializer);
-            logger.info("Project instance for " + projectName + " is corrected");
-            break;
-        }
-        case COPY_ACL: {
-            String cubeId = (String) opt.params[0];
-            String modelId = (String) opt.params[1];
-            String projectName = (String) opt.params[2];
-            String projectResPath = ProjectInstance.concatResourcePath(projectName);
-            Serializer<ProjectInstance> projectSerializer = new JsonSerializer<ProjectInstance>(ProjectInstance.class);
-            ProjectInstance project = dstStore.getResource(projectResPath, ProjectInstance.class, projectSerializer);
-            String projUUID = project.getUuid();
-            Table srcAclHtable = null;
-            Table destAclHtable = null;
-            try {
-                srcAclHtable = HBaseConnection.get(srcConfig.getStorageUrl()).getTable(TableName.valueOf(srcConfig.getMetadataUrlPrefix() + ACL_TABLE_NAME));
-                destAclHtable = HBaseConnection.get(dstConfig.getStorageUrl()).getTable(TableName.valueOf(dstConfig.getMetadataUrlPrefix() + ACL_TABLE_NAME));
+                    // cube acl
+                    Result result = srcAclHtable.get(new Get(Bytes.toBytes(cubeId)));
+                    if (result.listCells() != null) {
+                        for (Cell cell : result.listCells()) {
+                            byte[] family = CellUtil.cloneFamily(cell);
+                            byte[] column = CellUtil.cloneQualifier(cell);
+                            byte[] value = CellUtil.cloneValue(cell);
 
-                // cube acl
-                Result result = srcAclHtable.get(new Get(Bytes.toBytes(cubeId)));
-                if (result.listCells() != null) {
-                    for (Cell cell : result.listCells()) {
-                        byte[] family = CellUtil.cloneFamily(cell);
-                        byte[] column = CellUtil.cloneQualifier(cell);
-                        byte[] value = CellUtil.cloneValue(cell);
-
-                        // use the target project uuid as the parent
-                        if (Bytes.toString(family).equals(ACL_INFO_FAMILY) && Bytes.toString(column).equals(ACL_INFO_FAMILY_PARENT_COLUMN)) {
-                            String valueString = "{\"id\":\"" + projUUID + "\",\"type\":\"org.apache.kylin.metadata.project.ProjectInstance\"}";
-                            value = Bytes.toBytes(valueString);
+                            // use the target project uuid as the parent
+                            if (Bytes.toString(family).equals(ACL_INFO_FAMILY) && Bytes.toString(column).equals(ACL_INFO_FAMILY_PARENT_COLUMN)) {
+                                String valueString = "{\"id\":\"" + projUUID + "\",\"type\":\"org.apache.kylin.metadata.project.ProjectInstance\"}";
+                                value = Bytes.toBytes(valueString);
+                            }
+                            Put put = new Put(Bytes.toBytes(cubeId));
+                            put.add(family, column, value);
+                            destAclHtable.put(put);
                         }
-                        Put put = new Put(Bytes.toBytes(cubeId));
-                        put.add(family, column, value);
-                        destAclHtable.put(put);
                     }
+                } finally {
+                    IOUtils.closeQuietly(srcAclHtable);
+                    IOUtils.closeQuietly(destAclHtable);
                 }
-            } finally {
-                IOUtils.closeQuietly(srcAclHtable);
-                IOUtils.closeQuietly(destAclHtable);
+                break;
             }
-            break;
-        }
-        case PURGE_AND_DISABLE: {
-            String cubeName = (String) opt.params[0];
-            String cubeResPath = CubeInstance.concatResourcePath(cubeName);
-            Serializer<CubeInstance> cubeSerializer = new JsonSerializer<CubeInstance>(CubeInstance.class);
-            CubeInstance cube = srcStore.getResource(cubeResPath, CubeInstance.class, cubeSerializer);
-            cube.getSegments().clear();
-            cube.setStatus(RealizationStatusEnum.DISABLED);
-            srcStore.putResource(cubeResPath, cube, cubeSerializer);
-            logger.info("Cube " + cubeName + " is purged and disabled in " + srcConfig.getMetadataUrl());
+            case PURGE_AND_DISABLE: {
+                String cubeName = (String) opt.params[0];
+                String cubeResPath = CubeInstance.concatResourcePath(cubeName);
+                Serializer<CubeInstance> cubeSerializer = new JsonSerializer<CubeInstance>(CubeInstance.class);
+                CubeInstance cube = srcStore.getResource(cubeResPath, CubeInstance.class, cubeSerializer);
+                cube.getSegments().clear();
+                cube.setStatus(RealizationStatusEnum.DISABLED);
+                srcStore.putResource(cubeResPath, cube, cubeSerializer);
+                logger.info("Cube " + cubeName + " is purged and disabled in " + srcConfig.getMetadataUrl());
 
-            break;
-        }
-        default: {
-            //do nothing
-            break;
-        }
+                break;
+            }
+            default: {
+                //do nothing
+                break;
+            }
         }
     }
 
@@ -500,61 +501,61 @@ public class CubeMigrationCLI {
         logger.info("Undo operation: " + opt.toString());
 
         switch (opt.type) {
-        case CHANGE_HTABLE_HOST: {
-            TableName tableName = TableName.valueOf((String) opt.params[0]);
-            HTableDescriptor desc = hbaseAdmin.getTableDescriptor(tableName);
-            hbaseAdmin.disableTable(tableName);
-            desc.setValue(IRealizationConstants.HTableTag, srcConfig.getMetadataUrlPrefix());
-            hbaseAdmin.modifyTable(tableName, desc);
-            hbaseAdmin.enableTable(tableName);
-            break;
-        }
-        case COPY_FILE_IN_META: {
-            // no harm
-            logger.info("Undo for COPY_FILE_IN_META is ignored");
-            break;
-        }
-        case COPY_DICT_OR_SNAPSHOT: {
-            // no harm
-            logger.info("Undo for COPY_DICT_OR_SNAPSHOT is ignored");
-            break;
-        }
-        case RENAME_FOLDER_IN_HDFS: {
-            String srcPath = (String) opt.params[1];
-            String dstPath = (String) opt.params[0];
-
-            if (hdfsFS.exists(new Path(srcPath)) && !hdfsFS.exists(new Path(dstPath))) {
-                renameHDFSPath(srcPath, dstPath);
-                logger.info("HDFS Folder renamed from " + srcPath + " to " + dstPath);
+            case CHANGE_HTABLE_HOST: {
+                TableName tableName = TableName.valueOf((String) opt.params[0]);
+                HTableDescriptor desc = hbaseAdmin.getTableDescriptor(tableName);
+                hbaseAdmin.disableTable(tableName);
+                desc.setValue(IRealizationConstants.HTableTag, srcConfig.getMetadataUrlPrefix());
+                hbaseAdmin.modifyTable(tableName, desc);
+                hbaseAdmin.enableTable(tableName);
+                break;
             }
-            break;
-        }
-        case ADD_INTO_PROJECT: {
-            logger.info("Undo for ADD_INTO_PROJECT is ignored");
-            break;
-        }
-        case COPY_ACL: {
-            String cubeId = (String) opt.params[0];
-            String modelId = (String) opt.params[1];
-            Table destAclHtable = null;
-            try {
-                destAclHtable = HBaseConnection.get(dstConfig.getStorageUrl()).getTable(TableName.valueOf(dstConfig.getMetadataUrlPrefix() + ACL_TABLE_NAME));
-
-                destAclHtable.delete(new Delete(Bytes.toBytes(cubeId)));
-                destAclHtable.delete(new Delete(Bytes.toBytes(modelId)));
-            } finally {
-                IOUtils.closeQuietly(destAclHtable);
+            case COPY_FILE_IN_META: {
+                // no harm
+                logger.info("Undo for COPY_FILE_IN_META is ignored");
+                break;
             }
-            break;
-        }
-        case PURGE_AND_DISABLE: {
-            logger.info("Undo for PURGE_AND_DISABLE is not supported");
-            break;
-        }
-        default: {
-            //do nothing
-            break;
-        }
+            case COPY_DICT_OR_SNAPSHOT: {
+                // no harm
+                logger.info("Undo for COPY_DICT_OR_SNAPSHOT is ignored");
+                break;
+            }
+            case RENAME_FOLDER_IN_HDFS: {
+                String srcPath = (String) opt.params[1];
+                String dstPath = (String) opt.params[0];
+
+                if (hdfsFS.exists(new Path(srcPath)) && !hdfsFS.exists(new Path(dstPath))) {
+                    renameHDFSPath(srcPath, dstPath);
+                    logger.info("HDFS Folder renamed from " + srcPath + " to " + dstPath);
+                }
+                break;
+            }
+            case ADD_INTO_PROJECT: {
+                logger.info("Undo for ADD_INTO_PROJECT is ignored");
+                break;
+            }
+            case COPY_ACL: {
+                String cubeId = (String) opt.params[0];
+                String modelId = (String) opt.params[1];
+                Table destAclHtable = null;
+                try {
+                    destAclHtable = HBaseConnection.get(dstConfig.getStorageUrl()).getTable(TableName.valueOf(dstConfig.getMetadataUrlPrefix() + ACL_TABLE_NAME));
+
+                    destAclHtable.delete(new Delete(Bytes.toBytes(cubeId)));
+                    destAclHtable.delete(new Delete(Bytes.toBytes(modelId)));
+                } finally {
+                    IOUtils.closeQuietly(destAclHtable);
+                }
+                break;
+            }
+            case PURGE_AND_DISABLE: {
+                logger.info("Undo for PURGE_AND_DISABLE is not supported");
+                break;
+            }
+            default: {
+                //do nothing
+                break;
+            }
         }
     }
 

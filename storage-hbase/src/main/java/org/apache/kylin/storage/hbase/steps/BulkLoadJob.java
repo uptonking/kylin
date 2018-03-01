@@ -6,15 +6,15 @@
  * to you under the Apache License, Version 2.0 (the
  * "License"); you may not use this file except in compliance
  * with the License.  You may obtain a copy of the License at
- * 
+ *
  *     http://www.apache.org/licenses/LICENSE-2.0
- * 
+ *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
  * See the License for the specific language governing permissions and
  * limitations under the License.
-*/
+ */
 
 package org.apache.kylin.storage.hbase.steps;
 
@@ -31,8 +31,9 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 /**
+ * 批量导入的作业
+ *
  * @author ysong1
- * 
  */
 public class BulkLoadJob extends AbstractHadoopJob {
 
@@ -56,7 +57,7 @@ public class BulkLoadJob extends AbstractHadoopJob {
         Configuration conf = HBaseConnection.getCurrentHBaseConfiguration();
         FsShell shell = new FsShell(conf);
         try {
-            shell.run(new String[] { "-chmod", "-R", "777", input });
+            shell.run(new String[]{"-chmod", "-R", "777", input});
         } catch (Exception e) {
             logger.error("Couldn't change the file permissions ", e);
             throw new IOException(e);

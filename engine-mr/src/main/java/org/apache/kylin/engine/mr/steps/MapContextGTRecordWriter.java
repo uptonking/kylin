@@ -26,6 +26,7 @@ import org.apache.kylin.cube.model.CubeDesc;
 import org.apache.kylin.engine.mr.ByteArrayWritable;
 
 /**
+ * MapContextGTRecordWriter
  */
 public class MapContextGTRecordWriter extends KVGTRecordWriter {
 

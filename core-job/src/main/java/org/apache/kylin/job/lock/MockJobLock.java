@@ -19,8 +19,11 @@
 package org.apache.kylin.job.lock;
 
 /**
+ * 作业锁实现类 mock
  */
 public class MockJobLock implements JobLock {
+
+
     @Override
     public boolean lock() {
         return true;
@@ -30,4 +33,5 @@ public class MockJobLock implements JobLock {
     public void unlock() {
         return;
     }
+
 }

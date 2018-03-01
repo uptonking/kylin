@@ -6,9 +6,9 @@
  * to you under the Apache License, Version 2.0 (the
  * "License"); you may not use this file except in compliance
  * with the License.  You may obtain a copy of the License at
- *  
+ *
  *     http://www.apache.org/licenses/LICENSE-2.0
- *  
+ *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
@@ -41,6 +41,9 @@ import org.apache.kylin.storage.StorageContext;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+/**
+ * cube分段扫描器
+ */
 public class CubeSegmentScanner implements IGTScanner {
 
     private static final Logger logger = LoggerFactory.getLogger(CubeSegmentScanner.class);
@@ -52,10 +55,10 @@ public class CubeSegmentScanner implements IGTScanner {
     final GTScanRequest scanRequest;
 
     public CubeSegmentScanner(CubeSegment cubeSeg, Cuboid cuboid, Set<TblColRef> dimensions, Set<TblColRef> groups, //
-            Collection<FunctionDesc> metrics, TupleFilter originalfilter, StorageContext context, String gtStorage) {
-        
+                              Collection<FunctionDesc> metrics, TupleFilter originalfilter, StorageContext context, String gtStorage) {
+
         logger.info("Init CubeSegmentScanner for segment {}", cubeSeg.getName());
-        
+
         this.cuboid = cuboid;
         this.cubeSeg = cubeSeg;
 

@@ -6,9 +6,9 @@
  * to you under the Apache License, Version 2.0 (the
  * "License"); you may not use this file except in compliance
  * with the License.  You may obtain a copy of the License at
- * 
+ *
  *     http://www.apache.org/licenses/LICENSE-2.0
- * 
+ *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
@@ -32,8 +32,14 @@ import com.google.common.collect.Lists;
 import com.google.common.collect.Maps;
 import com.google.common.collect.Sets;
 
+/**
+ * 模糊值组合
+ */
 public class FuzzyValueCombination {
 
+    /**
+     * 维度类
+     */
     private static class Dim<E> {
         TblColRef col;
         Set<E> values;
@@ -48,8 +54,8 @@ public class FuzzyValueCombination {
     public static <E> List<Map<TblColRef, E>> calculate(Map<TblColRef, Set<E>> fuzzyValues, long cap) {
         Collections.emptyMap();
         Dim[] dims = toDims(fuzzyValues);
-        // If a query has many IN clause and each IN clause has many values, then it will easily generate 
-        // thousands of fuzzy keys. When there are lots of fuzzy keys, the scan performance is bottle necked 
+        // If a query has many IN clause and each IN clause has many values, then it will easily generate
+        // thousands of fuzzy keys. When there are lots of fuzzy keys, the scan performance is bottle necked
         // on it. So simply choose to abandon all fuzzy keys in this case.
         if (exceedCap(dims, cap)) {
             return Lists.newArrayList();

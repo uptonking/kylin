@@ -35,6 +35,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 /**
+ * 行计数器命令行工具类
  */
 public class RowCounterCLI {
     private static final Logger logger = LoggerFactory.getLogger(RowCounterCLI.class);

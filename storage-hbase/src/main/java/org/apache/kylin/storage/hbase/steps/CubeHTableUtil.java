@@ -48,6 +48,7 @@ import org.slf4j.LoggerFactory;
 import com.google.common.base.Preconditions;
 
 /**
+ * htable操作工具类
  */
 public class CubeHTableUtil {
 
@@ -125,7 +126,9 @@ public class CubeHTableUtil {
         }
     }
 
-    /** create a HTable that has the same performance settings as normal cube table, for benchmark purpose */
+    /**
+     * create a HTable that has the same performance settings as normal cube table, for benchmark purpose
+     */
     public static void createBenchmarkHTable(TableName tableName, String cfName) throws IOException {
         Admin admin = HBaseConnection.get(KylinConfig.getInstanceFromEnv().getStorageUrl()).getAdmin();
         try {
@@ -163,32 +166,32 @@ public class CubeHTableUtil {
 
         String hbaseDefaultCC = kylinConfig.getHbaseDefaultCompressionCodec().toLowerCase();
         switch (hbaseDefaultCC) {
-        case "snappy": {
-            logger.info("hbase will use snappy to compress data");
-            cf.setCompressionType(Algorithm.SNAPPY);
-            break;
-        }
-        case "lzo": {
-            logger.info("hbase will use lzo to compress data");
-            cf.setCompressionType(Algorithm.LZO);
-            break;
-        }
-        case "gz":
-        case "gzip": {
-            logger.info("hbase will use gzip to compress data");
-            cf.setCompressionType(Algorithm.GZ);
-            break;
-        }
-        case "lz4": {
-            logger.info("hbase will use lz4 to compress data");
-            cf.setCompressionType(Algorithm.LZ4);
-            break;
-        }
-        case "none":
-        default: {
-            logger.info("hbase will not use any compression algorithm to compress data");
-            cf.setCompressionType(Algorithm.NONE);
-        }
+            case "snappy": {
+                logger.info("hbase will use snappy to compress data");
+                cf.setCompressionType(Algorithm.SNAPPY);
+                break;
+            }
+            case "lzo": {
+                logger.info("hbase will use lzo to compress data");
+                cf.setCompressionType(Algorithm.LZO);
+                break;
+            }
+            case "gz":
+            case "gzip": {
+                logger.info("hbase will use gzip to compress data");
+                cf.setCompressionType(Algorithm.GZ);
+                break;
+            }
+            case "lz4": {
+                logger.info("hbase will use lz4 to compress data");
+                cf.setCompressionType(Algorithm.LZ4);
+                break;
+            }
+            case "none":
+            default: {
+                logger.info("hbase will not use any compression algorithm to compress data");
+                cf.setCompressionType(Algorithm.NONE);
+            }
         }
 
         try {

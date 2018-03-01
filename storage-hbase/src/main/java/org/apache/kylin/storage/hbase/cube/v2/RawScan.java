@@ -27,17 +27,21 @@ import org.apache.kylin.common.util.Pair;
 
 import com.google.common.collect.Lists;
 
+/**
+ * hbase扫描行 方法类
+ */
 public class RawScan {
 
     public byte[] startKey;
     public byte[] endKey;
-    public List<Pair<byte[], byte[]>> hbaseColumns;//only contain interested columns
+    //only contain interested columns
     public List<Pair<byte[], byte[]>> fuzzyKeys;
+    public List<Pair<byte[], byte[]>> hbaseColumns;
     public int hbaseCaching;
     public int hbaseMaxResultSize;
 
     public RawScan(byte[] startKey, byte[] endKey, List<Pair<byte[], byte[]>> hbaseColumns, //
-            List<Pair<byte[], byte[]>> fuzzyKeys, int hbaseCaching, int hbaseMaxResultSize) {
+                   List<Pair<byte[], byte[]>> fuzzyKeys, int hbaseCaching, int hbaseMaxResultSize) {
 
         this.startKey = startKey;
         this.endKey = endKey;

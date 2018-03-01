@@ -25,6 +25,9 @@ import org.apache.kylin.storage.gtrecord.GTCubeStorageQueryBase;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+/**
+ * 查询cube的存储信息 类
+ */
 public class CubeStorageQuery extends GTCubeStorageQueryBase {
 
     private static final Logger logger = LoggerFactory.getLogger(CubeStorageQuery.class);

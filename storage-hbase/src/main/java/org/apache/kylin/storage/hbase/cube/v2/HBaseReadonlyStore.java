@@ -35,6 +35,9 @@ import org.apache.kylin.gridtable.IGTWriter;
 
 import com.google.common.base.Preconditions;
 
+/**
+ * hbase只读存储
+ */
 public class HBaseReadonlyStore implements IGTStore {
 
     private CellListIterator cellListIterator;

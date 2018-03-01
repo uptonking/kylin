@@ -20,6 +20,7 @@ package org.apache.kylin.job.constant;
 
 /**
  * 作业状态枚举类 6种
+ * 注意code值
  */
 public enum JobStatusEnum {
 

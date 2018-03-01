@@ -26,11 +26,14 @@ import org.apache.hadoop.hbase.client.Result;
 import org.apache.kylin.common.util.Bytes;
 
 /**
- * The helper class is introduced because {@link Result#binarySearch(Cell[], byte[], int, int, byte[], int, int)} 
- * is found to be problematic in concurrent environments, and unfortunately  {@link Result#getValueAsByteBuffer(byte[], byte[])} 
- * calls it.
+ * 获取值为字节缓冲
+ * <p>
+ * The helper class is introduced because {@link Result#binarySearch(Cell[], byte[], int, int, byte[], int, int)}
+ * is found to be problematic in concurrent environments,
+ * and unfortunately  {@link Result#getValueAsByteBuffer(byte[], byte[])}  calls it.
  */
 public class Results {
+
     public static ByteBuffer getValueAsByteBuffer(Result hbaseRow, byte[] cf, byte[] cq) {
         List<Cell> cells = hbaseRow.listCells();
         if (cells == null || cells.size() == 0) {

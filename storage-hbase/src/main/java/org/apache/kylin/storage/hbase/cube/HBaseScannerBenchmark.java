@@ -38,7 +38,10 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 /**
- * Benchmark of processing 10 million GTRecords. 5 dimensions of type int4, and 2 measures of type long8.
+ * hbase扫描记录性能测试
+ * <p>
+ * Benchmark of processing 10 million GTRecords.
+ * 5 dimensions of type int4, and 2 measures of type long8.
  */
 public class HBaseScannerBenchmark {
 
@@ -49,7 +52,7 @@ public class HBaseScannerBenchmark {
 
     final ImmutableBitSet dimensions = ImmutableBitSet.valueOf(0, 1, 2, 3, 4);
     final ImmutableBitSet metrics = ImmutableBitSet.valueOf(5, 6);
-    final String[] aggrFuncs = new String[] { "SUM", "SUM" };
+    final String[] aggrFuncs = new String[]{"SUM", "SUM"};
 
     final long N = 1000000; // 1M, note the limit memory of HBase in sandbox
 

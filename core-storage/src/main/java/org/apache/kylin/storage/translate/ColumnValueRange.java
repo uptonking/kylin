@@ -6,15 +6,15 @@
  * to you under the Apache License, Version 2.0 (the
  * "License"); you may not use this file except in compliance
  * with the License.  You may obtain a copy of the License at
- * 
+ *
  *     http://www.apache.org/licenses/LICENSE-2.0
- * 
+ *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
  * See the License for the specific language governing permissions and
  * limitations under the License.
-*/
+ */
 
 package org.apache.kylin.storage.translate;
 
@@ -31,11 +31,12 @@ import org.apache.kylin.metadata.model.TblColRef;
 import com.google.common.collect.Sets;
 
 /**
- * 
+ * 列值范围 类
+ *
  * @author xjiang
- * 
  */
 public class ColumnValueRange {
+
     private TblColRef column;
     private RowKeyColumnOrder order;
     private String beginValue;
@@ -47,27 +48,27 @@ public class ColumnValueRange {
         this.order = RowKeyColumnOrder.getInstance(column.getType());
 
         switch (op) {
-        case EQ:
-        case IN:
-            equalValues = new HashSet<String>(values);
-            refreshBeginEndFromEquals();
-            break;
-        case LT:
-        case LTE:
-            endValue = order.max(values);
-            break;
-        case GT:
-        case GTE:
-            beginValue = order.min(values);
-            break;
-        case NEQ:
-        case NOTIN:
-        case ISNULL: // TODO ISNULL worth pass down as a special equal value
-        case ISNOTNULL:
-            // let Optiq filter it!
-            break;
-        default:
-            throw new UnsupportedOperationException(op.name());
+            case EQ:
+            case IN:
+                equalValues = new HashSet<String>(values);
+                refreshBeginEndFromEquals();
+                break;
+            case LT:
+            case LTE:
+                endValue = order.max(values);
+                break;
+            case GT:
+            case GTE:
+                beginValue = order.min(values);
+                break;
+            case NEQ:
+            case NOTIN:
+            case ISNULL: // TODO ISNULL worth pass down as a special equal value
+            case ISNOTNULL:
+                // let Optiq filter it!
+                break;
+            default:
+                throw new UnsupportedOperationException(op.name());
         }
     }
 

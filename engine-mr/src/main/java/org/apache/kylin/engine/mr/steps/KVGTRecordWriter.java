@@ -35,6 +35,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 /**
+ * 写入为gridtable的writer
  */
 public abstract class KVGTRecordWriter implements ICuboidWriter {
 

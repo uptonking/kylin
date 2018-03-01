@@ -28,6 +28,9 @@ import org.apache.hadoop.io.WritableComparable;
 import org.apache.hadoop.io.WritableComparator;
 import org.apache.kylin.common.util.Bytes;
 
+/**
+ * 用于hadoop的字节数组格式
+ */
 public class ByteArrayWritable implements WritableComparable<ByteArrayWritable> {
 
     private byte[] data;
@@ -106,11 +109,13 @@ public class ByteArrayWritable implements WritableComparable<ByteArrayWritable> 
     }
 
     // Below methods copied from BytesWritable
+
     /**
      * Define the sort order of the BytesWritable.
+     *
      * @param that The other bytes writable
      * @return Positive if left is bigger than right, 0 if they are equal, and
-     *         negative if left is smaller than right.
+     * negative if left is smaller than right.
      */
     public int compareTo(ByteArrayWritable that) {
         return WritableComparator.compareBytes(this.data, this.offset, this.length, that.data, that.offset, that.length);
@@ -118,9 +123,10 @@ public class ByteArrayWritable implements WritableComparable<ByteArrayWritable> 
 
     /**
      * Compares the bytes in this object to the specified byte array
+     *
      * @param that
      * @return Positive if left is bigger than right, 0 if they are equal, and
-     *         negative if left is smaller than right.
+     * negative if left is smaller than right.
      */
     public int compareTo(final byte[] that) {
         return WritableComparator.compareBytes(this.data, this.offset, this.length, that, 0, that.length);
@@ -159,12 +165,15 @@ public class ByteArrayWritable implements WritableComparable<ByteArrayWritable> 
         return sb.length() > 0 ? sb.substring(1) : "";
     }
 
-    /** A Comparator optimized for ByteArrayWritable.
+    /**
+     * A Comparator optimized for ByteArrayWritable.
      */
     public static class Comparator extends WritableComparator {
         private BytesWritable.Comparator comparator = new BytesWritable.Comparator();
 
-        /** constructor */
+        /**
+         * constructor
+         */
         public Comparator() {
             super(ByteArrayWritable.class);
         }

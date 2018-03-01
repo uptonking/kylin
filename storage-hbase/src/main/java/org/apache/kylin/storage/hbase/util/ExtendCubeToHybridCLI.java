@@ -60,6 +60,8 @@ import org.slf4j.LoggerFactory;
 import com.google.common.collect.Lists;
 
 /**
+ * 扩展cube为混合cube的命令行工具类
+ * <p>
  * Created by dongli on 12/29/15.
  */
 public class ExtendCubeToHybridCLI {

@@ -14,7 +14,7 @@
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
  * See the License for the specific language governing permissions and
  * limitations under the License.
-*/
+ */
 package org.apache.kylin.storage.hbase.steps;
 
 import java.io.IOException;
@@ -39,6 +39,8 @@ import org.slf4j.LoggerFactory;
 import com.google.common.collect.Lists;
 
 /**
+ * 对hdfs路径清理文件垃圾的任务 步骤
+ * <p>
  * Created by sunyerui on 15/9/17.
  */
 public class HDFSPathGarbageCollectionStep extends AbstractExecutable {

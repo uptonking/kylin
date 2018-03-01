@@ -27,6 +27,7 @@ import org.apache.kylin.metadata.model.TblColRef;
 import com.google.common.collect.Range;
 
 /**
+ * 时间范围提取 工具类
  */
 public class TsConditionExtractor {
 

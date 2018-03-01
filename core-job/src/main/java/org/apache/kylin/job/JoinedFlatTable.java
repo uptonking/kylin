@@ -6,15 +6,15 @@
  * to you under the Apache License, Version 2.0 (the
  * "License"); you may not use this file except in compliance
  * with the License.  You may obtain a copy of the License at
- * 
+ *
  *     http://www.apache.org/licenses/LICENSE-2.0
- * 
+ *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
  * See the License for the specific language governing permissions and
  * limitations under the License.
-*/
+ */
 
 package org.apache.kylin.job;
 
@@ -42,9 +42,8 @@ import com.google.common.collect.Lists;
 import com.google.common.collect.Sets;
 
 /**
- *
+ * 连接后的平表操作 工具类
  */
-
 public class JoinedFlatTable {
 
     public static String getTableDir(IJoinedFlatTableDesc intermediateTableDesc, String storageDfsDir) {
@@ -224,7 +223,7 @@ public class JoinedFlatTable {
         for (TblColRef col : flatDesc.getAllColumns()) {
             usedTableIdentities.add(col.getTable());
         }
-        
+
         List<JoinDesc> result = Lists.newArrayList();
         for (LookupDesc lookup : flatDesc.getDataModel().getLookups()) {
             String table = lookup.getTableRef().getTableIdentity();
@@ -232,7 +231,7 @@ public class JoinedFlatTable {
                 result.add(lookup.getJoin());
             }
         }
-        
+
         return result;
     }
 

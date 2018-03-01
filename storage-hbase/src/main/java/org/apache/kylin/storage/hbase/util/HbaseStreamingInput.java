@@ -49,6 +49,7 @@ import org.slf4j.LoggerFactory;
 import com.google.common.collect.Lists;
 
 /**
+ * hbase流式添加数据 类
  */
 public class HbaseStreamingInput {
     private static final Logger logger = LoggerFactory.getLogger(HbaseStreamingInput.class);

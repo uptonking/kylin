@@ -6,15 +6,15 @@
  * to you under the Apache License, Version 2.0 (the
  * "License"); you may not use this file except in compliance
  * with the License.  You may obtain a copy of the License at
- * 
+ *
  *     http://www.apache.org/licenses/LICENSE-2.0
- * 
+ *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
  * See the License for the specific language governing permissions and
  * limitations under the License.
-*/
+ */
 
 package org.apache.kylin.engine.mr.common;
 
@@ -64,6 +64,9 @@ import com.google.common.collect.Lists;
 import com.google.common.collect.Maps;
 
 /**
+ * cube状态读取器
+ * todo 剥离到core-cube模块
+ * <p>
  * This should be in cube module. It's here in engine-mr because currently stats
  * are saved as sequence files thus a hadoop dependency.
  */
@@ -73,8 +76,9 @@ public class CubeStatsReader {
 
     final CubeSegment seg;
     final int samplingPercentage;
-    final double mapperOverlapRatioOfFirstBuild; // only makes sense for the first build, is meaningless after merge
+    // only makes sense for the first build, is meaningless after merge
     final Map<Long, HyperLogLogPlusCounter> cuboidRowEstimatesHLL;
+    final double mapperOverlapRatioOfFirstBuild;
 
     public CubeStatsReader(CubeSegment cubeSegment, KylinConfig kylinConfig) throws IOException {
         ResourceStore store = ResourceStore.getStore(kylinConfig);

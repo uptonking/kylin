@@ -33,6 +33,9 @@ import org.apache.kylin.storage.hbase.HBaseConnection;
 import com.google.common.collect.Lists;
 import com.google.common.collect.Maps;
 
+/**
+ * hbase使用信息显示工具类
+ */
 public class HBaseUsage {
 
     public static void main(String[] args) throws IOException {
@@ -64,7 +67,7 @@ public class HBaseUsage {
 
     private static void add(String tag, String tableName, Map<String, List<String>> envs) {
         if (!envs.containsKey(tag)) {
-            envs.put(tag, Lists.<String> newArrayList());
+            envs.put(tag, Lists.<String>newArrayList());
         }
         envs.get(tag).add(tableName);
     }

@@ -19,8 +19,10 @@
 package org.apache.kylin.job.lock;
 
 /**
+ * 作业锁 接口
  */
 public interface JobLock {
+
     boolean lock();
 
     void unlock();

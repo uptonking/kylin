@@ -35,6 +35,9 @@ import org.apache.kylin.job.execution.ExecutableContext;
 
 import javax.annotation.Nullable;
 
+/**
+ * cube构建工具类
+ */
 public class CubingExecutableUtil {
 
     public static final String CUBE_NAME = "cubeName";

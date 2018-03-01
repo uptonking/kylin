@@ -6,9 +6,9 @@
  * to you under the Apache License, Version 2.0 (the
  * "License"); you may not use this file except in compliance
  * with the License.  You may obtain a copy of the License at
- *  
+ *
  *     http://www.apache.org/licenses/LICENSE-2.0
- *  
+ *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
@@ -21,6 +21,8 @@ package org.apache.kylin.ext;
 import org.apache.catalina.loader.WebappClassLoader;
 
 /**
+ * 自定义类加载器 可委托父类加载器加载更多包的类
+ * <p>
  * simple extension to standard WebappClassLoader
  * the only difference is that CustomizedWebappClassloader is able to delegate more packages
  * to parent classloaders
@@ -30,7 +32,7 @@ public class CustomizedWebappClassloader extends WebappClassLoader {
      * Set of package names which are not allowed to be loaded from a webapp
      * class loader without delegating first.
      */
-    private static final String[] packageTriggers = { "org.slf4j" };
+    private static final String[] packageTriggers = {"org.slf4j"};
 
     public CustomizedWebappClassloader() {
     }

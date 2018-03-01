@@ -43,6 +43,7 @@ import org.slf4j.LoggerFactory;
 import com.google.common.collect.Lists;
 
 /**
+ * cube迁移检查的命令行工具类
  * <p/>
  * This tool serves for the purpose of
  * checking the "KYLIN_HOST" property to be consistent with the dst's MetadataUrlPrefix

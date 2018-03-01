@@ -6,15 +6,15 @@
  * to you under the Apache License, Version 2.0 (the
  * "License"); you may not use this file except in compliance
  * with the License.  You may obtain a copy of the License at
- * 
+ *
  *     http://www.apache.org/licenses/LICENSE-2.0
- * 
+ *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
  * See the License for the specific language governing permissions and
  * limitations under the License.
-*/
+ */
 
 package org.apache.kylin.engine.mr.common;
 
@@ -35,12 +35,14 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 /**
+ * 默认https协议连接socket工厂类
+ *
  * @author xduo
- * 
  */
 public class DefaultSslProtocolSocketFactory implements SecureProtocolSocketFactory {
-    /** Log object for this class. */
+
     private static Logger logger = LoggerFactory.getLogger(DefaultSslProtocolSocketFactory.class);
+
     private SSLContext sslcontext = null;
 
     /**
@@ -50,8 +52,28 @@ public class DefaultSslProtocolSocketFactory implements SecureProtocolSocketFact
         super();
     }
 
+    private SSLContext getSSLContext() {
+        if (this.sslcontext == null) {
+            this.sslcontext = createEasySSLContext();
+        }
+
+        return this.sslcontext;
+    }
+
+    private static SSLContext createEasySSLContext() {
+        try {
+            SSLContext context = SSLContext.getInstance("TLS");
+            context.init(null, new TrustManager[]{new DefaultX509TrustManager(null)}, null);
+
+            return context;
+        } catch (Exception e) {
+            logger.error(e.getMessage(), e);
+            throw new HttpClientError(e.toString());
+        }
+    }
+
     /**
-     * @see SecureProtocolSocketFactory#createSocket(java.lang.String,int,java.net.InetAddress,int)
+     * @see SecureProtocolSocketFactory#createSocket(java.lang.String, int, java.net.InetAddress, int)
      */
     public Socket createSocket(String host, int port, InetAddress clientHost, int clientPort) throws IOException, UnknownHostException {
         return getSSLContext().getSocketFactory().createSocket(host, port, clientHost, clientPort);
@@ -60,7 +82,7 @@ public class DefaultSslProtocolSocketFactory implements SecureProtocolSocketFact
     /**
      * Attempts to get a new socket connection to the given host within the
      * given time limit.
-     * 
+     * <p>
      * <p>
      * To circumvent the limitations of older JREs that do not support connect
      * timeout a controller thread is executed. The controller thread attempts
@@ -68,28 +90,17 @@ public class DefaultSslProtocolSocketFactory implements SecureProtocolSocketFact
      * constructor does not return until the timeout expires, the controller
      * terminates and throws an {@link ConnectTimeoutException}
      * </p>
-     * 
-     * @param host
-     *            the host name/IP
-     * @param port
-     *            the port on the host
-     * @param localAddress
-     *            the local host name/IP to bind the socket to
-     * @param localPort
-     *            the port on the local machine
-     * @param params
-     *            {@link HttpConnectionParams Http connection parameters}
-     * 
+     *
+     * @param host         the host name/IP
+     * @param port         the port on the host
+     * @param localAddress the local host name/IP to bind the socket to
+     * @param localPort    the port on the local machine
+     * @param params       {@link HttpConnectionParams Http connection parameters}
      * @return Socket a new socket
-     * 
-     * @throws IOException
-     *             if an I/O error occurs while creating the socket
-     * @throws UnknownHostException
-     *             if the IP address of the host cannot be determined
-     * @throws ConnectTimeoutException
-     *             DOCUMENT ME!
-     * @throws IllegalArgumentException
-     *             DOCUMENT ME!
+     * @throws IOException              if an I/O error occurs while creating the socket
+     * @throws UnknownHostException     if the IP address of the host cannot be determined
+     * @throws ConnectTimeoutException  DOCUMENT ME!
+     * @throws IllegalArgumentException DOCUMENT ME!
      */
     public Socket createSocket(final String host, final int port, final InetAddress localAddress, final int localPort, final HttpConnectionParams params) throws IOException, UnknownHostException, ConnectTimeoutException {
         if (params == null) {
@@ -107,14 +118,14 @@ public class DefaultSslProtocolSocketFactory implements SecureProtocolSocketFact
     }
 
     /**
-     * @see SecureProtocolSocketFactory#createSocket(java.lang.String,int)
+     * @see SecureProtocolSocketFactory#createSocket(java.lang.String, int)
      */
     public Socket createSocket(String host, int port) throws IOException, UnknownHostException {
         return getSSLContext().getSocketFactory().createSocket(host, port);
     }
 
     /**
-     * @see SecureProtocolSocketFactory#createSocket(java.net.Socket,java.lang.String,int,boolean)
+     * @see SecureProtocolSocketFactory#createSocket(java.net.Socket, java.lang.String, int, boolean)
      */
     public Socket createSocket(Socket socket, String host, int port, boolean autoClose) throws IOException, UnknownHostException {
         return getSSLContext().getSocketFactory().createSocket(socket, host, port, autoClose);
@@ -128,23 +139,5 @@ public class DefaultSslProtocolSocketFactory implements SecureProtocolSocketFact
         return DefaultX509TrustManager.class.hashCode();
     }
 
-    private static SSLContext createEasySSLContext() {
-        try {
-            SSLContext context = SSLContext.getInstance("TLS");
-            context.init(null, new TrustManager[] { new DefaultX509TrustManager(null) }, null);
 
-            return context;
-        } catch (Exception e) {
-            logger.error(e.getMessage(), e);
-            throw new HttpClientError(e.toString());
-        }
-    }
-
-    private SSLContext getSSLContext() {
-        if (this.sslcontext == null) {
-            this.sslcontext = createEasySSLContext();
-        }
-
-        return this.sslcontext;
-    }
 }

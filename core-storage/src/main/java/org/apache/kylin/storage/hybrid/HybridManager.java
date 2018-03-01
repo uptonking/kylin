@@ -6,9 +6,9 @@
  * to you under the Apache License, Version 2.0 (the
  * "License"); you may not use this file except in compliance
  * with the License.  You may obtain a copy of the License at
- * 
+ *
  *     http://www.apache.org/licenses/LICENSE-2.0
- * 
+ *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
@@ -40,6 +40,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 /**
+ * 混合管理器
  */
 public class HybridManager implements IRealizationProvider {
     public static final Serializer<HybridInstance> HYBRID_SERIALIZER = new JsonSerializer<HybridInstance>(HybridInstance.class);
@@ -87,14 +88,14 @@ public class HybridManager implements IRealizationProvider {
         logger.info("Initializing HybridManager with config " + config);
         this.config = config;
         this.hybridMap = new CaseInsensitiveStringCache<HybridInstance>(config, "hybrid");
-        
+
         // touch lower level metadata before registering my listener
         reloadAllHybridInstance();
         Broadcaster.getInstance(config).registerListener(new HybridSyncListener(), "hybrid");
     }
 
     private class HybridSyncListener extends Broadcaster.Listener {
-        
+
         @Override
         public void onClearAll(Broadcaster broadcaster) throws IOException {
             clearCache();
@@ -112,12 +113,12 @@ public class HybridManager implements IRealizationProvider {
         @Override
         public void onEntityChange(Broadcaster broadcaster, String entity, Event event, String cacheKey) throws IOException {
             String hybridName = cacheKey;
-            
+
             if (event == Event.DROP)
                 hybridMap.removeLocal(hybridName);
             else
                 reloadHybridInstance(hybridName);
-            
+
             for (ProjectInstance prj : ProjectManager.getInstance(config).findProjects(RealizationType.HYBRID, hybridName)) {
                 broadcaster.notifyProjectSchemaUpdate(prj.getName());
             }
@@ -155,7 +156,7 @@ public class HybridManager implements IRealizationProvider {
     public void reloadHybridInstance(String name) {
         reloadHybridInstanceAt(HybridInstance.concatResourcePath(name));
     }
-    
+
     private synchronized HybridInstance reloadHybridInstanceAt(String path) {
         ResourceStore store = getStore();
 

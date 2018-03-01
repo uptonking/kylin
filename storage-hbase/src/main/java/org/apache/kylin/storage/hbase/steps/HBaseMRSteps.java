@@ -37,6 +37,9 @@ import org.apache.kylin.storage.hbase.HBaseConnection;
 import com.google.common.base.Preconditions;
 import com.google.common.collect.Lists;
 
+/**
+ * 将cuboid写入hbase的步骤
+ */
 public class HBaseMRSteps extends JobBuilderSupport {
 
     public HBaseMRSteps(CubeSegment seg) {

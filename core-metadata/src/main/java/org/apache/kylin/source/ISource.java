@@ -24,15 +24,23 @@ import org.apache.kylin.metadata.model.IBuildable;
 import org.apache.kylin.metadata.model.TableDesc;
 
 /**
- * 数据源接入 接口
+ * 数据源 接口
  */
 public interface ISource {
 
+    /**
+     * 适配指定的构建引擎接口，返回一个对象，实现指定的 IN 接口
+     * 由计算引擎调用，要求数据源向计算引擎适配
+     */
     <I> I adaptToBuildEngine(Class<I> engineInterface);
 
+    /**
+     * 顺序读取一张表，返回ReadableTable
+     */
     ReadableTable createReadableTable(TableDesc tableDesc);
 
     List<String> getMRDependentResources(TableDesc table);
 
     SourcePartition parsePartitionBeforeBuild(IBuildable buildable, SourcePartition srcPartition);
+
 }

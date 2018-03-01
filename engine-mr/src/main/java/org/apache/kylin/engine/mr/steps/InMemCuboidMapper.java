@@ -54,6 +54,7 @@ import org.slf4j.LoggerFactory;
 import com.google.common.collect.Maps;
 
 /**
+ * 内存中的cuboid计算 mapper
  */
 public class InMemCuboidMapper<KEYIN> extends KylinMapper<KEYIN, Object, ByteArrayWritable, ByteArrayWritable> {
 
@@ -134,7 +135,7 @@ public class InMemCuboidMapper<KEYIN> extends KylinMapper<KEYIN, Object, ByteArr
         logger.info("Totally handled " + counter + " records!");
 
         while (!future.isDone()) {
-            if (queue.offer(Collections.<String> emptyList(), 1, TimeUnit.SECONDS)) {
+            if (queue.offer(Collections.<String>emptyList(), 1, TimeUnit.SECONDS)) {
                 break;
             }
         }

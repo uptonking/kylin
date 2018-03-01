@@ -6,9 +6,9 @@
  * to you under the Apache License, Version 2.0 (the
  * "License"); you may not use this file except in compliance
  * with the License.  You may obtain a copy of the License at
- *  
+ *
  *     http://www.apache.org/licenses/LICENSE-2.0
- *  
+ *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
@@ -26,23 +26,24 @@ import java.util.PriorityQueue;
 import com.google.common.base.Preconditions;
 
 /**
+ * 针对有序元素的合并器 可限制返回数量
  * the limit here correspond to the the limit in sql
  * if the SQL ends with "limit N", then each shard will return N "smallest" records
  * The query sever side will use a heap to pick right records.
- * 
+ * <p>
  * There're two usage of SortedIteratorMergerWithLimit in kylin
  * One at GTRecord level and the other at Tuple Level
  * The first is to deal with cuboid shards among the same segment
  * and the second is to deal with multiple segments
- * 
+ * <p>
  * Let's use single-segment as an example:
  * suppose we have a "limit 2" in SQL, and we have three shards in the segment
  * the first returns (1,2), the second returns (1,3) and the third returns (2,3)
  * each subset is guaranteed to be sorted. (that's why it's called "SortedIterator Merger")
  * SortedIteratorMergerWithLimit will merge these three subsets and return (1,1,2,2)
- * 
  */
 public class SortedIteratorMergerWithLimit<E extends Cloneable> extends SortedIteratorMerger<E> {
+
     private int limit;
     private Comparator<E> comparator;
 

@@ -10,6 +10,8 @@
 - support more local file formats, like .xls, db.dump
 - integrate with datax
 - integrate with playboard
+- ui操作界面替换
+- 加快计算列基数的速度
 
 ## faq
 - MeasureIngester怎么理解
@@ -21,3 +23,16 @@
     - LazyRowKeyEncoder懒编码
     - HierarchyMask
     - GridTable
+- core-storage
+    - TsConditionExtractor
+    - hybrid
+- engine-mr
+    - MapContextGTRecordWriter
+    - MergeStatisticsStep
+    - RowKeyDistributionCheckerJob
+- storage-hbase
+    - Results.getValueAsByteBuffer()
+    - ZookeeperJobLock
+    - RangeKeyDistributionJob
+    - ExpectedSizeIterator
+    - AggrKey 

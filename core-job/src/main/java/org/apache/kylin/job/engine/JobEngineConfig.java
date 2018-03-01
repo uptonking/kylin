@@ -6,15 +6,15 @@
  * to you under the Apache License, Version 2.0 (the
  * "License"); you may not use this file except in compliance
  * with the License.  You may obtain a copy of the License at
- * 
+ *
  *     http://www.apache.org/licenses/LICENSE-2.0
- * 
+ *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
  * See the License for the specific language governing permissions and
  * limitations under the License.
-*/
+ */
 
 package org.apache.kylin.job.engine;
 
@@ -28,10 +28,13 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 /**
+ * 计算引擎配置bean
+ *
  * @author ysong1
  */
 public class JobEngineConfig {
     private static final Logger logger = LoggerFactory.getLogger(JobEngineConfig.class);
+
     public static final String HADOOP_JOB_CONF_FILENAME = "kylin_job_conf";
     public static final String HIVE_CONF_FILENAME = "kylin_hive_conf";
     public static final String DEFAUL_JOB_CONF_SUFFIX = "";
@@ -71,8 +74,7 @@ public class JobEngineConfig {
     }
 
     /**
-     *
-     * @param suffix job config file suffix name; if be null, will use the default job conf
+     * @param jobType job config file suffix name; if be null, will use the default job conf
      * @return the job config file path
      * @throws IOException
      */
@@ -160,7 +162,7 @@ public class JobEngineConfig {
 
     /*
      * (non-Javadoc)
-     * 
+     *
      * @see java.lang.Object#hashCode()
      */
     @Override
@@ -173,7 +175,7 @@ public class JobEngineConfig {
 
     /*
      * (non-Javadoc)
-     * 
+     *
      * @see java.lang.Object#equals(java.lang.Object)
      */
     @Override

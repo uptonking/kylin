@@ -42,6 +42,8 @@ import org.slf4j.LoggerFactory;
 import com.google.common.collect.Lists;
 
 /**
+ * 更新htable主机信息的命令行工具类
+ * <p>
  * Created by dongli on 1/18/16.
  */
 public class UpdateHTableHostCLI {

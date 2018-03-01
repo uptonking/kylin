@@ -6,22 +6,17 @@
  * to you under the Apache License, Version 2.0 (the
  * "License"); you may not use this file except in compliance
  * with the License.  You may obtain a copy of the License at
- * 
+ *
  *     http://www.apache.org/licenses/LICENSE-2.0
- * 
+ *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
  * See the License for the specific language governing permissions and
  * limitations under the License.
-*/
+ */
 
 package org.apache.kylin.engine.mr.common;
-
-/**
- * @author George Song (ysong1)
- *
- */
 
 import static org.apache.hadoop.util.StringUtils.formatTime;
 
@@ -73,8 +68,14 @@ import org.apache.kylin.source.SourceFactory;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+/**
+ * hadoop作业抽象类
+ *
+ * @author George Song (ysong1)
+ */
 @SuppressWarnings("static-access")
 public abstract class AbstractHadoopJob extends Configured implements Tool {
+
     protected static final Logger logger = LoggerFactory.getLogger(AbstractHadoopJob.class);
 
     protected static final Option OPTION_JOB_NAME = OptionBuilder.withArgName(BatchConstants.ARG_JOB_NAME).hasArg().isRequired(true).withDescription("Job name. For example, Kylin_Cuboid_Builder-clsfd_v2_Step_22-D)").create(BatchConstants.ARG_JOB_NAME);
@@ -303,7 +304,7 @@ public abstract class AbstractHadoopJob extends Configured implements Tool {
                     logger.warn("The directory of kylin dependency '" + fileName + "' does not exist, skip");
                     continue;
                 }
-                
+
                 if (fs.getFileStatus(p).isDirectory()) {
                     appendTmpDir(job, fs, p, jarList, fileList);
                     continue;
@@ -420,11 +421,11 @@ public abstract class AbstractHadoopJob extends Configured implements Tool {
                 for (FileStatus stat : fileStatuses) {
                     if (stat.isDirectory() && !stat.getPath().getName().startsWith("_")) {
                         hasDir = true;
-                        ret += addInputDirs(new String[] { stat.getPath().toString() }, job);
+                        ret += addInputDirs(new String[]{stat.getPath().toString()}, job);
                     }
                 }
                 if (fileStatuses.length > 0 && !hasDir) {
-                    ret += addInputDirs(new String[] { path.toString() }, job);
+                    ret += addInputDirs(new String[]{path.toString()}, job);
                 }
             } else {
                 logger.debug("Add input " + inp);

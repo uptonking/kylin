@@ -54,11 +54,15 @@ import org.slf4j.LoggerFactory;
 import com.google.common.collect.Lists;
 
 /**
+ * 计算base cuboid的mapper
  */
 public class BaseCuboidMapperBase<KEYIN, VALUEIN> extends KylinMapper<KEYIN, VALUEIN, Text, Text> {
+
     protected static final Logger logger = LoggerFactory.getLogger(BaseCuboidMapperBase.class);
+
     public static final byte[] HIVE_NULL = Bytes.toBytes("\\N");
     public static final byte[] ONE = Bytes.toBytes("1");
+
     protected String cubeName;
     protected String segmentID;
     protected Cuboid baseCuboid;

@@ -32,6 +32,8 @@ import org.slf4j.LoggerFactory;
 import com.google.common.collect.Lists;
 
 /**
+ * hive命令行客户端 建造者
+ *
  * Created by dongli on 2/29/16.
  */
 public class HiveCmdBuilder {

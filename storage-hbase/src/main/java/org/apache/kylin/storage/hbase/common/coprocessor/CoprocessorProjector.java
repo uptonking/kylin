@@ -6,15 +6,15 @@
  * to you under the Apache License, Version 2.0 (the
  * "License"); you may not use this file except in compliance
  * with the License.  You may obtain a copy of the License at
- * 
+ *
  *     http://www.apache.org/licenses/LICENSE-2.0
- * 
+ *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
  * See the License for the specific language governing permissions and
  * limitations under the License.
-*/
+ */
 
 package org.apache.kylin.storage.hbase.common.coprocessor;
 
@@ -32,6 +32,8 @@ import org.apache.kylin.cube.kv.RowKeyEncoder;
 import org.apache.kylin.metadata.model.TblColRef;
 
 /**
+ * 协处理器映射 工具类
+ *
  * @author yangli9
  */
 public class CoprocessorProjector {
@@ -54,7 +56,7 @@ public class CoprocessorProjector {
         byte[] mask = rowKeyMaskEncoder.encode(new byte[cuboid.getColumns().size()][]);
         return new CoprocessorProjector(mask, dimensionColumns.size() != 0);
     }
-  
+
 
     public static byte[] serialize(CoprocessorProjector o) {
         ByteBuffer buf = ByteBuffer.allocate(BytesSerializer.SERIALIZE_BUFFER_SIZE);
