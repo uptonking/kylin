@@ -27,10 +27,13 @@ import org.apache.kylin.common.util.Dictionary;
 import com.google.common.collect.Lists;
 
 /**
+ * todo 多个字典的迭代器
+ * <p>
  * Created by dongli on 10/28/15.
  */
 @SuppressWarnings("rawtypes")
 public class MultipleDictionaryValueEnumerator implements IDictionaryValueEnumerator {
+
     private int curDictIndex = 0;
     private Dictionary curDict;
     private int curKey;
@@ -60,7 +63,7 @@ public class MultipleDictionaryValueEnumerator implements IDictionaryValueEnumer
                 byte[] buffer = new byte[curDict.getSizeOfValue()];
                 int size = curDict.getValueBytesFromId(curKey, buffer, 0);
                 curValue = Bytes.copy(buffer, 0, size);
-                curKey ++;
+                curKey++;
 
                 return true;
             }

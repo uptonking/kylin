@@ -23,6 +23,9 @@ import java.util.ArrayList;
 
 import org.apache.kylin.common.util.Dictionary;
 
+/**
+ * 字典建造者 接口
+ */
 public interface IDictionaryBuilder {
 
     Dictionary<String> build(DictionaryInfo dictInfo, IDictionaryValueEnumerator valueEnumerator, int baseId, int nSamples, ArrayList<String> returnSamples) throws IOException;

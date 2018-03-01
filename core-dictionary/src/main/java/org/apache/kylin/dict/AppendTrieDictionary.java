@@ -6,15 +6,15 @@
  * to you under the Apache License, Version 2.0 (the
  * "License"); you may not use this file except in compliance
  * with the License.  You may obtain a copy of the License at
- * 
+ *
  *     http://www.apache.org/licenses/LICENSE-2.0
- * 
+ *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
  * See the License for the specific language governing permissions and
  * limitations under the License.
-*/
+ */
 
 package org.apache.kylin.dict;
 
@@ -53,26 +53,30 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 /**
+ * 基于前缀树的字典
+ * <p>
+ * 将字节数组映射为id，用于全局字典
+ * <p>
  * A dictionary based on Trie data structure that maps enumerations of byte[] to
  * int IDs, used for global dictionary.
- *
+ * <p>
  * Trie data is split into sub trees, called {@link DictSlice}, and stored in a {@link CachedTreeMap} with a configurable cache size.
- * 
+ * <p>
  * With Trie the memory footprint of the mapping is kinda minimized at the cost
  * CPU, if compared to HashMap of ID Arrays. Performance test shows Trie is
  * roughly 10 times slower, so there's a cache layer overlays on top of Trie and
  * gracefully fall back to Trie using a weak reference.
- * 
+ * <p>
  * The implementation is NOT thread-safe for now.
- *
+ * <p>
  * TODO making it thread-safe
- * 
+ *
  * @author sunyerui
  */
-@SuppressWarnings({ "rawtypes", "unchecked", "serial" })
+@SuppressWarnings({"rawtypes", "unchecked", "serial"})
 public class AppendTrieDictionary<T> extends Dictionary<T> {
 
-    public static final byte[] HEAD_MAGIC = new byte[] { 0x41, 0x70, 0x70, 0x65, 0x63, 0x64, 0x54, 0x72, 0x69, 0x65, 0x44, 0x69, 0x63, 0x74 }; // "AppendTrieDict"
+    public static final byte[] HEAD_MAGIC = new byte[]{0x41, 0x70, 0x70, 0x65, 0x63, 0x64, 0x54, 0x72, 0x69, 0x65, 0x44, 0x69, 0x63, 0x74}; // "AppendTrieDict"
     public static final int HEAD_SIZE_I = HEAD_MAGIC.length;
 
     public static final int BIT_IS_LAST_CHILD = 0x80;
@@ -109,7 +113,7 @@ public class AppendTrieDictionary<T> extends Dictionary<T> {
 
         int cacheSize = KylinConfig.getInstanceFromEnv().getAppendDictCacheSize();
         dictSliceMap = CachedTreeMap.CachedTreeMapBuilder.newBuilder().maxSize(cacheSize).baseDir(baseDir).persistent(true).immutable(true).keyClazz(DictSliceKey.class).valueClazz(DictSlice.class).build();
-        ((CachedTreeMap)dictSliceMap).loadEntry(dictMap);
+        ((CachedTreeMap) dictSliceMap).loadEntry(dictMap);
     }
 
     public byte[] writeDictMap() throws IOException {
@@ -227,18 +231,13 @@ public class AppendTrieDictionary<T> extends Dictionary<T> {
         /**
          * returns a code point from [0, nValues), preserving order of value
          *
-         * @param n
-         *            -- the offset of current node
-         * @param inp
-         *            -- input value bytes to lookup
-         * @param o
-         *            -- offset in the input value bytes matched so far
-         * @param inpEnd
-         *            -- end of input
-         * @param roundingFlag
-         *            -- =0: return -1 if not found
-         *            -- <0: return closest smaller if not found, return -1
-         *            -- >0: return closest bigger if not found, return nValues
+         * @param n            -- the offset of current node
+         * @param inp          -- input value bytes to lookup
+         * @param o            -- offset in the input value bytes matched so far
+         * @param inpEnd       -- end of input
+         * @param roundingFlag -- =0: return -1 if not found
+         *                     -- <0: return closest smaller if not found, return -1
+         *                     -- >0: return closest bigger if not found, return nValues
          */
         private int lookupSeqNoFromValue(int n, byte[] inp, int o, int inpEnd, int roundingFlag) {
             while (true) {
@@ -950,7 +949,7 @@ public class AppendTrieDictionary<T> extends Dictionary<T> {
             if (dict == null) {
                 dict = new AppendTrieDictionary<T>();
             }
-            dict.update(baseDir, baseId, maxId, maxValueLength, nValues, bytesConverter, (CachedTreeMap)mutableDictSliceMap);
+            dict.update(baseDir, baseId, maxId, maxValueLength, nValues, bytesConverter, (CachedTreeMap) mutableDictSliceMap);
             dict.flushIndex((CachedTreeMap) mutableDictSliceMap);
 
             return dict;
@@ -1049,7 +1048,7 @@ public class AppendTrieDictionary<T> extends Dictionary<T> {
     public AppendTrieDictionary copyToAnotherMeta(KylinConfig srcConfig, KylinConfig dstConfig) throws IOException {
         Configuration conf = new Configuration();
         AppendTrieDictionary newDict = new AppendTrieDictionary();
-        newDict.update(baseDir.replaceFirst(srcConfig.getHdfsWorkingDirectory(), dstConfig.getHdfsWorkingDirectory()), baseId, maxId, maxValueLength, nValues, bytesConverter, (CachedTreeMap)dictSliceMap);
+        newDict.update(baseDir.replaceFirst(srcConfig.getHdfsWorkingDirectory(), dstConfig.getHdfsWorkingDirectory()), baseId, maxId, maxValueLength, nValues, bytesConverter, (CachedTreeMap) dictSliceMap);
         logger.info("Copy AppendDict from {} to {}", this.baseDir, newDict.baseDir);
         Path srcPath = new Path(this.baseDir);
         Path dstPath = new Path(newDict.baseDir);

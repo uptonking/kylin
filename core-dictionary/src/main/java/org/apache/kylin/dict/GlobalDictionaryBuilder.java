@@ -30,8 +30,11 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 /**
+ * 全局字典建造者
+ * <p>
  * GlobalDictinary based on whole cube, to ensure one value has same dict id in different segments.
  * GlobalDictinary mainly used for count distinct measure to support rollup among segments.
+ * <p>
  * Created by sunyerui on 16/5/24.
  */
 public class GlobalDictionaryBuilder implements IDictionaryBuilder {

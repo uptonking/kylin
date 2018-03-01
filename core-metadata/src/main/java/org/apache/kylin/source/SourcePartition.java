@@ -27,6 +27,7 @@ import com.google.common.base.Objects;
  * 数据源分区bean
  */
 public class SourcePartition {
+
     long startDate;
     long endDate;
     long startOffset;

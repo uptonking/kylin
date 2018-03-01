@@ -5,7 +5,6 @@
     <modelVersion>4.0.0</modelVersion>
 
     <parent>
-
         <groupId>org.apache.kylin</groupId>
         <artifactId>kylin</artifactId>
         <version>1.6.0</version>
@@ -14,7 +13,7 @@
     <artifactId>kylin-core-metadata</artifactId>
     <packaging>jar</packaging>
     <name>Apache Kylin - Core Metadata</name>
-    <description>数据源、维度、度量元信息模块</description>
+    <description>维度、度量类型定义及聚合函数模块</description>
 
     <dependencies>
 

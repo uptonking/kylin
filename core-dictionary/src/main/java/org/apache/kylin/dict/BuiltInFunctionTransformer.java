@@ -39,6 +39,8 @@ import com.google.common.collect.Lists;
 import com.google.common.primitives.Primitives;
 
 /**
+ * 内置过滤器转换函数
+ * <p>
  * only take effect when the compare filter has function
  */
 public class BuiltInFunctionTransformer implements ITupleFilterTransformer {
@@ -106,7 +108,7 @@ public class BuiltInFunctionTransformer implements ITupleFilterTransformer {
         return translated;
     }
 
-    @SuppressWarnings({ "unchecked", "rawtypes" })
+    @SuppressWarnings({"unchecked", "rawtypes"})
     private TupleFilter translateCompareTupleFilter(CompareTupleFilter compTupleFilter) {
         if (compTupleFilter.getFunction() == null || (!(compTupleFilter.getFunction() instanceof BuiltInFunctionTupleFilter)))
             return null;
@@ -137,32 +139,32 @@ public class BuiltInFunctionTransformer implements ITupleFilterTransformer {
                 int comp = ((Comparable) computedVal).compareTo(targetVal);
                 boolean compResult = false;
                 switch (compTupleFilter.getOperator()) {
-                case EQ:
-                    compResult = comp == 0;
-                    break;
-                case NEQ:
-                    compResult = comp != 0;
-                    break;
-                case LT:
-                    compResult = comp < 0;
-                    break;
-                case LTE:
-                    compResult = comp <= 0;
-                    break;
-                case GT:
-                    compResult = comp > 0;
-                    break;
-                case GTE:
-                    compResult = comp >= 0;
-                    break;
-                case IN:
-                    compResult = compTupleFilter.getValues().contains(computedVal.toString());
-                    break;
-                case NOTIN:
-                    compResult = !compTupleFilter.getValues().contains(computedVal.toString());
-                    break;
-                default:
-                    break;
+                    case EQ:
+                        compResult = comp == 0;
+                        break;
+                    case NEQ:
+                        compResult = comp != 0;
+                        break;
+                    case LT:
+                        compResult = comp < 0;
+                        break;
+                    case LTE:
+                        compResult = comp <= 0;
+                        break;
+                    case GT:
+                        compResult = comp > 0;
+                        break;
+                    case GTE:
+                        compResult = comp >= 0;
+                        break;
+                    case IN:
+                        compResult = compTupleFilter.getValues().contains(computedVal.toString());
+                        break;
+                    case NOTIN:
+                        compResult = !compTupleFilter.getValues().contains(computedVal.toString());
+                        break;
+                    default:
+                        break;
                 }
                 if (compResult) {
                     inValues.add(dictVal);

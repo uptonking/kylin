@@ -14,7 +14,7 @@
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
  * See the License for the specific language governing permissions and
  * limitations under the License.
-*/
+ */
 
 package org.apache.kylin.dict;
 
@@ -46,6 +46,8 @@ import com.google.common.cache.RemovalListener;
 import com.google.common.cache.RemovalNotification;
 
 /**
+ * 缓存的TreeMap
+ * <p>
  * Created by sunyerui on 16/5/2.
  * TODO Depends on HDFS for now, ideally just depends on storage interface
  */
@@ -132,7 +134,7 @@ public class CachedTreeMap<K extends WritableComparable, V extends Writable> ext
         this.fileList = new TreeSet<>();
         this.conf = new Configuration();
         if (baseDir.endsWith("/")) {
-            this.baseDir = baseDir.substring(0, baseDir.length()-1);
+            this.baseDir = baseDir.substring(0, baseDir.length() - 1);
         } else {
             this.baseDir = baseDir;
         }
@@ -145,14 +147,14 @@ public class CachedTreeMap<K extends WritableComparable, V extends Writable> ext
             public void onRemoval(RemovalNotification<K, V> notification) {
                 logger.info(String.format("Evict cache key %s(%d) with value %s caused by %s, size %d/%d ", notification.getKey(), notification.getKey().hashCode(), notification.getValue(), notification.getCause(), size(), valueCache.size()));
                 switch (notification.getCause()) {
-                case SIZE:
-                    writeValue(notification.getKey(), notification.getValue());
-                    break;
-                case EXPLICIT:
-                    deleteValue(notification.getKey());
-                    break;
-                default:
-                    throw new RuntimeException("unexpected evict reason " + notification.getCause());
+                    case SIZE:
+                        writeValue(notification.getKey(), notification.getValue());
+                        break;
+                    case EXPLICIT:
+                        deleteValue(notification.getKey());
+                        break;
+                    default:
+                        throw new RuntimeException("unexpected evict reason " + notification.getCause());
                 }
             }
         });
@@ -194,7 +196,7 @@ public class CachedTreeMap<K extends WritableComparable, V extends Writable> ext
         assert !immutable : "Only support commit method with immutable false";
 
         Path basePath = new Path(baseDir);
-        Path backupPath = new Path(baseDir+".bak");
+        Path backupPath = new Path(baseDir + ".bak");
         Path tmpPath = new Path(tmpDir);
         try {
             fs.rename(basePath, backupPath);
@@ -219,7 +221,7 @@ public class CachedTreeMap<K extends WritableComparable, V extends Writable> ext
 
     public void loadEntry(CachedTreeMap other) {
         for (Object key : other.keySet()) {
-            super.put((K)key, null);
+            super.put((K) key, null);
         }
     }
 

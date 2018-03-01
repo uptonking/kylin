@@ -25,6 +25,8 @@ import org.apache.kylin.common.util.Bytes;
 import org.apache.kylin.source.ReadableTable;
 
 /**
+ * 列值迭代器
+ * <p>
  * Created by dongli on 10/29/15.
  */
 public class TableColumnValueEnumerator implements IDictionaryValueEnumerator {

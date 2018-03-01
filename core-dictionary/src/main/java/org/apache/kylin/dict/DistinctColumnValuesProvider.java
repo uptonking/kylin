@@ -6,15 +6,15 @@
  * to you under the Apache License, Version 2.0 (the
  * "License"); you may not use this file except in compliance
  * with the License.  You may obtain a copy of the License at
- * 
+ *
  *     http://www.apache.org/licenses/LICENSE-2.0
- * 
+ *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
  * See the License for the specific language governing permissions and
  * limitations under the License.
-*/
+ */
 
 package org.apache.kylin.dict;
 
@@ -22,6 +22,8 @@ import org.apache.kylin.metadata.model.TblColRef;
 import org.apache.kylin.source.ReadableTable;
 
 /**
+ * 列值去重接口
+ * <p>
  * To build dictionary, we need a list of distinct values on a column.
  * For column on lookup table, simply scan the whole table since the table is small.
  * For column on fact table, the fact table is too big to iterate. So the build
@@ -30,6 +32,8 @@ import org.apache.kylin.source.ReadableTable;
  */
 public interface DistinctColumnValuesProvider {
 
-    /** Return a ReadableTable contains only one column, each row being a distinct value. */
+    /**
+     * Return a ReadableTable contains only one column, each row being a distinct value.
+     */
     public ReadableTable getDistinctValuesFor(TblColRef col);
 }

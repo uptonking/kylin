@@ -22,6 +22,8 @@ import java.io.IOException;
 import java.util.Iterator;
 
 /**
+ * 字典值迭代器
+ * <p>
  * Created by dongli on 10/28/15.
  */
 public class IterableDictionaryValueEnumerator implements IDictionaryValueEnumerator {

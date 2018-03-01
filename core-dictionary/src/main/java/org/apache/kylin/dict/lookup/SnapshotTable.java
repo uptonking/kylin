@@ -14,7 +14,7 @@
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
  * See the License for the specific language governing permissions and
  * limitations under the License.
-*/
+ */
 
 package org.apache.kylin.dict.lookup;
 
@@ -45,6 +45,8 @@ import com.fasterxml.jackson.annotation.JsonAutoDetect.Visibility;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
 /**
+ * 快照表
+ *
  * @author yangli9
  */
 @SuppressWarnings("serial")
@@ -198,10 +200,11 @@ public class SnapshotTable extends RootPersistentEntity implements ReadableTable
     }
 
     private static String NULL_STR;
+
     {
         try {
             // a special placeholder to indicate a NULL; 0, 9, 127, 255 are a few invisible ASCII characters
-            NULL_STR = new String(new byte[] { 0, 9, 127, (byte) 255 }, "ISO-8859-1");
+            NULL_STR = new String(new byte[]{0, 9, 127, (byte) 255}, "ISO-8859-1");
         } catch (UnsupportedEncodingException e) {
             // does not happen
         }

@@ -6,15 +6,15 @@
  * to you under the Apache License, Version 2.0 (the
  * "License"); you may not use this file except in compliance
  * with the License.  You may obtain a copy of the License at
- * 
+ *
  *     http://www.apache.org/licenses/LICENSE-2.0
- * 
+ *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
  * See the License for the specific language governing permissions and
  * limitations under the License.
-*/
+ */
 
 package org.apache.kylin.dict;
 
@@ -34,13 +34,15 @@ import org.apache.kylin.common.util.Dictionary;
 import org.apache.kylin.dimension.DateDimEnc;
 
 /**
+ * 日期不含时间的字典
+ * <p>
  * A dictionary for date string (date only, no time).
- * 
+ * <p>
  * Dates are numbered from 0000-1-1 -- 0 for "0000-1-1", 1 for "0000-1-2", 2 for "0000-1-3" and
  * up to 3652426 for "9999-12-31".
- * 
+ * <p>
  * Note the implementation is not thread-safe.
- * 
+ *
  * @author yangli9
  */
 @SuppressWarnings("serial")

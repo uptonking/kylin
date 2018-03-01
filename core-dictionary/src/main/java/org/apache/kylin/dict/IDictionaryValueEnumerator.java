@@ -21,9 +21,12 @@ package org.apache.kylin.dict;
 import java.io.IOException;
 
 /**
+ * 字典值迭代器 接口
+ * <p>
  * Created by dongli on 10/28/15.
  */
 public interface IDictionaryValueEnumerator {
+
     byte[] current() throws IOException;
 
     boolean moveNext() throws IOException;
