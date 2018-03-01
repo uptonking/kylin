@@ -6,9 +6,9 @@
  * to you under the Apache License, Version 2.0 (the
  * "License"); you may not use this file except in compliance
  * with the License.  You may obtain a copy of the License at
- * 
+ *
  *     http://www.apache.org/licenses/LICENSE-2.0
- * 
+ *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
@@ -18,6 +18,9 @@
 
 package org.apache.kylin.cube.kv;
 
+/**
+ * rowkey常用常量
+ */
 public class RowConstants {
 
     public static final int ROWKEY_COL_DEFAULT_LENGTH = 256;
@@ -42,7 +45,8 @@ public class RowConstants {
     public static final String ROWVALUE_DELIMITER_STRING = String.valueOf((char) 7);
     public static final byte[] ROWVALUE_DELIMITER_BYTES = { 7 };
 
-    public static final int ROWKEY_BUFFER_SIZE = 65 * 256;// a little more than 64 dimensions * 256 bytes each
+    // a little more than 64 dimensions * 256 bytes each
+    public static final int ROWKEY_BUFFER_SIZE = 65 * 256;
 
     // marker class
     public static final byte[][] BYTE_ARR_MARKER = new byte[0][];

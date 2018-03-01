@@ -30,7 +30,7 @@ public enum CubeBuildTypeEnum {
      */
     BUILD,
     /**
-     * 分段合并
+     * 分段cube合并
      * merge segments
      */
     MERGE,

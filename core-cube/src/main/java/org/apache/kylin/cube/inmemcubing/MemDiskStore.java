@@ -14,7 +14,7 @@
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
  * See the License for the specific language governing permissions and
  * limitations under the License.
-*/
+ */
 
 package org.apache.kylin.cube.inmemcubing;
 
@@ -47,6 +47,9 @@ import org.apache.kylin.gridtable.IGTWriter;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+/**
+ * 内存与磁盘数据交换 类
+ */
 public class MemDiskStore implements IGTStore, Closeable {
 
     private static final Logger logger = LoggerFactory.getLogger(MemDiskStore.class);
@@ -56,8 +59,9 @@ public class MemDiskStore implements IGTStore, Closeable {
     private static final int MEM_CHUNK_SIZE_MB = 5;
 
     private final GTInfo info;
-    private final Object lock; // all public methods that read/write object states are synchronized on this lock
+    // all public methods that read/write object states are synchronized on this lock
     private final MemPart memPart;
+    private final Object lock;
     private final DiskPart diskPart;
     private final boolean delOnClose;
 

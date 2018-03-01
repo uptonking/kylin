@@ -14,7 +14,7 @@
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
  * See the License for the specific language governing permissions and
  * limitations under the License.
-*/
+ */
 
 package org.apache.kylin.cube.inmemcubing;
 
@@ -59,7 +59,11 @@ import org.slf4j.LoggerFactory;
 import com.google.common.collect.Lists;
 
 /**
- * Build a cube (many cuboids) in memory. Calculating multiple cuboids at the same time as long as memory permits.
+ * cube建造者
+ * base cuboid大小超过内存时会报OOM
+ * <p>
+ * Build a cube (many cuboids) in memory.
+ * Calculating multiple cuboids at the same time as long as memory permits.
  * Assumes base cuboid fits in memory or otherwise OOM exception will occur.
  */
 public class InMemCubeBuilder extends AbstractInMemCubeBuilder {
@@ -456,7 +460,7 @@ public class InMemCubeBuilder extends AbstractInMemCubeBuilder {
         return updateCuboidResult(cuboidId, newGridTable, count, timeSpent, 0);
     }
 
-    @SuppressWarnings({ "unused", "rawtypes", "unchecked" })
+    @SuppressWarnings({"unused", "rawtypes", "unchecked"})
     private void sanityCheck(long parentId, long cuboidId, Object[] totalSum) {
         // double sum introduces error and causes result not exactly equal
         for (int i = 0; i < totalSum.length; i++) {

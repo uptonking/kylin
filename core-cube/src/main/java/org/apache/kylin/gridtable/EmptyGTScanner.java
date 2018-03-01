@@ -20,8 +20,11 @@ package org.apache.kylin.gridtable;
 
 import java.io.IOException;
 import java.util.Iterator;
-
+/**
+ * gridtable 空扫描器
+ */
 public class EmptyGTScanner implements IGTScanner {
+
     private long reportScannedRowCount;
 
     public EmptyGTScanner(long reportScannedRowCount) {

@@ -6,15 +6,15 @@
  * to you under the Apache License, Version 2.0 (the
  * "License"); you may not use this file except in compliance
  * with the License.  You may obtain a copy of the License at
- * 
+ *
  *     http://www.apache.org/licenses/LICENSE-2.0
- * 
+ *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
  * See the License for the specific language governing permissions and
  * limitations under the License.
-*/
+ */
 
 package org.apache.kylin.cube.cuboid;
 
@@ -42,11 +42,18 @@ import com.google.common.collect.Collections2;
 import com.google.common.collect.ComparisonChain;
 import com.google.common.collect.Lists;
 
+/**
+ * cuboid定义
+ * 可比较
+ */
 public class Cuboid implements Comparable<Cuboid> {
 
-    private final static Map<String, Map<Long, Cuboid>> CUBOID_CACHE = new ConcurrentHashMap<String, Map<Long, Cuboid>>();
+    private final static Map<String, Map<Long, Cuboid>> CUBOID_CACHE = new ConcurrentHashMap<>();
 
-    //smaller is better
+    /**
+     * 越小越好
+     * smaller is better
+     */
     public final static Comparator<Long> cuboidSelectComparator = new Comparator<Long>() {
         @Override
         public int compare(Long o1, Long o2) {
@@ -203,7 +210,7 @@ public class Cuboid implements Comparable<Cuboid> {
                     //there exists dim that does not belong to any joint or any hierarchy, that's perfect
                     return cuboidID | Long.lowestOneBit(nonJointNonHierarchy);
                 } else {
-                    //choose from a hierarchy that does not intersect with any joint dim, only check level 1 
+                    //choose from a hierarchy that does not intersect with any joint dim, only check level 1
                     long allJointDims = agg.getJointDimsMask();
                     for (HierarchyMask hierarchyMask : agg.getHierarchyMasks()) {
                         long dim = hierarchyMask.allMasks[0];
@@ -253,7 +260,8 @@ public class Cuboid implements Comparable<Cuboid> {
             return true;
         }
 
-        hier: for (HierarchyMask hierarchyMasks : hierarchyMaskList) {
+        hier:
+        for (HierarchyMask hierarchyMasks : hierarchyMaskList) {
             long result = cuboidID & hierarchyMasks.fullMask;
             if (result > 0) {
                 for (long mask : hierarchyMasks.allMasks) {

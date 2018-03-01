@@ -6,15 +6,15 @@
  * to you under the Apache License, Version 2.0 (the
  * "License"); you may not use this file except in compliance
  * with the License.  You may obtain a copy of the License at
- * 
+ *
  *     http://www.apache.org/licenses/LICENSE-2.0
- * 
+ *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
  * See the License for the specific language governing permissions and
  * limitations under the License.
-*/
+ */
 
 package org.apache.kylin.cube.model.validation;
 
@@ -24,9 +24,13 @@ import java.util.Iterator;
 import java.util.List;
 
 /**
+ * 验证器剩下文
+ * 包含验证过程用到的所有对象
+ * <p>
  * Context. Supply all dependent objects for validator
  */
 public class ValidateContext {
+
     private List<Result> results = new ArrayList<ValidateContext.Result>();
 
     public void addResult(ResultLevel level, String message) {
@@ -67,7 +71,7 @@ public class ValidateContext {
 
     /**
      * Get validation result
-     * 
+     *
      * @return
      */
     public Result[] getResults() {
@@ -77,7 +81,7 @@ public class ValidateContext {
     }
 
     /**
-     * 
+     *
      */
     public void print(PrintStream out) {
         if (results.isEmpty()) {

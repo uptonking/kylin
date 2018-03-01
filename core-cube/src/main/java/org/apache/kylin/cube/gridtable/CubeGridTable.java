@@ -29,6 +29,9 @@ import org.apache.kylin.dimension.IDimensionEncodingMap;
 import org.apache.kylin.gridtable.GTInfo;
 import org.apache.kylin.metadata.model.TblColRef;
 
+/**
+ * cube表格工厂类 工具类
+ */
 public class CubeGridTable {
 
     public static GTInfo newGTInfo(CubeSegment cubeSeg, long cuboidId) {

@@ -27,6 +27,9 @@ import com.google.common.collect.Maps;
 
 import it.uniroma3.mat.extendedset.intset.ConciseSet;
 
+/**
+ * 列的倒排索引
+ */
 public class GTInvertedIndexOfColumn {
 
     final private IGTComparator comparator;

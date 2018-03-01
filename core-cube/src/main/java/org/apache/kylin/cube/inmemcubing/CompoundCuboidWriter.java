@@ -23,6 +23,7 @@ import java.io.IOException;
 import org.apache.kylin.gridtable.GTRecord;
 
 /**
+ * 复合cuboid写对象
  */
 public class CompoundCuboidWriter implements ICuboidWriter {
 

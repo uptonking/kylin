@@ -20,7 +20,9 @@ package org.apache.kylin.gridtable;
 
 import java.io.Closeable;
 import java.io.IOException;
-
+/**
+ * gridtable 定义类
+ */
 public class GridTable implements Closeable {
 
     final GTInfo info;

@@ -14,7 +14,7 @@
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
  * See the License for the specific language governing permissions and
  * limitations under the License.
-*/
+ */
 
 package org.apache.kylin.cube.model.validation.rule;
 
@@ -29,6 +29,8 @@ import org.apache.kylin.cube.model.validation.ValidateContext;
 import org.apache.kylin.metadata.model.TblColRef;
 
 /**
+ * 字典规则
+ * <p>
  * Created by sunyerui on 16/6/1.
  */
 public class DictionaryRule implements IValidatorRule<CubeDesc> {
@@ -55,7 +57,7 @@ public class DictionaryRule implements IValidatorRule<CubeDesc> {
                     context.addResult(ResultLevel.ERROR, "Column " + dictCol + " cannot have builder and reuse column both empty");
                     return;
                 }
-                
+
                 // Make sure the same column associate with same builder class
                 String oldBuilder = colToBuilderMap.put(dictCol, builder);
                 if (oldBuilder != null && !oldBuilder.equals(builder)) {
@@ -67,7 +69,7 @@ public class DictionaryRule implements IValidatorRule<CubeDesc> {
                     context.addResult(ResultLevel.ERROR, "Column " + dictCol + " cannot have builder and reuse column both");
                     return;
                 }
-                
+
                 // Make sure one column only reuse another one column
                 TblColRef oldReuseCol = colToReuseColMap.put(dictCol, reuseCol);
                 if (oldReuseCol != null && !reuseCol.equals(oldReuseCol)) {

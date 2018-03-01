@@ -14,7 +14,7 @@
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
  * See the License for the specific language governing permissions and
  * limitations under the License.
-*/
+ */
 
 package org.apache.kylin.cube.gridtable;
 
@@ -35,9 +35,12 @@ import org.apache.kylin.metadata.datatype.DataTypeSerializer;
 import com.google.common.collect.Maps;
 
 /**
+ * 裁剪过的cube编码系统
+ * DictionaryDimEnc => TrimmedDimEnc
+ * <p>
  * A limited code system which trims DictionaryDimEnc to TrimmedDimEnc (to avoid pushing down the useless dictionary)
  */
-@SuppressWarnings({ "rawtypes", "unchecked" })
+@SuppressWarnings({"rawtypes", "unchecked"})
 public class TrimmedCubeCodeSystem extends CubeCodeSystem {
 
     public TrimmedCubeCodeSystem(DimensionEncoding[] dimEncs, Map<Integer, Integer> dependentMetricsMap) {

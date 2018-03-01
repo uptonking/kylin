@@ -28,6 +28,9 @@ import org.apache.kylin.common.util.ImmutableBitSet;
 
 import com.google.common.base.Preconditions;
 
+/**
+ * gridtable 行记录
+ */
 public class GTRecord implements Comparable<GTRecord>, Cloneable {
 
     final transient GTInfo info;
@@ -76,13 +79,17 @@ public class GTRecord implements Comparable<GTRecord>, Cloneable {
         cols[i].set(data.array(), data.offset(), data.length());
     }
 
-    /** set record to the codes of specified values, new space allocated to hold the codes */
+    /**
+     * set record to the codes of specified values, new space allocated to hold the codes
+     */
     public GTRecord setValues(Object... values) {
         setValues(info.colAll, new ByteArray(info.getMaxRecordLength()), values);
         return this;
     }
 
-    /** set record to the codes of specified values, reuse given space to hold the codes */
+    /**
+     * set record to the codes of specified values, reuse given space to hold the codes
+     */
     public GTRecord setValues(ImmutableBitSet selectedCols, ByteArray space, Object... values) {
         assert selectedCols.cardinality() == values.length;
 
@@ -98,12 +105,16 @@ public class GTRecord implements Comparable<GTRecord>, Cloneable {
         return this;
     }
 
-    /** decode and return the values of this record */
+    /**
+     * decode and return the values of this record
+     */
     public Object[] getValues() {
         return getValues(info.colAll, new Object[info.getColumnCount()]);
     }
 
-    /** decode and return the values of this record */
+    /**
+     * decode and return the values of this record
+     */
     public Object[] getValues(ImmutableBitSet selectedCols, Object[] result) {
         assert selectedCols.cardinality() == result.length;
 
@@ -118,7 +129,9 @@ public class GTRecord implements Comparable<GTRecord>, Cloneable {
         return result;
     }
 
-    /** decode and return the values of this record */
+    /**
+     * decode and return the values of this record
+     */
     public Object[] getValues(int[] selectedColumns, Object[] result) {
         assert selectedColumns.length <= result.length;
         for (int i = 0; i < selectedColumns.length; i++) {
@@ -250,7 +263,9 @@ public class GTRecord implements Comparable<GTRecord>, Cloneable {
         return buf;
     }
 
-    /** write data to given buffer, like serialize */
+    /**
+     * write data to given buffer, like serialize
+     */
     public void exportColumns(ImmutableBitSet selectedCols, ByteArray buf) {
         int pos = 0;
         for (int i = 0; i < selectedCols.trueBitCount(); i++) {
@@ -262,7 +277,9 @@ public class GTRecord implements Comparable<GTRecord>, Cloneable {
         buf.setLength(pos);
     }
 
-    /** write data to given buffer, like serialize */
+    /**
+     * write data to given buffer, like serialize
+     */
     public void exportColumns(ImmutableBitSet selectedCols, ByteBuffer buf) {
         for (int i = 0; i < selectedCols.trueBitCount(); i++) {
             int c = selectedCols.trueBitAt(i);
@@ -276,17 +293,23 @@ public class GTRecord implements Comparable<GTRecord>, Cloneable {
         }
     }
 
-    /** write data to given buffer, like serialize */
+    /**
+     * write data to given buffer, like serialize
+     */
     public void exportColumnBlock(int c, ByteBuffer buf) {
         exportColumns(info.colBlocks[c], buf);
     }
 
-    /** change pointers to point to data in given buffer, UNLIKE deserialize */
+    /**
+     * change pointers to point to data in given buffer, UNLIKE deserialize
+     */
     public void loadCellBlock(int c, ByteBuffer buf) {
         loadColumns(info.colBlocks[c], buf);
     }
 
-    /** change pointers to point to data in given buffer, UNLIKE deserialize */
+    /**
+     * change pointers to point to data in given buffer, UNLIKE deserialize
+     */
     public void loadColumns(ImmutableBitSet selectedCols, ByteBuffer buf) {
         int pos = buf.position();
         for (int i = 0; i < selectedCols.trueBitCount(); i++) {
@@ -298,9 +321,10 @@ public class GTRecord implements Comparable<GTRecord>, Cloneable {
         }
     }
 
-    /** change pointers to point to data in given buffer, UNLIKE deserialize
-     *  unlike loadColumns(ImmutableBitSet selectedCols, ByteBuffer buf), this
-     *  method allows to defined specific columns(in order) to load
+    /**
+     * change pointers to point to data in given buffer, UNLIKE deserialize
+     * unlike loadColumns(ImmutableBitSet selectedCols, ByteBuffer buf), this
+     * method allows to defined specific columns(in order) to load
      */
     public void loadColumns(List<Integer> selectedCols, ByteBuffer buf) {
         int pos = buf.position();

@@ -14,16 +14,19 @@
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
  * See the License for the specific language governing permissions and
  * limitations under the License.
-*/
+ */
 
 package org.apache.kylin.cube;
 
 import org.apache.kylin.metadata.realization.RealizationStatusEnum;
 
 /**
+ * cube修改信息bean
+ * <p>
  * Hold changes to a cube so that they can be applied as one unit.
  */
 public class CubeUpdate {
+
     private CubeInstance cubeInstance;
     private CubeSegment[] toAddSegs = null;
     private CubeSegment[] toRemoveSegs = null;

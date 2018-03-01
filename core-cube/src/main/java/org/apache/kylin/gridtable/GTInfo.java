@@ -34,12 +34,13 @@ import org.apache.kylin.metadata.model.TblColRef;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+/**
+ * gridtable 表信息
+ * 建造者模式
+ */
 public class GTInfo {
-    private static final Logger logger = LoggerFactory.getLogger(GTInfo.class);
 
-    public static Builder builder() {
-        return new Builder();
-    }
+    private static final Logger logger = LoggerFactory.getLogger(GTInfo.class);
 
     String tableName;
     IGTCodeSystem codeSystem;
@@ -59,6 +60,84 @@ public class GTInfo {
 
     // must create from builder
     private GTInfo() {
+    }
+
+
+    public static Builder builder() {
+        return new Builder();
+    }
+
+    public static class Builder {
+        final GTInfo info;
+
+        private Builder() {
+            this.info = new GTInfo();
+        }
+
+        /**
+         * optional
+         */
+        public Builder setTableName(String name) {
+            info.tableName = name;
+            return this;
+        }
+
+        /**
+         * required
+         */
+        public Builder setCodeSystem(IGTCodeSystem cs) {
+            info.codeSystem = cs;
+            return this;
+        }
+
+        /**
+         * required
+         */
+        public Builder setColumns(DataType... colTypes) {
+            info.nColumns = colTypes.length;
+            info.colTypes = colTypes;
+            return this;
+        }
+
+        /**
+         * required
+         */
+        public Builder setPrimaryKey(ImmutableBitSet primaryKey) {
+            info.primaryKey = primaryKey;
+            return this;
+        }
+
+        /**
+         * optional
+         */
+        public Builder enableColumnBlock(ImmutableBitSet[] columnBlocks) {
+            info.colBlocks = new ImmutableBitSet[columnBlocks.length];
+            for (int i = 0; i < columnBlocks.length; i++) {
+                info.colBlocks[i] = columnBlocks[i];
+            }
+            return this;
+        }
+
+        /**
+         * optional
+         */
+        public Builder enableRowBlock(int rowBlockSize) {
+            info.rowBlockSize = rowBlockSize;
+            return this;
+        }
+
+        /**
+         * optional
+         */
+        public Builder setColumnPreferIndex(ImmutableBitSet colPreferIndex) {
+            info.colPreferIndex = colPreferIndex;
+            return this;
+        }
+
+        public GTInfo build() {
+            info.validate();
+            return info;
+        }
     }
 
     public String getTableName() {
@@ -212,64 +291,6 @@ public class GTInfo {
         colBlocks = list.toArray(new ImmutableBitSet[list.size()]);
     }
 
-    public static class Builder {
-        final GTInfo info;
-
-        private Builder() {
-            this.info = new GTInfo();
-        }
-
-        /** optional */
-        public Builder setTableName(String name) {
-            info.tableName = name;
-            return this;
-        }
-
-        /** required */
-        public Builder setCodeSystem(IGTCodeSystem cs) {
-            info.codeSystem = cs;
-            return this;
-        }
-
-        /** required */
-        public Builder setColumns(DataType... colTypes) {
-            info.nColumns = colTypes.length;
-            info.colTypes = colTypes;
-            return this;
-        }
-
-        /** required */
-        public Builder setPrimaryKey(ImmutableBitSet primaryKey) {
-            info.primaryKey = primaryKey;
-            return this;
-        }
-
-        /** optional */
-        public Builder enableColumnBlock(ImmutableBitSet[] columnBlocks) {
-            info.colBlocks = new ImmutableBitSet[columnBlocks.length];
-            for (int i = 0; i < columnBlocks.length; i++) {
-                info.colBlocks[i] = columnBlocks[i];
-            }
-            return this;
-        }
-
-        /** optional */
-        public Builder enableRowBlock(int rowBlockSize) {
-            info.rowBlockSize = rowBlockSize;
-            return this;
-        }
-
-        /** optional */
-        public Builder setColumnPreferIndex(ImmutableBitSet colPreferIndex) {
-            info.colPreferIndex = colPreferIndex;
-            return this;
-        }
-
-        public GTInfo build() {
-            info.validate();
-            return info;
-        }
-    }
 
     public IGTCodeSystem getCodeSystem() {
         return codeSystem;
@@ -347,12 +368,12 @@ public class GTInfo {
             int newRowBlockSize = BytesUtil.readVInt(in);
 
             return GTInfo.builder().setCodeSystem(codeSystem).//
-            setTableName(newTableName).//
-            setColumns(newColTypes).//
-            setColumnPreferIndex(newColPreferIndex).//
-            setPrimaryKey(newPrimaryKey).//
-            enableColumnBlock(newColBlocks).//
-            enableRowBlock(newRowBlockSize).build();
+                    setTableName(newTableName).//
+                    setColumns(newColTypes).//
+                    setColumnPreferIndex(newColPreferIndex).//
+                    setPrimaryKey(newPrimaryKey).//
+                    enableColumnBlock(newColBlocks).//
+                    enableRowBlock(newRowBlockSize).build();
         }
     };
 

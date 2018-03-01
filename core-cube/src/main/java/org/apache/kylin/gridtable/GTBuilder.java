@@ -21,6 +21,9 @@ package org.apache.kylin.gridtable;
 import java.io.Closeable;
 import java.io.IOException;
 
+/**
+ * gridtable 建造者
+ */
 public class GTBuilder implements Closeable {
 
     @SuppressWarnings("unused")

@@ -26,15 +26,18 @@ import org.apache.kylin.dimension.DimensionEncoding;
 import org.apache.kylin.measure.MeasureAggregator;
 import org.apache.kylin.metadata.datatype.DataTypeSerializer;
 
-@SuppressWarnings({ "rawtypes", "unchecked" })
 /**
+ * gridtable示例编码系统
+ * 仅作实现的示例，业务逻辑错误
+ * <p>
  * This is just for example and is INCORRECT when numbers are encoded to bytes and compared in filter.
- * 
+ * <p>
  * A correct implementation must ensure dimension values preserve order after encoded, e.g. by using an
  * order preserving dictionary.
- * 
+ *
  * @author yangli9
  */
+@SuppressWarnings({"rawtypes", "unchecked"})
 public class GTSampleCodeSystem implements IGTCodeSystem {
 
     private GTInfo info;

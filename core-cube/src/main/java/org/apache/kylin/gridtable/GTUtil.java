@@ -36,6 +36,10 @@ import org.apache.kylin.metadata.model.TblColRef;
 
 import com.google.common.collect.Sets;
 
+/**
+ * gridtable 工具类
+ * 包括序列化、过滤器转换
+ */
 public class GTUtil {
 
     static final TableDesc MOCKUP_TABLE = TableDesc.mockup("GT_MOCKUP_TABLE");
@@ -55,19 +59,19 @@ public class GTUtil {
     }
 
     public static TupleFilter convertFilterUnevaluatable(TupleFilter rootFilter, GTInfo info, //
-            Set<TblColRef> unevaluatableColumnCollector) {
+                                                         Set<TblColRef> unevaluatableColumnCollector) {
         return convertFilter(rootFilter, info, null, false, unevaluatableColumnCollector);
     }
 
     public static TupleFilter convertFilterColumnsAndConstants(TupleFilter rootFilter, GTInfo info, //
-            List<TblColRef> colMapping, Set<TblColRef> unevaluatableColumnCollector) {
+                                                               List<TblColRef> colMapping, Set<TblColRef> unevaluatableColumnCollector) {
         return convertFilter(rootFilter, info, colMapping, true, unevaluatableColumnCollector);
     }
 
     // converts TblColRef to GridTable column, encode constants, drop unEvaluatable parts
     private static TupleFilter convertFilter(TupleFilter rootFilter, final GTInfo info, //
-            final List<TblColRef> colMapping, final boolean encodeConstants, //
-            final Set<TblColRef> unevaluatableColumnCollector) {
+                                             final List<TblColRef> colMapping, final boolean encodeConstants, //
+                                             final Set<TblColRef> unevaluatableColumnCollector) {
 
         IFilterCodeSystem<ByteArray> filterCodeSystem = wrap(info.codeSystem.getComparator());
 
@@ -152,7 +156,7 @@ public class GTUtil {
             return filter;
         }
 
-        @SuppressWarnings({ "rawtypes", "unchecked" })
+        @SuppressWarnings({"rawtypes", "unchecked"})
         protected TupleFilter encodeConstants(CompareTupleFilter oldCompareFilter) {
             // extract ColumnFilter & ConstantFilter
             TblColRef externalCol = oldCompareFilter.getColumn();
@@ -181,68 +185,68 @@ public class GTUtil {
 
             // translate constant into code
             switch (newCompareFilter.getOperator()) {
-            case EQ:
-            case IN:
-                Set newValues = Sets.newHashSet();
-                for (Object value : constValues) {
-                    code = translate(col, value, 0);
-                    if (code != null)
-                        newValues.add(code);
-                }
-                if (newValues.isEmpty()) {
-                    result = ConstantTupleFilter.FALSE;
-                } else {
-                    newCompareFilter.addChild(new ConstantTupleFilter(newValues));
-                    result = newCompareFilter;
-                }
-                break;
-            case NEQ:
-                code = translate(col, firstValue, 0);
-                if (code == null) {
-                    result = ConstantTupleFilter.TRUE;
-                } else {
-                    newCompareFilter.addChild(new ConstantTupleFilter(code));
-                    result = newCompareFilter;
-                }
-                break;
-            case LT:
-                code = translate(col, firstValue, 1);
-                if (code == null) {
-                    result = ConstantTupleFilter.TRUE;
-                } else {
-                    newCompareFilter.addChild(new ConstantTupleFilter(code));
-                    result = newCompareFilter;
-                }
-                break;
-            case LTE:
-                code = translate(col, firstValue, -1);
-                if (code == null) {
-                    result = ConstantTupleFilter.FALSE;
-                } else {
-                    newCompareFilter.addChild(new ConstantTupleFilter(code));
-                    result = newCompareFilter;
-                }
-                break;
-            case GT:
-                code = translate(col, firstValue, -1);
-                if (code == null) {
-                    result = ConstantTupleFilter.TRUE;
-                } else {
-                    newCompareFilter.addChild(new ConstantTupleFilter(code));
-                    result = newCompareFilter;
-                }
-                break;
-            case GTE:
-                code = translate(col, firstValue, 1);
-                if (code == null) {
-                    result = ConstantTupleFilter.FALSE;
-                } else {
-                    newCompareFilter.addChild(new ConstantTupleFilter(code));
-                    result = newCompareFilter;
-                }
-                break;
-            default:
-                throw new IllegalStateException("Cannot handle operator " + newCompareFilter.getOperator());
+                case EQ:
+                case IN:
+                    Set newValues = Sets.newHashSet();
+                    for (Object value : constValues) {
+                        code = translate(col, value, 0);
+                        if (code != null)
+                            newValues.add(code);
+                    }
+                    if (newValues.isEmpty()) {
+                        result = ConstantTupleFilter.FALSE;
+                    } else {
+                        newCompareFilter.addChild(new ConstantTupleFilter(newValues));
+                        result = newCompareFilter;
+                    }
+                    break;
+                case NEQ:
+                    code = translate(col, firstValue, 0);
+                    if (code == null) {
+                        result = ConstantTupleFilter.TRUE;
+                    } else {
+                        newCompareFilter.addChild(new ConstantTupleFilter(code));
+                        result = newCompareFilter;
+                    }
+                    break;
+                case LT:
+                    code = translate(col, firstValue, 1);
+                    if (code == null) {
+                        result = ConstantTupleFilter.TRUE;
+                    } else {
+                        newCompareFilter.addChild(new ConstantTupleFilter(code));
+                        result = newCompareFilter;
+                    }
+                    break;
+                case LTE:
+                    code = translate(col, firstValue, -1);
+                    if (code == null) {
+                        result = ConstantTupleFilter.FALSE;
+                    } else {
+                        newCompareFilter.addChild(new ConstantTupleFilter(code));
+                        result = newCompareFilter;
+                    }
+                    break;
+                case GT:
+                    code = translate(col, firstValue, -1);
+                    if (code == null) {
+                        result = ConstantTupleFilter.TRUE;
+                    } else {
+                        newCompareFilter.addChild(new ConstantTupleFilter(code));
+                        result = newCompareFilter;
+                    }
+                    break;
+                case GTE:
+                    code = translate(col, firstValue, 1);
+                    if (code == null) {
+                        result = ConstantTupleFilter.FALSE;
+                    } else {
+                        newCompareFilter.addChild(new ConstantTupleFilter(code));
+                        result = newCompareFilter;
+                    }
+                    break;
+                default:
+                    throw new IllegalStateException("Cannot handle operator " + newCompareFilter.getOperator());
             }
             return result;
         }

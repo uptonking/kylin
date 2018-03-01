@@ -6,15 +6,15 @@
  * to you under the Apache License, Version 2.0 (the
  * "License"); you may not use this file except in compliance
  * with the License.  You may obtain a copy of the License at
- * 
+ *
  *     http://www.apache.org/licenses/LICENSE-2.0
- * 
+ *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
  * See the License for the specific language governing permissions and
  * limitations under the License.
-*/
+ */
 
 package org.apache.kylin.cube.model;
 
@@ -35,8 +35,9 @@ import com.google.common.base.Objects;
 import com.google.common.base.Preconditions;
 
 /**
+ * 行健与列对应的描述
+ *
  * @author yangli9
- * 
  */
 @JsonAutoDetect(fieldVisibility = Visibility.NONE, getterVisibility = Visibility.NONE, isGetterVisibility = Visibility.NONE, setterVisibility = Visibility.NONE)
 public class RowKeyColDesc {
@@ -61,7 +62,7 @@ public class RowKeyColDesc {
         column = column.toUpperCase();
         bitIndex = index;
         colRef = cubeDesc.getModel().findColumn(column);
-        Preconditions.checkArgument(colRef != null, "Cannot find rowkey column %s in cube %s", column,  cubeDesc);
+        Preconditions.checkArgument(colRef != null, "Cannot find rowkey column %s in cube %s", column, cubeDesc);
 
         Preconditions.checkState(StringUtils.isNotEmpty(this.encoding));
         Object[] encodingConf = DimensionEncoding.parseEncodingConf(this.encoding);

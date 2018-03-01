@@ -14,7 +14,7 @@
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
  * See the License for the specific language governing permissions and
  * limitations under the License.
-*/
+ */
 
 package org.apache.kylin.cube.inmemcubing;
 
@@ -36,6 +36,9 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 /**
+ * cube建造者抽象类
+ * 内含可修改的字段以便修改cube参数
+ * <p>
  * An interface alike abstract class. Hold common tunable parameters and nothing more.
  */
 abstract public class AbstractInMemCubeBuilder {

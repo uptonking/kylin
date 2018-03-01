@@ -31,8 +31,15 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 import com.google.common.base.Preconditions;
 import com.google.common.collect.Lists;
 
+/**
+ * 聚合组
+ */
 @JsonAutoDetect(fieldVisibility = Visibility.NONE, getterVisibility = Visibility.NONE, isGetterVisibility = Visibility.NONE, setterVisibility = Visibility.NONE)
 public class AggregationGroup {
+
+    /**
+     * todo
+     */
     public static class HierarchyMask {
         public long fullMask;// 00000111
         public long[] allMasks;// 00000100,00000110,00000111
@@ -65,7 +72,7 @@ public class AggregationGroup {
         }
 
         columnNamesToUpperCase();
-        
+
         buildPartialCubeFullMask(rowKeyDesc);
         buildMandatoryColumnMask(rowKeyDesc);
         buildHierarchyMasks(rowKeyDesc);

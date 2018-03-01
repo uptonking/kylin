@@ -14,7 +14,7 @@
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
  * See the License for the specific language governing permissions and
  * limitations under the License.
-*/
+ */
 
 package org.apache.kylin.gridtable;
 
@@ -27,6 +27,9 @@ import org.apache.kylin.cube.cuboid.Cuboid;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+/**
+ * 扫描器
+ */
 public class ScannerWorker {
 
     private static final Logger logger = LoggerFactory.getLogger(ScannerWorker.class);

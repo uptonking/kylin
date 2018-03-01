@@ -12,6 +12,7 @@
     <artifactId>kylin-core-cube</artifactId>
     <packaging>jar</packaging>
     <name>Apache Kylin - Core Cube</name>
+    <description>cube编码及构建工厂</description>
 
     <dependencies>
 

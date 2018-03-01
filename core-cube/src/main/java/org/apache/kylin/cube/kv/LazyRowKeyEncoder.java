@@ -22,6 +22,8 @@ import org.apache.kylin.cube.CubeSegment;
 import org.apache.kylin.cube.cuboid.Cuboid;
 
 /**
+ * rowkey懒编码
+ * <p>
  * A LazyRowKeyEncoder will not try to calculate shard
  * It works for both enableSharding or non-enableSharding scenario
  * Usually it's for sharded cube scanning, later all possible shard will be rewrite

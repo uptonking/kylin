@@ -39,10 +39,13 @@ import org.slf4j.LoggerFactory;
 import com.google.common.collect.Lists;
 import com.google.common.collect.Sets;
 
+/**
+ * gridtable 扫描请求
+ */
 public class GTScanRequest {
 
     private static final Logger logger = LoggerFactory.getLogger(GTScanRequest.class);
-    
+
     //it's not necessary to increase the checkInterval to very large because the check cost is not high
     //changing it might break org.apache.kylin.query.ITKylinQueryTest.testTimeoutQuery()
     public static final int terminateCheckInterval = 100;
@@ -73,8 +76,8 @@ public class GTScanRequest {
     private transient boolean doingStorageAggregation = false;
 
     GTScanRequest(GTInfo info, List<GTScanRange> ranges, ImmutableBitSet dimensions, ImmutableBitSet aggrGroupBy, //
-            ImmutableBitSet aggrMetrics, String[] aggrMetricsFuncs, TupleFilter filterPushDown, boolean allowStorageAggregation, //
-            double aggCacheMemThreshold, int storageScanRowNumThreshold, int storagePushDownLimit, String storageBehavior, long startTime, long timeout) {
+                  ImmutableBitSet aggrMetrics, String[] aggrMetricsFuncs, TupleFilter filterPushDown, boolean allowStorageAggregation, //
+                  double aggCacheMemThreshold, int storageScanRowNumThreshold, int storagePushDownLimit, String storageBehavior, long startTime, long timeout) {
         this.info = info;
         if (ranges == null) {
             this.ranges = Lists.newArrayList(new GTScanRange(new GTRecord(info), new GTRecord(info)));
@@ -162,12 +165,12 @@ public class GTScanRequest {
     /**
      * filterToggledOn,aggrToggledOn are only for profiling/test use.
      * in normal cases they are all true.
-     * 
+     * <p>
      * Refer to CoprocessorBehavior for explanation
      */
     public IGTScanner decorateScanner(IGTScanner scanner, boolean filterToggledOn, boolean aggrToggledOn, long deadline) throws IOException {
         IGTScanner result = scanner;
-        if (!filterToggledOn) { //Skip reading this section if you're not profiling! 
+        if (!filterToggledOn) { //Skip reading this section if you're not profiling!
             int scanned = lookAndForget(result);
             return new EmptyGTScanner(scanned);
         } else {
@@ -176,7 +179,7 @@ public class GTScanRequest {
                 result = new GTFilterScanner(result, this);
             }
 
-            if (!aggrToggledOn) {//Skip reading this section if you're not profiling! 
+            if (!aggrToggledOn) {//Skip reading this section if you're not profiling!
                 long scanned = result.getScannedRowCount();
                 lookAndForget(result);
                 return new EmptyGTScanner(scanned);
@@ -382,10 +385,10 @@ public class GTScanRequest {
             String storageBehavior = BytesUtil.readUTFString(in);
 
             return new GTScanRequestBuilder().setInfo(sInfo).setRanges(sRanges).setDimensions(sColumns).//
-            setAggrGroupBy(sAggGroupBy).setAggrMetrics(sAggrMetrics).setAggrMetricsFuncs(sAggrMetricFuncs).//
-            setFilterPushDown(sGTFilter).setAllowStorageAggregation(sAllowPreAggr).setAggCacheMemThreshold(sAggrCacheGB).//
-            setStorageScanRowNumThreshold(storageScanRowNumThreshold).setStoragePushDownLimit(storagePushDownLimit).//
-            setStartTime(startTime).setTimeout(timeout).setStorageBehavior(storageBehavior).createGTScanRequest();
+                    setAggrGroupBy(sAggGroupBy).setAggrMetrics(sAggrMetrics).setAggrMetricsFuncs(sAggrMetricFuncs).//
+                    setFilterPushDown(sGTFilter).setAllowStorageAggregation(sAllowPreAggr).setAggCacheMemThreshold(sAggrCacheGB).//
+                    setStorageScanRowNumThreshold(storageScanRowNumThreshold).setStoragePushDownLimit(storagePushDownLimit).//
+                    setStartTime(startTime).setTimeout(timeout).setStorageBehavior(storageBehavior).createGTScanRequest();
         }
 
         private void serializeGTRecord(GTRecord gtRecord, ByteBuffer out) {

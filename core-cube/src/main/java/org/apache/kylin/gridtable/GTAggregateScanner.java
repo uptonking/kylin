@@ -50,21 +50,26 @@ import org.slf4j.LoggerFactory;
 import com.google.common.collect.Lists;
 import com.google.common.collect.Maps;
 
-@SuppressWarnings({ "rawtypes", "unchecked" })
+/**
+ * gridtable 聚合操作的扫描器
+ */
+@SuppressWarnings({"rawtypes", "unchecked"})
 public class GTAggregateScanner implements IGTScanner {
 
     private static final Logger logger = LoggerFactory.getLogger(GTAggregateScanner.class);
 
     final GTInfo info;
-    final ImmutableBitSet dimensions; // dimensions to return, can be more than group by
+    // dimensions to return, can be more than group by
     final ImmutableBitSet groupBy;
+    final ImmutableBitSet dimensions;
     final ImmutableBitSet metrics;
     final String[] metricsAggrFuncs;
     final IGTScanner inputScanner;
     final AggregationCache aggrCache;
     final long spillThreshold;
-    final int storagePushDownLimit;//default to be Int.MAX
+    //default to be Int.MAX
     final long deadline;
+    final int storagePushDownLimit;
 
     private int aggregatedRowCount = 0;
     private MemoryWaterLevel memTracker;
@@ -151,7 +156,7 @@ public class GTAggregateScanner implements IGTScanner {
                     logger.info("abort reading inputScanner because storage push down limit is hit");
                     break;//limit is hit
                 }
-            } else {//else if dumps is not empty, it means a lot of row need aggregated, so it's less likely that limit clause is helping 
+            } else {//else if dumps is not empty, it means a lot of row need aggregated, so it's less likely that limit clause is helping
                 aggrCache.aggregate(r, Integer.MAX_VALUE);
             }
 
@@ -169,7 +174,9 @@ public class GTAggregateScanner implements IGTScanner {
         this.aggrMask = aggrMask;
     }
 
-    /** return the estimate memory size of aggregation cache */
+    /**
+     * return the estimate memory size of aggregation cache
+     */
     public long getEstimateSizeOfAggrCache() {
         return aggrCache.estimatedMemSize();
     }

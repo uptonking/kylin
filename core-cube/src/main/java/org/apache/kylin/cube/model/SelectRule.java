@@ -20,11 +20,18 @@ package org.apache.kylin.cube.model;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 
+/**
+ * 维度选择规则
+ */
 public class SelectRule {
+
     @JsonProperty("hierarchy_dims")
     public String[][] hierarchy_dims;
+
     @JsonProperty("mandatory_dims")
     public String[] mandatory_dims;
+
     @JsonProperty("joint_dims")
     public String[][] joint_dims;
+
 }

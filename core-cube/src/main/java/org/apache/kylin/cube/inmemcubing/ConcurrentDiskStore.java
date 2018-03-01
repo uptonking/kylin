@@ -14,7 +14,7 @@
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
  * See the License for the specific language governing permissions and
  * limitations under the License.
-*/
+ */
 
 package org.apache.kylin.cube.inmemcubing;
 
@@ -45,6 +45,9 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 /**
+ * 支持并发操作的磁盘存储
+ * todo 支持一写多读
+ * <p>
  * A disk store that allows concurrent read and exclusive write.
  */
 public class ConcurrentDiskStore implements IGTStore, Closeable {
@@ -151,7 +154,57 @@ public class ConcurrentDiskStore implements IGTStore, Closeable {
         }
     }
 
+
+    private void openWriteChannel(long startOffset) throws IOException {
+        if (startOffset > 0) { // TODO does not support append yet
+            writeChannel = FileChannel.open(diskFile.toPath(), StandardOpenOption.CREATE, StandardOpenOption.APPEND, StandardOpenOption.WRITE);
+        } else {
+            diskFile.delete();
+            writeChannel = FileChannel.open(diskFile.toPath(), StandardOpenOption.CREATE_NEW, StandardOpenOption.WRITE);
+        }
+    }
+
+    private void closeWriteChannel() {
+        IOUtils.closeQuietly(writeChannel);
+        writeChannel = null;
+    }
+
+    private void openReadChannel() throws IOException {
+        if (readChannel == null) {
+            readChannel = FileChannel.open(diskFile.toPath(), StandardOpenOption.READ);
+        }
+    }
+
+    private void closeReadChannel() throws IOException {
+        IOUtils.closeQuietly(readChannel);
+        readChannel = null;
+    }
+
+    @Override
+    public void close() throws IOException {
+        synchronized (lock) {
+            if (activeWriter != null || !activeReaders.isEmpty())
+                throw new IllegalStateException();
+
+            if (delOnClose) {
+                diskFile.delete();
+            }
+
+            if (debug)
+                logger.debug(this + " closed");
+        }
+    }
+
+    @Override
+    public String toString() {
+        return "ConcurrentDiskStore@" + (info.getTableName() == null ? this.hashCode() : info.getTableName());
+    }
+
+    /**
+     * 读工具
+     */
     private class Reader implements IGTScanner {
+
         final DataInputStream din;
         long fileLen;
         long readOffset;
@@ -272,7 +325,11 @@ public class ConcurrentDiskStore implements IGTStore, Closeable {
 
     }
 
+    /**
+     * 写工具
+     */
     private class Writer implements IGTWriter {
+
         final DataOutputStream dout;
         final ByteBuffer buf;
         long writeOffset;
@@ -326,49 +383,5 @@ public class ConcurrentDiskStore implements IGTStore, Closeable {
         }
     }
 
-    private void openWriteChannel(long startOffset) throws IOException {
-        if (startOffset > 0) { // TODO does not support append yet
-            writeChannel = FileChannel.open(diskFile.toPath(), StandardOpenOption.CREATE, StandardOpenOption.APPEND, StandardOpenOption.WRITE);
-        } else {
-            diskFile.delete();
-            writeChannel = FileChannel.open(diskFile.toPath(), StandardOpenOption.CREATE_NEW, StandardOpenOption.WRITE);
-        }
-    }
-
-    private void closeWriteChannel() {
-        IOUtils.closeQuietly(writeChannel);
-        writeChannel = null;
-    }
-
-    private void openReadChannel() throws IOException {
-        if (readChannel == null) {
-            readChannel = FileChannel.open(diskFile.toPath(), StandardOpenOption.READ);
-        }
-    }
-
-    private void closeReadChannel() throws IOException {
-        IOUtils.closeQuietly(readChannel);
-        readChannel = null;
-    }
-
-    @Override
-    public void close() throws IOException {
-        synchronized (lock) {
-            if (activeWriter != null || !activeReaders.isEmpty())
-                throw new IllegalStateException();
-
-            if (delOnClose) {
-                diskFile.delete();
-            }
-
-            if (debug)
-                logger.debug(this + " closed");
-        }
-    }
-
-    @Override
-    public String toString() {
-        return "ConcurrentDiskStore@" + (info.getTableName() == null ? this.hashCode() : info.getTableName());
-    }
 
 }

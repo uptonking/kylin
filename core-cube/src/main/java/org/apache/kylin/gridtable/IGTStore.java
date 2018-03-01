@@ -19,7 +19,9 @@
 package org.apache.kylin.gridtable;
 
 import java.io.IOException;
-
+/**
+ * gridtable 存储操作 接口
+ */
 public interface IGTStore {
 
     GTInfo getInfo();

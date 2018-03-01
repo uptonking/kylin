@@ -76,6 +76,8 @@ import com.google.common.collect.Lists;
 import com.google.common.collect.Multimap;
 
 /**
+ * cube管理器
+ *
  * @author yangli9
  */
 public class CubeManager implements IRealizationProvider {

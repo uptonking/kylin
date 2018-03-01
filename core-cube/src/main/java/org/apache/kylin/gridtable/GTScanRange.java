@@ -23,6 +23,9 @@ import java.util.List;
 
 import com.google.common.collect.Lists;
 
+/**
+ * gridtable 扫描范围
+ */
 public class GTScanRange {
 
     final public GTRecord pkStart; // inclusive, record must not be null, col[pk].array() can be null to mean unbounded
@@ -39,7 +42,7 @@ public class GTScanRange {
 
         this.pkStart = pkStart;
         this.pkEnd = pkEnd;
-        this.fuzzyKeys = fuzzyKeys == null ? Collections.<GTRecord> emptyList() : fuzzyKeys;
+        this.fuzzyKeys = fuzzyKeys == null ? Collections.<GTRecord>emptyList() : fuzzyKeys;
     }
 
     public GTScanRange replaceGTInfo(final GTInfo gtInfo) {

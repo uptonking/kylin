@@ -21,6 +21,7 @@ package org.apache.kylin.cube.inmemcubing;
 import org.apache.kylin.gridtable.GridTable;
 
 /**
+ * cuboid结算结果bean
  */
 public class CuboidResult {
 

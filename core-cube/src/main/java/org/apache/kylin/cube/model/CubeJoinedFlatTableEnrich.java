@@ -29,6 +29,8 @@ import org.apache.kylin.metadata.model.MeasureDesc;
 import org.apache.kylin.metadata.model.TblColRef;
 
 /**
+ * 连接后的平表 信息更丰富的类
+ * <p>
  * An enrich of IJoinedFlatTableDesc for cubes
  */
 public class CubeJoinedFlatTableEnrich implements IJoinedFlatTableDesc {
@@ -42,7 +44,7 @@ public class CubeJoinedFlatTableEnrich implements IJoinedFlatTableDesc {
         // != works due to object cache
         if (cubeDesc.getModel() != flatDesc.getDataModel())
             throw new IllegalArgumentException();
-        
+
         this.cubeDesc = cubeDesc;
         this.flatDesc = flatDesc;
         parseCubeDesc();

@@ -6,15 +6,15 @@
  * to you under the Apache License, Version 2.0 (the
  * "License"); you may not use this file except in compliance
  * with the License.  You may obtain a copy of the License at
- * 
+ *
  *     http://www.apache.org/licenses/LICENSE-2.0
- * 
+ *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
  * See the License for the specific language governing permissions and
  * limitations under the License.
-*/
+ */
 
 package org.apache.kylin.cube.model.validation.rule;
 
@@ -41,19 +41,19 @@ import org.apache.kylin.metadata.model.TableDesc;
 import com.google.common.collect.Lists;
 
 /**
+ * 计算函数规则
  * Validate function parameter.
  * <p/>
  * if type is column, check values are valid fact table columns if type is
  * constant, the value only can be numberic
  * <p/>
  * the return type only can be int/bigint/long/double/decimal
- *
  */
 public class FunctionRule implements IValidatorRule<CubeDesc> {
 
     /*
      * (non-Javadoc)
-     * 
+     *
      * @see
      * org.apache.kylin.metadata.validation.IValidatorRule#validate(java.lang.Object
      * , org.apache.kylin.metadata.validation.ValidateContext)
@@ -189,8 +189,8 @@ public class FunctionRule implements IValidatorRule<CubeDesc> {
      */
     private boolean validateMeasureNamesDuplicated(List<MeasureDesc> measures, ValidateContext context) {
         Set<String> nameSet = new HashSet<>();
-        for (MeasureDesc measure: measures){
-            if (nameSet.contains(measure.getName())){
+        for (MeasureDesc measure : measures) {
+            if (nameSet.contains(measure.getName())) {
                 context.addResult(ResultLevel.ERROR, "There is duplicated measure's name: " + measure.getName());
                 return true;
             } else {

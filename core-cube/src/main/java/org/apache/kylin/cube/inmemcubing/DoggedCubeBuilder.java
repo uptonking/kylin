@@ -14,7 +14,7 @@
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
  * See the License for the specific language governing permissions and
  * limitations under the License.
-*/
+ */
 
 package org.apache.kylin.cube.inmemcubing;
 
@@ -48,7 +48,11 @@ import org.slf4j.LoggerFactory;
 import com.google.common.collect.Lists;
 
 /**
- * When base cuboid does not fit in memory, cut the input into multiple splits and merge the split outputs at last.
+ * 高级cube建造者
+ * cuboid大小超过内存时，就将输入分片计算后再聚合输出
+ * <p>
+ * When base cuboid does not fit in memory,
+ * cut the input into multiple splits and merge the split outputs at last.
  */
 public class DoggedCubeBuilder extends AbstractInMemCubeBuilder {
 
@@ -229,7 +233,7 @@ public class DoggedCubeBuilder extends AbstractInMemCubeBuilder {
             try {
                 // signal the end of input
                 while (last.isAlive()) {
-                    if (last.inputQueue.offer(Collections.<String> emptyList())) {
+                    if (last.inputQueue.offer(Collections.<String>emptyList())) {
                         break;
                     }
                     Thread.sleep(1000);
@@ -443,5 +447,7 @@ public class DoggedCubeBuilder extends AbstractInMemCubeBuilder {
                 return this.compareTo(o) == 0;
         }
 
-    };
+    }
+
+    ;
 }

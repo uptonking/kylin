@@ -34,6 +34,7 @@ import com.google.common.collect.Lists;
 import com.google.common.collect.Maps;
 
 /**
+ * 连接后的平表描述
  */
 public class CubeJoinedFlatTableDesc implements IJoinedFlatTableDesc {
 
@@ -49,11 +50,11 @@ public class CubeJoinedFlatTableDesc implements IJoinedFlatTableDesc {
     public CubeJoinedFlatTableDesc(CubeDesc cubeDesc) {
         this(cubeDesc, null);
     }
-    
+
     public CubeJoinedFlatTableDesc(CubeSegment cubeSegment) {
         this(cubeSegment.getCubeDesc(), cubeSegment);
     }
-    
+
     private CubeJoinedFlatTableDesc(CubeDesc cubeDesc, CubeSegment cubeSegment /* can be null */) {
         this.cubeDesc = cubeDesc;
         this.cubeSegment = cubeSegment;

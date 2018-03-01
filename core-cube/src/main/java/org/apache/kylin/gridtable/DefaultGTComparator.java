@@ -21,6 +21,9 @@ package org.apache.kylin.gridtable;
 import org.apache.kylin.common.util.ByteArray;
 import org.apache.kylin.dimension.DimensionEncoding;
 
+/**
+ * gridtable 默认比较器
+ */
 public class DefaultGTComparator implements IGTComparator {
     @Override
     public boolean isNull(ByteArray code) {

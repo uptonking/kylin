@@ -6,9 +6,9 @@
  * to you under the Apache License, Version 2.0 (the
  * "License"); you may not use this file except in compliance
  * with the License.  You may obtain a copy of the License at
- *  
+ *
  *     http://www.apache.org/licenses/LICENSE-2.0
- *  
+ *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
@@ -41,9 +41,12 @@ import org.apache.kylin.metadata.model.TblColRef;
 import com.google.common.collect.Lists;
 import com.google.common.collect.Sets;
 
+/**
+ * 范围扫描计划抽象类
+ */
 public abstract class ScanRangePlannerBase {
 
-    //GT 
+    //GT
     protected TupleFilter gtFilter;
     protected GTInfo gtInfo;
     protected Pair<ByteArray, ByteArray> gtStartAndEnd;
@@ -83,7 +86,7 @@ public abstract class ScanRangePlannerBase {
         List<Collection<ColumnRange>> result = Lists.newArrayList();
 
         if (flatFilter == null) {
-            result.add(Collections.<ColumnRange> emptyList());
+            result.add(Collections.<ColumnRange>emptyList());
             return result;
         }
 
@@ -153,7 +156,7 @@ public abstract class ScanRangePlannerBase {
         // return an empty AND collection inside OR list means global true
         if (globalAlwaysTrue) {
             orAndRanges.clear();
-            orAndRanges.add(Collections.<ColumnRange> emptyList());
+            orAndRanges.add(Collections.<ColumnRange>emptyList());
         }
         return orAndRanges;
     }
@@ -174,27 +177,27 @@ public abstract class ScanRangePlannerBase {
             }
 
             switch (op) {
-            case EQ:
-            case IN:
-                valueSet = new HashSet<ByteArray>(values);
-                refreshBeginEndFromEquals();
-                break;
-            case LT:
-            case LTE:
-                end = rangeEndComparator.comparator.max(values);
-                break;
-            case GT:
-            case GTE:
-                begin = rangeStartComparator.comparator.min(values);
-                break;
-            case NEQ:
-            case NOTIN:
-            case ISNULL:
-            case ISNOTNULL:
-                // let Optiq filter it!
-                break;
-            default:
-                throw new UnsupportedOperationException(op.name());
+                case EQ:
+                case IN:
+                    valueSet = new HashSet<ByteArray>(values);
+                    refreshBeginEndFromEquals();
+                    break;
+                case LT:
+                case LTE:
+                    end = rangeEndComparator.comparator.max(values);
+                    break;
+                case GT:
+                case GTE:
+                    begin = rangeStartComparator.comparator.min(values);
+                    break;
+                case NEQ:
+                case NOTIN:
+                case ISNULL:
+                case ISNOTNULL:
+                    // let Optiq filter it!
+                    break;
+                default:
+                    throw new UnsupportedOperationException(op.name());
             }
         }
 

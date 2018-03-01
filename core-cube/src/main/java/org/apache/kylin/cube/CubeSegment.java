@@ -52,7 +52,8 @@ import com.google.common.collect.Maps;
 import javax.annotation.concurrent.GuardedBy;
 
 /**
- * cube分段
+ * cube分段 类
+ * 分段可比较
  */
 @JsonAutoDetect(fieldVisibility = Visibility.NONE, getterVisibility = Visibility.NONE, isGetterVisibility = Visibility.NONE, setterVisibility = Visibility.NONE)
 public class CubeSegment implements Comparable<CubeSegment>, IBuildable, ISegment {
@@ -389,13 +390,19 @@ public class CubeSegment implements Comparable<CubeSegment>, IBuildable, ISegmen
         }
     }
 
+    /**
+     * 分段cube的比较使用的是getSourceOffsetStart()
+     */
     @Override
     public int compareTo(CubeSegment other) {
+
         long comp = this.getSourceOffsetStart() - other.getSourceOffsetStart();
+
         if (comp != 0)
             return comp < 0 ? -1 : 1;
 
         comp = this.getSourceOffsetEnd() - other.getSourceOffsetEnd();
+
         if (comp != 0)
             return comp < 0 ? -1 : 1;
         else

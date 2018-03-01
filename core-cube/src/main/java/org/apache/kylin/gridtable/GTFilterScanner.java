@@ -33,6 +33,9 @@ import org.apache.kylin.metadata.filter.TupleFilter;
 import org.apache.kylin.metadata.model.TblColRef;
 import org.apache.kylin.metadata.tuple.IEvaluatableTuple;
 
+/**
+ * gridtable 过滤器的扫描器
+ */
 public class GTFilterScanner implements IGTScanner {
 
     final private IGTScanner inputScanner;

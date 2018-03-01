@@ -30,6 +30,9 @@ import com.google.common.collect.Lists;
 import com.google.common.collect.Maps;
 import com.google.common.collect.Sets;
 
+/**
+ * 多个模糊值组合 工具类
+ */
 public class FuzzyValueCombination {
 
     private static class Dim<K, V> {
@@ -46,8 +49,8 @@ public class FuzzyValueCombination {
     public static <K, V> List<Map<K, V>> calculate(Map<K, Set<V>> fuzzyValues, long cap) {
         Collections.emptyMap();
         Dim<K, V>[] dims = toDims(fuzzyValues);
-        // If a query has many IN clause and each IN clause has many values, then it will easily generate 
-        // thousands of fuzzy keys. When there are lots of fuzzy keys, the scan performance is bottle necked 
+        // If a query has many IN clause and each IN clause has many values, then it will easily generate
+        // thousands of fuzzy keys. When there are lots of fuzzy keys, the scan performance is bottle necked
         // on it. So simply choose to abandon all fuzzy keys in this case.
         if (exceedCap(dims, cap)) {
             return Lists.newArrayList();

@@ -24,42 +24,54 @@ import org.apache.kylin.common.util.ImmutableBitSet;
 import org.apache.kylin.dimension.DimensionEncoding;
 import org.apache.kylin.measure.MeasureAggregator;
 
+/**
+ * gridtable 编码系统接口
+ */
 public interface IGTCodeSystem {
 
     void init(GTInfo info);
 
     IGTComparator getComparator();
 
-    /** Return the length of code starting at the specified buffer, buffer position must not change after return */
+    /**
+     * Return the length of code starting at the specified buffer, buffer position must not change after return
+     */
     int codeLength(int col, ByteBuffer buf);
 
-    /** Return the max possible length of a column */
+    /**
+     * Return the max possible length of a column
+     */
     int maxCodeLength(int col);
 
-    /** Return a DimensionEncoding if the underlying column is backed by a cube dimension, return null otherwise */
+    /**
+     * Return a DimensionEncoding if the underlying column is backed by a cube dimension, return null otherwise
+     */
     DimensionEncoding getDimEnc(int col);
 
     /**
      * Encode a value into code.
-     * 
+     *
      * @throws IllegalArgumentException if the value is not in dictionary
      */
     void encodeColumnValue(int col, Object value, ByteBuffer buf) throws IllegalArgumentException;
 
     /**
      * Encode a value into code, with option to floor rounding -1, no rounding 0, or ceiling rounding 1
-     * 
-     * @throws IllegalArgumentException
-     * - if rounding=0 and the value is not in dictionary
-     * - if rounding=-1 and there's no equal or smaller value in dictionary
-     * - if rounding=1 and there's no equal or bigger value in dictionary
+     *
+     * @throws IllegalArgumentException - if rounding=0 and the value is not in dictionary
+     *                                  - if rounding=-1 and there's no equal or smaller value in dictionary
+     *                                  - if rounding=1 and there's no equal or bigger value in dictionary
      */
     void encodeColumnValue(int col, Object value, int roundingFlag, ByteBuffer buf) throws IllegalArgumentException;
 
-    /** Decode a code into value */
+    /**
+     * Decode a code into value
+     */
     Object decodeColumnValue(int col, ByteBuffer buf);
 
-    /** Return aggregators for metrics */
+    /**
+     * Return aggregators for metrics
+     */
     MeasureAggregator<?>[] newMetricsAggregators(ImmutableBitSet columns, String[] aggrFunctions);
 
 }

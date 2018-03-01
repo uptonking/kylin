@@ -34,8 +34,11 @@ import org.apache.kylin.measure.MeasureAggregator;
 import org.apache.kylin.metadata.datatype.DataTypeSerializer;
 
 /**
- * defines how column values will be encoded to/ decoded from GTRecord 
- * 
+ * cube编码系统类
+ * 定义了多个列值与GTRecord之间的转换方法
+ *
+ * defines how column values will be encoded to/ decoded from GTRecord
+ *
  * Cube meta can provide which columns are dictionary encoded (dict encoded dimensions) or fixed length encoded (fixed length dimensions)
  * Metrics columns are more flexible, they will use DataTypeSerializer according to their data type.
  */

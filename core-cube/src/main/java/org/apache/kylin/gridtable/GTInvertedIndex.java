@@ -31,11 +31,13 @@ import org.apache.kylin.metadata.filter.TupleFilter;
 import it.uniroma3.mat.extendedset.intset.ConciseSet;
 
 /**
+ * 倒排索引
+ * <p>
  * A thread-safe inverted index of row blocks in memory.
- * 
+ * <p>
  * Note function not() must return all blocks, because index only know what block contains a value,
  * but not sure what block does not contain a value.
- * 
+ *
  * @author yangli9
  */
 public class GTInvertedIndex {
@@ -134,28 +136,28 @@ public class GTInvertedIndex {
                 return all();
 
             switch (filter.getOperator()) {
-            case ISNULL:
-                return index[col].getNull();
-            case ISNOTNULL:
-                return all();
-            case EQ:
-                return index[col].getEquals((ByteArray) filter.getFirstValue());
-            case NEQ:
-                return all();
-            case IN:
-                return index[col].getIn((Iterable<ByteArray>) filter.getValues());
-            case NOTIN:
-                return all();
-            case LT:
-                return index[col].getRange(null, false, (ByteArray) filter.getFirstValue(), false);
-            case LTE:
-                return index[col].getRange(null, false, (ByteArray) filter.getFirstValue(), true);
-            case GT:
-                return index[col].getRange((ByteArray) filter.getFirstValue(), false, null, false);
-            case GTE:
-                return index[col].getRange((ByteArray) filter.getFirstValue(), true, null, false);
-            default:
-                throw new IllegalStateException("Unsupported operator " + filter.getOperator());
+                case ISNULL:
+                    return index[col].getNull();
+                case ISNOTNULL:
+                    return all();
+                case EQ:
+                    return index[col].getEquals((ByteArray) filter.getFirstValue());
+                case NEQ:
+                    return all();
+                case IN:
+                    return index[col].getIn((Iterable<ByteArray>) filter.getValues());
+                case NOTIN:
+                    return all();
+                case LT:
+                    return index[col].getRange(null, false, (ByteArray) filter.getFirstValue(), false);
+                case LTE:
+                    return index[col].getRange(null, false, (ByteArray) filter.getFirstValue(), true);
+                case GT:
+                    return index[col].getRange((ByteArray) filter.getFirstValue(), false, null, false);
+                case GTE:
+                    return index[col].getRange((ByteArray) filter.getFirstValue(), true, null, false);
+                default:
+                    throw new IllegalStateException("Unsupported operator " + filter.getOperator());
             }
         }
 
@@ -163,14 +165,14 @@ public class GTInvertedIndex {
             List<? extends TupleFilter> children = filter.getChildren();
 
             switch (filter.getOperator()) {
-            case AND:
-                return evalLogicalAnd(children);
-            case OR:
-                return evalLogicalOr(children);
-            case NOT:
-                return evalLogicalNot(children);
-            default:
-                throw new IllegalStateException("Unsupported operator " + filter.getOperator());
+                case AND:
+                    return evalLogicalAnd(children);
+                case OR:
+                    return evalLogicalOr(children);
+                case NOT:
+                    return evalLogicalNot(children);
+                default:
+                    throw new IllegalStateException("Unsupported operator " + filter.getOperator());
             }
         }
 

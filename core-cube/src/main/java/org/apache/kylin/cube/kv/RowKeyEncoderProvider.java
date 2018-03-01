@@ -25,6 +25,9 @@ import org.apache.kylin.cube.cuboid.Cuboid;
 
 import com.google.common.collect.Maps;
 
+/**
+ * rowkey编码器提供者
+ */
 public class RowKeyEncoderProvider {
 
     private CubeSegment cubeSegment;

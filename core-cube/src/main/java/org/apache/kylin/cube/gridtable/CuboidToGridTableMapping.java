@@ -41,6 +41,9 @@ import org.apache.kylin.metadata.model.TblColRef;
 import com.google.common.collect.Lists;
 import com.google.common.collect.Maps;
 
+/**
+ * cuboid映射到gridtable
+ */
 public class CuboidToGridTableMapping {
 
     final private Cuboid cuboid;
@@ -53,7 +56,8 @@ public class CuboidToGridTableMapping {
     private ImmutableBitSet gtPrimaryKey;
 
     private int nMetrics;
-    private Map<FunctionDesc, Integer> metrics2gt; // because count distinct may have a holistic version
+    // because count distinct may have a holistic version
+    private Map<FunctionDesc, Integer> metrics2gt;
 
     public CuboidToGridTableMapping(Cuboid cuboid) {
         this.cuboid = cuboid;
@@ -177,7 +181,7 @@ public class CuboidToGridTableMapping {
                     throw new IllegalStateException("Cannot find dependent measure: " + child.getDependentMeasureRef());
             }
         }
-        return result.isEmpty() ? Collections.<Integer, Integer> emptyMap() : result;
+        return result.isEmpty() ? Collections.<Integer, Integer>emptyMap() : result;
     }
 
     public ImmutableBitSet makeGridTableColumns(Set<TblColRef> dimensions) {
@@ -204,7 +208,7 @@ public class CuboidToGridTableMapping {
     public String[] makeAggrFuncs(Collection<FunctionDesc> metrics) {
 
         //metrics are represented in ImmutableBitSet, which loses order information
-        //sort the aggrFuns to align with metrics natural order 
+        //sort the aggrFuns to align with metrics natural order
         List<FunctionDesc> metricList = Lists.newArrayList(metrics);
         Collections.sort(metricList, new Comparator<FunctionDesc>() {
             @Override

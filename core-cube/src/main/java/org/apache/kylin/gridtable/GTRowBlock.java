@@ -26,9 +26,14 @@ import java.nio.ByteBuffer;
 import org.apache.kylin.common.util.ByteArray;
 import org.apache.kylin.common.util.ImmutableBitSet;
 
+/**
+ * gridtable 多行
+ */
 public class GTRowBlock {
 
-    /** create a row block, allocate memory, get ready for writing */
+    /**
+     * create a row block, allocate memory, get ready for writing
+     */
     public static GTRowBlock allocate(GTInfo info) {
         GTRowBlock b = new GTRowBlock(info);
 
@@ -50,7 +55,9 @@ public class GTRowBlock {
     ByteArray primaryKey; // the primary key of the first (smallest) row
     ByteArray[] cellBlocks; // cells for each column block
 
-    /** create a row block that has no underlying space */
+    /**
+     * create a row block that has no underlying space
+     */
     public GTRowBlock(GTInfo info) {
         this.info = info;
         this.primaryKey = new ByteArray();
@@ -206,7 +213,9 @@ public class GTRowBlock {
         return len;
     }
 
-    /** write data to given output stream, like serialize */
+    /**
+     * write data to given output stream, like serialize
+     */
     public void export(DataOutputStream out) throws IOException {
         out.writeInt(seqId);
         if (info.isRowBlockEnabled())
@@ -222,7 +231,9 @@ public class GTRowBlock {
         out.write(array.array(), array.offset(), array.length());
     }
 
-    /** write data to given buffer, like serialize */
+    /**
+     * write data to given buffer, like serialize
+     */
     public void export(ByteBuffer buf) {
         buf.putInt(seqId);
         if (info.isRowBlockEnabled())
@@ -238,7 +249,9 @@ public class GTRowBlock {
         buf.put(array.array(), array.offset(), array.length());
     }
 
-    /** read data from given input stream, like deserialize */
+    /**
+     * read data from given input stream, like deserialize
+     */
     public void importFrom(DataInputStream in) throws IOException {
         seqId = in.readInt();
         nRows = info.isRowBlockEnabled() ? in.readInt() : 1;
@@ -256,7 +269,9 @@ public class GTRowBlock {
         result.set(data, 0, len);
     }
 
-    /** change pointers to point to data in given buffer, UNLIKE deserialize */
+    /**
+     * change pointers to point to data in given buffer, UNLIKE deserialize
+     */
     public void load(ByteBuffer buf) {
         seqId = buf.getInt();
         nRows = info.isRowBlockEnabled() ? buf.getInt() : 1;

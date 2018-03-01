@@ -22,6 +22,9 @@ import java.util.Comparator;
 
 import org.apache.kylin.common.util.ByteArray;
 
+/**
+ * 针对字节数组的比较器 接口
+ */
 public interface IGTComparator extends Comparator<ByteArray> {
 
     /** if given code represents the NULL value */

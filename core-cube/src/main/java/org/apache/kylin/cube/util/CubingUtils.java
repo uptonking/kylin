@@ -55,6 +55,7 @@ import com.google.common.hash.Hasher;
 import com.google.common.hash.Hashing;
 
 /**
+ * cube构建 工具类
  */
 public class CubingUtils {
 

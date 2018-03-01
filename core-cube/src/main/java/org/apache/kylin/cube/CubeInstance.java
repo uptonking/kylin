@@ -55,6 +55,7 @@ import com.google.common.collect.Lists;
 @SuppressWarnings("serial")
 @JsonAutoDetect(fieldVisibility = Visibility.NONE, getterVisibility = Visibility.NONE, isGetterVisibility = Visibility.NONE, setterVisibility = Visibility.NONE)
 public class CubeInstance extends RootPersistentEntity implements IRealization, IBuildable {
+
     private static final int COST_WEIGHT_MEASURE = 1;
     private static final int COST_WEIGHT_DIMENSION = 10;
     private static final int COST_WEIGHT_INNER_JOIN = 100;

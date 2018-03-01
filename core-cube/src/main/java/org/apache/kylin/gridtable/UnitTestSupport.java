@@ -14,7 +14,7 @@
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
  * See the License for the specific language governing permissions and
  * limitations under the License.
-*/
+ */
 
 package org.apache.kylin.gridtable;
 
@@ -30,6 +30,9 @@ import org.apache.kylin.measure.hllc.HyperLogLogPlusCounter;
 import org.apache.kylin.metadata.datatype.DataType;
 import org.apache.kylin.metadata.datatype.LongMutable;
 
+/**
+ * 单元测试支持类
+ */
 public class UnitTestSupport {
 
     public static GTInfo basicInfo() {
@@ -40,7 +43,7 @@ public class UnitTestSupport {
 
     public static GTInfo advancedInfo() {
         Builder builder = infoBuilder();
-        builder.enableColumnBlock(new ImmutableBitSet[] { setOf(0), setOf(1, 2), setOf(3, 4) });
+        builder.enableColumnBlock(new ImmutableBitSet[]{setOf(0), setOf(1, 2), setOf(3, 4)});
         builder.enableRowBlock(4);
         return builder.build();
     }
