@@ -36,3 +36,11 @@
     - RangeKeyDistributionJob
     - ExpectedSizeIterator
     - AggrKey 
+- query
+    - MassInUDF
+    - OLAPEnumerator
+    - AggregateProjectReduceRule
+    - OLAPProjectRule
+    - OLAPRel
+    - ColumnRowType
+    - RemoveBlackoutRealizationsRule

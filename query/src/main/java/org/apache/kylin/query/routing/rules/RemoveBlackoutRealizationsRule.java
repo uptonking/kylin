@@ -6,9 +6,9 @@
  * to you under the Apache License, Version 2.0 (the
  * "License"); you may not use this file except in compliance
  * with the License.  You may obtain a copy of the License at
- *  
+ *
  *     http://www.apache.org/licenses/LICENSE-2.0
- *  
+ *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
@@ -28,15 +28,19 @@ import org.apache.kylin.query.routing.RoutingRule;
 import com.google.common.collect.Sets;
 
 /**
- * for IT use, exclude some cubes 
+ * 移除无效结果 规则
+ * 仅用于集成测试
+ * <p>
+ * for IT use, exclude some cubes
  */
 public class RemoveBlackoutRealizationsRule extends RoutingRule {
+
     public static Set<String> blackList = Sets.newHashSet();
     public static Set<String> whiteList = Sets.newHashSet();
 
     @Override
     public void apply(List<Candidate> candidates) {
-        for (Iterator<Candidate> iterator = candidates.iterator(); iterator.hasNext();) {
+        for (Iterator<Candidate> iterator = candidates.iterator(); iterator.hasNext(); ) {
             Candidate candidate = iterator.next();
 
             if (blackList.contains(candidate.getRealization().getCanonicalName())) {

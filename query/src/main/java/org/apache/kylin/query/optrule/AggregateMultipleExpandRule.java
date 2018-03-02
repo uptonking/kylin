@@ -14,7 +14,7 @@
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
  * See the License for the specific language governing permissions and
  * limitations under the License.
-*/
+ */
 
 package org.apache.kylin.query.optrule;
 
@@ -39,23 +39,26 @@ import java.util.Iterator;
 import java.util.List;
 
 /**
+ * 支持多个聚合函数 规则
+ * <p>
  * Supoort grouping query. Expand the non-simple aggregate to more than one simple aggregates.
  * Add project on expanded simple aggregate to add indicators of origin aggregate.
  * All projects on aggregate added into one union, which replace the origin aggregate.
  * The new aggregates will be transformed by {@link org.apache.kylin.query.optrule.AggregateProjectReduceRule}, to reduce rolled up dimensions.
  * In case to scan other cuboid data without the rolled up dimensions.
- *
+ * <p>
  * <p>Examples:
  * <p>  Origin Aggregate:   {@code group by grouping sets ((dim A, dim B, dim C), (dim A, dim C), (dim B, dim C))}
  * <p>  Transformed Union:
- *     {@code select dim A, dim B, dim C, 0, 0, 0
- *            union all
- *            select dim A, null, dim C, 0, 1, 0
- *            union all
- *            select null, dim B, dim C, 1, 0, 0
- *     }
+ * {@code select dim A, dim B, dim C, 0, 0, 0
+ * union all
+ * select dim A, null, dim C, 0, 1, 0
+ * union all
+ * select null, dim B, dim C, 1, 0, 0
+ * }
  */
 public class AggregateMultipleExpandRule extends RelOptRule {
+
     public static final AggregateMultipleExpandRule INSTANCE = new AggregateMultipleExpandRule(//
             operand(LogicalAggregate.class, null, new Predicate<Aggregate>() {
                 @Override

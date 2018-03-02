@@ -14,7 +14,7 @@
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
  * See the License for the specific language governing permissions and
  * limitations under the License.
-*/
+ */
 
 package org.apache.calcite.adapter.enumerable;
 
@@ -28,12 +28,21 @@ import org.apache.calcite.rex.RexLiteral;
 import java.util.List;
 
 /**
+ * 可迭代的窗口
+ * <p>
  * EnumerableWindow cant'be created out of package, here's hack of workaround
  */
 public class EnumerableWindowBridge {
 
-    public static EnumerableWindow createEnumerableWindow(RelOptCluster cluster, RelTraitSet traits, RelNode child,
-                                                   List<RexLiteral> constants, RelDataType rowType, List<Window.Group> groups) {
+    public static EnumerableWindow createEnumerableWindow(RelOptCluster cluster,
+                                                          RelTraitSet traits,
+                                                          RelNode child,
+                                                          List<RexLiteral> constants,
+                                                          RelDataType rowType,
+                                                          List<Window.Group> groups) {
+
         return new EnumerableWindow(cluster, traits, child, constants, rowType, groups);
+
     }
+
 }

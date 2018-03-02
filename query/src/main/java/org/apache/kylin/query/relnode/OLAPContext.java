@@ -6,15 +6,15 @@
  * to you under the Apache License, Version 2.0 (the
  * "License"); you may not use this file except in compliance
  * with the License.  You may obtain a copy of the License at
- * 
+ *
  *     http://www.apache.org/licenses/LICENSE-2.0
- * 
+ *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
  * See the License for the specific language governing permissions and
  * limitations under the License.
-*/
+ */
 
 package org.apache.kylin.query.relnode;
 
@@ -45,6 +45,7 @@ import org.apache.kylin.storage.hybrid.HybridInstance;
 import com.google.common.collect.Lists;
 
 /**
+ * olap上下文
  */
 public class OLAPContext {
 
@@ -176,19 +177,18 @@ public class OLAPContext {
             sortOrders.add(order);
         }
     }
-    
+
     // ============================================================================
-    
-    
+
 
     public interface IAccessController {
         /*
-        * @return {TupleFilter} if the filter condition exists
-        * @OLAPAuthentication the authentication info
-        * @columns required columns from logic query plan
-        * @realization the cube used in this query
-        * @OLAPInsufficientException no rights exception
-        */
+         * @return {TupleFilter} if the filter condition exists
+         * @OLAPAuthentication the authentication info
+         * @columns required columns from logic query plan
+         * @realization the cube used in this query
+         * @OLAPInsufficientException no rights exception
+         */
         public TupleFilter check(OLAPAuthentication olapAuthentication, Collection<TblColRef> columns, IRealization realization) throws IllegalArgumentException;
     }
 

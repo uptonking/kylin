@@ -6,15 +6,15 @@
  * to you under the Apache License, Version 2.0 (the
  * "License"); you may not use this file except in compliance
  * with the License.  You may obtain a copy of the License at
- * 
+ *
  *     http://www.apache.org/licenses/LICENSE-2.0
- * 
+ *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
  * See the License for the specific language governing permissions and
  * limitations under the License.
-*/
+ */
 
 package org.apache.kylin.query.relnode;
 
@@ -78,6 +78,7 @@ import org.apache.kylin.query.schema.OLAPTable;
 import com.google.common.base.Preconditions;
 
 /**
+ * olap表扫描 类
  */
 public class OLAPTableScan extends TableScan implements OLAPRel, EnumerableRel {
 
@@ -202,7 +203,7 @@ public class OLAPTableScan extends TableScan implements OLAPRel, EnumerableRel {
     @Override
     public void implementOLAP(OLAPImplementor implementor) {
         Preconditions.checkState(columnRowType == null, "OLAPTableScan MUST NOT be shared by more than one prent");
-        
+
         // create context in case of non-join
         if (implementor.getContext() == null || !(implementor.getParentNode() instanceof OLAPJoinRel)) {
             implementor.allocateContext();
@@ -225,7 +226,7 @@ public class OLAPTableScan extends TableScan implements OLAPRel, EnumerableRel {
     private ColumnRowType buildColumnRowType() {
         String tmpAlias = Integer.toHexString(System.identityHashCode(this));
         TableRef tableRef = TblColRef.tableForUnknownModel(tmpAlias, olapTable.getSourceTable());
-        
+
         List<TblColRef> columns = new ArrayList<TblColRef>();
         for (ColumnDesc sourceColumn : olapTable.getExposedColumns()) {
             TblColRef colRef = TblColRef.columnForUnknownModel(tableRef, sourceColumn);
@@ -233,12 +234,12 @@ public class OLAPTableScan extends TableScan implements OLAPRel, EnumerableRel {
         }
         return new ColumnRowType(columns);
     }
-    
+
     public TblColRef makeRewriteColumn(String name) {
         TableRef tableRef = columnRowType.getColumnByIndex(0).getTableRef();
         return tableRef.makeFakeColumn(name);
     }
-    
+
     public void fixColumnRowTypeWithModel(DataModelDesc model) {
         TableRef tableRef = model.findFirstTable(olapTable.getTableName());
         for (TblColRef col : columnRowType.getAllColumns()) {

@@ -6,15 +6,15 @@
  * to you under the Apache License, Version 2.0 (the
  * "License"); you may not use this file except in compliance
  * with the License.  You may obtain a copy of the License at
- * 
+ *
  *     http://www.apache.org/licenses/LICENSE-2.0
- * 
+ *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
  * See the License for the specific language governing permissions and
  * limitations under the License.
-*/
+ */
 
 package org.apache.kylin.query.enumerator;
 
@@ -25,6 +25,8 @@ import org.apache.calcite.linq4j.Enumerator;
 import org.apache.kylin.query.relnode.OLAPContext;
 
 /**
+ * olap查询
+ * 用户获取迭代器
  */
 public class OLAPQuery extends AbstractEnumerable<Object[]> implements Enumerable<Object[]> {
 
@@ -53,14 +55,14 @@ public class OLAPQuery extends AbstractEnumerable<Object[]> implements Enumerabl
     public Enumerator<Object[]> enumerator() {
         OLAPContext olapContext = OLAPContext.getThreadLocalContextById(contextId);
         switch (type) {
-        case OLAP:
-            return new OLAPEnumerator(olapContext, optiqContext);
-        case LOOKUP_TABLE:
-            return new LookupTableEnumerator(olapContext);
-        case HIVE:
-            return new HiveEnumerator(olapContext);
-        default:
-            throw new IllegalArgumentException("Wrong type " + type + "!");
+            case OLAP:
+                return new OLAPEnumerator(olapContext, optiqContext);
+            case LOOKUP_TABLE:
+                return new LookupTableEnumerator(olapContext);
+            case HIVE:
+                return new HiveEnumerator(olapContext);
+            default:
+                throw new IllegalArgumentException("Wrong type " + type + "!");
         }
     }
 }

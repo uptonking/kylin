@@ -6,15 +6,15 @@
  * to you under the Apache License, Version 2.0 (the
  * "License"); you may not use this file except in compliance
  * with the License.  You may obtain a copy of the License at
- * 
+ *
  *     http://www.apache.org/licenses/LICENSE-2.0
- * 
+ *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
  * See the License for the specific language governing permissions and
  * limitations under the License.
-*/
+ */
 
 package org.apache.kylin.query.schema;
 
@@ -46,6 +46,7 @@ import org.slf4j.LoggerFactory;
 import com.google.common.collect.Maps;
 
 /**
+ * olap模式工厂类 工具类
  */
 public class OLAPSchemaFactory implements SchemaFactory {
     public static final Logger logger = LoggerFactory.getLogger(OLAPSchemaFactory.class);
@@ -53,14 +54,14 @@ public class OLAPSchemaFactory implements SchemaFactory {
     static {
         /*
          * Tricks Optiq to work with Unicode.
-         * 
+         *
          * Sets default char set for string literals in SQL and row types of
          * RelNode. This is more a label used to compare row type equality. For
          * both SQL string and row record, they are passed to Optiq in String
          * object and does not require additional codec.
-         * 
+         *
          * Ref SaffronProperties.defaultCharset
-         * Ref SqlUtil.translateCharacterSetName() 
+         * Ref SqlUtil.translateCharacterSetName()
          * Ref NlsString constructor()
          */
         System.setProperty("saffron.default.charset", ConversionUtil.NATIVE_UTF16_CHARSET_NAME);

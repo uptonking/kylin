@@ -14,7 +14,7 @@
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
  * See the License for the specific language governing permissions and
  * limitations under the License.
-*/
+ */
 
 package org.apache.kylin.query.optrule;
 
@@ -41,12 +41,15 @@ import com.google.common.collect.ImmutableList;
 import org.apache.calcite.util.Pair;
 
 /**
+ * 减少不必要的聚合 规则
+ * <p>
  * Reduce project under aggregate which has unused input ref.
  * The aggregate input ref also need rebuild since project expressions changed.
  * Mainly used for the simple aggregates expanded from grouping aggregate by {@link org.apache.kylin.query.optrule.AggregateMultipleExpandRule}.
  * With this rule, the rolled up dimensions in aggregate will be reduced, we can use higher layer cuboid data.
  */
 public class AggregateProjectReduceRule extends RelOptRule {
+
     public static final AggregateProjectReduceRule INSTANCE = new AggregateProjectReduceRule(//
             operand(LogicalAggregate.class, null, Aggregate.IS_SIMPLE, operand(LogicalProject.class, any())), //
             RelFactories.LOGICAL_BUILDER, "AggregateProjectReduceRule");
