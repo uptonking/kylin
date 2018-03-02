@@ -30,6 +30,7 @@ rm -rf build/tomcat/webapps/*
 
 mv build/tomcat/conf/server.xml build/tomcat/conf/server.xml.bak
 mv build/tomcat/conf/context.xml build/tomcat/conf/context.xml.bak
+
 cp build/deploy/server.xml build/tomcat/conf/server.xml
 echo "server.xml overwritten..."
 cp build/deploy/context.xml build/tomcat/conf/context.xml

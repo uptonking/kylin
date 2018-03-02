@@ -11,10 +11,8 @@
 
     <artifactId>kylin-tomcat-ext</artifactId>
     <packaging>jar</packaging>
-    <name>
-        Apache Kylin - Tomcat Extension
-        tomcat扩展，自定义类加载器
-    </name>
+    <name>Apache Kylin - Tomcat Extension</name>
+    <description>Tomcat扩展，自定义类加载器WebappClassLoader</description>
 
     <dependencies>
         <dependency>

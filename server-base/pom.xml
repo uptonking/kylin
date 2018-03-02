@@ -11,10 +11,8 @@
 
     <artifactId>kylin-server-base</artifactId>
     <packaging>jar</packaging>
-    <name>
-        Apache Kylin - REST Server Base
-        kylin对外提供rest服务的模块
-    </name>
+    <name>Apache Kylin - REST Server Base</name>
+    <description>kylin对外提供rest服务的模块</description>
 
     <dependencies>
         <dependency>

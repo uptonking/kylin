@@ -1,17 +1,3 @@
-<!--
-  Licensed under the Apache License, Version 2.0 (the "License");
-  you may not use this file except in compliance with the License.
-  You may obtain a copy of the License at
-
-    http://www.apache.org/licenses/LICENSE-2.0
-
-  Unless required by applicable law or agreed to in writing, software
-  distributed under the License is distributed on an "AS IS" BASIS,
-  WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
-  See the License for the specific language governing permissions and
-  limitations under the License. See accompanying LICENSE file.
--->
-
 <beans xmlns="http://www.springframework.org/schema/beans" xmlns:tx="http://www.springframework.org/schema/tx"
 	   xmlns:scr="http://www.springframework.org/schema/security" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
 	   xmlns:context="http://www.springframework.org/schema/context" xsi:schemaLocation="http://www.springframework.org/schema/beans
@@ -36,7 +22,7 @@
 		<constructor-arg ref="aclService" />
 		<property name="permissionFactory" ref="aclPermissionFactory" />
 	</bean>
-	
+
 	<bean id="aclAuthorizationStrategy"
 		class="org.springframework.security.acls.domain.AclAuthorizationStrategyImpl">
 		<constructor-arg>
@@ -53,7 +39,7 @@
 			</list>
 		</constructor-arg>
 	</bean>
-	
+
 	<bean id="auditLogger"
 		class="org.springframework.security.acls.domain.ConsoleAuditLogger" />
 
@@ -67,7 +53,7 @@
 			<property name="userDn" value="${ldap.username}" />
 			<property name="password" value="${ldap.password}" />
 		</bean>
-		
+
 		<bean id="kylinUserAuthProvider" class="org.apache.kylin.rest.security.KylinAuthenticationProvider">
 			<constructor-arg>
 				<bean id="ldapUserAuthenticationProvider" class="org.springframework.security.ldap.authentication.LdapAuthenticationProvider">
@@ -123,7 +109,7 @@
 		</bean>
 
 	</beans>
-	
+
 	<beans profile="ldap">
 		<scr:authentication-manager alias="ldapAuthenticationManager">
 			<!-- do user ldap auth -->
@@ -132,13 +118,13 @@
 			<!-- do service account ldap auth -->
 			<scr:authentication-provider ref="kylinServiceAccountAuthProvider"></scr:authentication-provider>
 		</scr:authentication-manager>
-		
+
 	</beans>
 
 	<beans profile="testing">
 		<!-- user auth -->
 		<bean id="passwordEncoder" class="org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder" />
-		
+
 		<scr:authentication-manager alias="testingAuthenticationManager">
 			<scr:authentication-provider>
 				<scr:user-service>
@@ -150,7 +136,7 @@
 			</scr:authentication-provider>
 		</scr:authentication-manager>
 	</beans>
-	
+
 	<beans profile="testing,ldap">
 		<scr:http auto-config="true" use-expressions="true">
 			<scr:http-basic entry-point-ref="unauthorisedEntryPoint" />
@@ -220,15 +206,15 @@
 			<scr:custom-filter before="FIRST" ref="metadataGeneratorFilter"/>
 			<scr:custom-filter after="BASIC_AUTH_FILTER" ref="samlFilter"/>
 		</scr:http>
-		
+
 
 		<!-- API authentication manager -->
 		<scr:authentication-manager id="apiAccessAuthenticationManager">
 			<scr:authentication-provider ref="kylinServiceAccountAuthProvider" />
 			<scr:authentication-provider ref="kylinUserAuthProvider" />
 		</scr:authentication-manager>
-		
-		
+
+
 		<!-- Web authentication manager -->
 		<scr:authentication-manager id="webAccessAuthenticationManager">
 			<scr:authentication-provider ref="kylinSAMLAuthenticationProvider"/>
@@ -342,7 +328,7 @@
 			<constructor-arg index="2" ref="ldapSource" />
 		</bean>
 
-		
+
 		<bean id="samlUserDetailsService" class="org.apache.kylin.rest.security.SAMLUserDetailsService">
 			<constructor-arg>
 				<bean id="ldapUserDetailsService" class="org.springframework.security.ldap.userdetails.LdapUserDetailsService">
@@ -351,7 +337,7 @@
 				</bean>
 			</constructor-arg>
 		</bean>
-		
+
 		<bean id="kylinSAMLAuthenticationProvider" class="org.apache.kylin.rest.security.KylinAuthenticationProvider">
 			<constructor-arg>
 				<!-- SAML Authentication Provider responsible for validating of received SAML messages -->
@@ -361,13 +347,13 @@
 				</bean>
 			</constructor-arg>
 		</bean>
-		
+
 
 		<!-- Provider of default SAML Context -->
-		<!-- 
+		<!--
 		<bean id="contextProvider" class="org.springframework.security.saml.context.SAMLContextProviderImpl"/>
 		-->
-		
+
 		<!-- Provider of a SAML Context behind a LoadBanlancer or reverse proxy -->
 		<bean id="contextProvider" class="org.springframework.security.saml.context.SAMLContextProviderLB">
 			<property name="scheme" value="${saml.context.scheme}"/>
@@ -376,7 +362,7 @@
 			<property name="includeServerPortInRequestURL" value="false"/>
 			<property name="contextPath" value="${saml.context.contextPath}"/>
 		</bean>
-		
+
 
 		<!-- Processing filter for WebSSO profile messages -->
 		<bean id="samlWebSSOProcessingFilter" class="org.springframework.security.saml.SAMLProcessingFilter">

@@ -15,8 +15,10 @@ fi
 echo "version ${version}"
 export version
 
+# 拷贝4个jar包
 sh build/script/prepare_libs.sh || { exit 1; }
 
+# 拷贝server war
 cp server/target/kylin-server-${version}.war build/tomcat/webapps/kylin.war
 chmod 644 build/tomcat/webapps/kylin.war
 
@@ -27,6 +29,7 @@ then
     exit 1
 fi
 
+# 将前端资源加入war包
 cd webapp/dist
 for f in * .[!.]*
 do
